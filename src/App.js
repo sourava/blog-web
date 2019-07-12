@@ -1,24 +1,20 @@
 import React from 'react';
 
-import { HashRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 
-import Header from './Header';
-import Footer from './Footer';
+import AppRoute from 'features/AppRoute';
+
 import Home from 'pages/Home';
+import Auth from 'pages/Auth';
 import Post from 'pages/Post';
 
 const App = () => {
     return (
         <Router>
-            <div className="top-scroll-bar"></div>
-            <div id="wrapper">
-                <Header />
-                <Route path="/" exact component={Home} />
-                <Route path="/home" component={Home} />
-                <Route path="/post" component={Post} />
-                <Footer />
-            </div>
-            <a href="#" className="back-to-top heading"><i className="icon-left-open-big"></i><span className="d-lg-inline d-md-none">Top</span></a>
+            <AppRoute path="/" exact component={Home} />
+            <AppRoute path="/home" component={Home} />
+            <AppRoute path="/post" component={Post} />
+            <AppRoute path="/auth" noHeader noFooter component={Auth} />
         </Router>
     );
 };
