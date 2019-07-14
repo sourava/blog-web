@@ -15,11 +15,11 @@ const propTypes = {
 
 const renderComponent = (noHeader, noFooter, component) => {
     return (
-        <div id="wrapper">
+        <React.Fragment>
             {noHeader ? null : <Header />}
             {React.createElement(component)}
             {noFooter ? null : <Footer />}
-        </div>
+        </React.Fragment>
     );
 };
 
