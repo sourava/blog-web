@@ -2,7 +2,7 @@ import React from 'react';
 
 import author from 'shared/assets/images/author-avata-1.jpg';
 
-const Header = () => {
+const Header = ({login}) => {
     return (
         <React.Fragment>
             <div className="sticky-header fixed d-lg-none d-md-block">
@@ -53,12 +53,6 @@ const Header = () => {
                         <h1 className="logo float-left navbar-brand"><a href="index.html" className="logo">Merinda</a></h1>
                         <div className="header-right float-right w-50">
                             <div className="d-inline-flex float-right text-right align-items-center">
-                                <ul className="social-network heading navbar-nav d-lg-flex align-items-center">
-                                    <li><a href="#"><i className="icon-facebook"></i></a></li>
-                                </ul>
-                                <ul className="top-menu heading navbar-nav w-100 d-lg-flex align-items-center">
-                                    <li><a href="#" className="btn">Contact</a></li>
-                                </ul>
                                 <a className="author-avatar" href="#"><img src={author} alt="" /></a>
                             </div>
                             <form action="#" method="get" className="search-form d-lg-flex float-right">

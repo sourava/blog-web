@@ -1,5 +1,12 @@
 import React from 'react';
 
+import author from 'shared/assets/images/author-avata-2.jpg';
+import author1 from 'shared/assets/images/author-avata-1.jpg';
+import thumb from 'shared/assets/images/thumb/thumb-1240x700.jpg';
+import thumb2 from 'shared/assets/images/thumb/thumb-512x512-2.jpg';
+import thumb3 from 'shared/assets/images/thumb/thumb-512x512-3.jpg';
+import thumb4 from 'shared/assets/images/thumb/thumb-512x512-4.jpg';
+
 const Post = () => {
     return (
         <main id="content">
@@ -8,9 +15,9 @@ const Post = () => {
                     <div className="mb-5">
                         <h1 className="entry-title m_b_2rem">
                             In 21st-century Korea, shamanism is not only thriving — but evolving
-                            </h1>
+                    </h1>
                         <div className="entry-meta align-items-center">
-                            <a className="author-avatar" href="#"><img src="assets/images/author-avata-2.jpg" alt="" /></a>
+                            <a className="author-avatar" href="#"><img src={author} alt="" /></a>
                             <a href="author.html">Darcy Reeder</a> in <a href="archive.html">OneZero</a><br />
                             <span>Jun 17</span>
                             <span className="middotDivider"></span>
@@ -24,7 +31,7 @@ const Post = () => {
                     </div>
                 </div>
                 <figure className="image zoom mb-5">
-                    <img src="assets/images/thumb/thumb-1240x700.jpg" alt="post-title" />
+                    <img src={thumb} alt="post-title" />
                 </figure>
                 <article className="entry-wraper mb-5">
                     <div className="entry-left-col">
@@ -52,6 +59,7 @@ const Post = () => {
                         <p>Gosh jaguar ostrich quail one excited dear hello and bound and the and bland moral misheard roadrunner flapped lynx far that and jeepers giggled far and far bald that roadrunner python inside held shrewdly the manatee.</p>
                         <hr className="section-divider" />
                         <p>Thanks sniffed in hello after in foolhardy and some far purposefully much one at the much conjointly leapt skimpily that quail sheep some goodness nightingale the instead exited expedient up far ouch mellifluous altruistic and and lighted more instead much when ferret but the.</p>
+
                         <div className="border p-5 bg-lightblue mb-5">
                             <div className="row justify-content-between">
                                 <div className="col-md-5 mb-2 mb-md-0">
@@ -70,6 +78,7 @@ const Post = () => {
                                 </div>
                             </div>
                         </div>
+
                         <p>Yet more some certainly yet alas abandonedly whispered intriguingly well extensive one howled talkative admonishingly below a rethought overlaid dear gosh activated less however hawk yet oh scratched ostrich some outside crud irrespective lightheartedly and much far amenably that the elephant since when.</p>
                     </div>
                     <div className="entry-bottom">
@@ -85,7 +94,7 @@ const Post = () => {
                     <div className="box box-author m_b_2rem">
                         <div className="post-author row-flex">
                             <div className="author-img">
-                                <img alt="author avatar" src="assets/images/author-avata-1.jpg" className="avatar" />
+                                <img alt="author avatar" src={author1} className="avatar" />
                             </div>
                             <div className="author-content">
                                 <div className="top-author">
@@ -100,6 +109,8 @@ const Post = () => {
                         </div>
                     </div>
                 </article>
+
+
                 <div className="related-posts mb-5">
                     <h4 className="spanborder text-center">
                         <span>Related Posts</span>
@@ -108,7 +119,7 @@ const Post = () => {
                         <div className="divider-2"></div>
                         <article className="col-md-4">
                             <div className="mb-3 d-flex row">
-                                <figure className="col-md-5"><a href="single.html"><img src="assets/images/thumb/thumb-512x512-2.jpg" alt="post-title" /></a></figure>
+                                <figure className="col-md-5"><a href="single.html"><img src={thumb2} alt="post-title" /></a></figure>
                                 <div className="entry-content col-md-7 pl-md-0">
                                     <h5 className="entry-title mb-3"><a href="single.html">Is ‘Interactive Storytelling’ the Future of Media?</a></h5>
                                     <div className="entry-meta align-items-center">
@@ -127,7 +138,7 @@ const Post = () => {
                         </article>
                         <article className="col-md-4">
                             <div className="mb-3 d-flex row">
-                                <figure className="col-md-5"><a href="single.html"><img src="assets/images/thumb/thumb-512x512-3.jpg" alt="post-title" /></a></figure>
+                                <figure className="col-md-5"><a href="single.html"><img src={thumb3} alt="post-title" /></a></figure>
                                 <div className="entry-content col-md-7 pl-md-0">
                                     <h5 className="entry-title mb-3"><a href="single.html">How NOT to get a $30k bill from Firebase</a></h5>
                                     <div className="entry-meta align-items-center">
@@ -146,7 +157,7 @@ const Post = () => {
                         </article>
                         <article className="col-md-4">
                             <div className="mb-3 d-flex row">
-                                <figure className="col-md-5"><a href="single.html"><img src="assets/images/thumb/thumb-512x512-4.jpg" alt="post-title" /></a></figure>
+                                <figure className="col-md-5"><a href="single.html"><img src={thumb4} alt="post-title" /></a></figure>
                                 <div className="entry-content col-md-7 pl-md-0">
                                     <h5 className="entry-title mb-3"><a href="single.html">Google Can’t Figure Out What YouTube Is</a></h5>
                                     <div className="entry-meta align-items-center">
@@ -165,6 +176,9 @@ const Post = () => {
                         </article>
                     </div>
                 </div>
+
+
+
                 <div className="single-comment comments_wrap">
                     <section id="comments">
                         <div className="comments-inner clr">
@@ -197,9 +211,11 @@ const Post = () => {
                                     </p>
                                 </form>
                             </div>
+
                         </div>
                     </section>
                 </div>
+
             </div>
         </main>
     );

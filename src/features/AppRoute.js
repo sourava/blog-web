@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 
-import Header from './Header';
+import Header from './header/HeaderContainer';
 import Footer from './Footer';
 
 const propTypes = {
