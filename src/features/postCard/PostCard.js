@@ -14,8 +14,8 @@ const PostCard = ({ title, description, author, date_posted, thumbnail, category
                                 <p>{description}</p>
                             </div>
                             <div className="entry-meta align-items-center">
-                                <a className="author-avatar" href="#"><img src={author.avatar} alt="" /></a>
-                                <a href="author.html">{author.name}</a><br />
+                                <span className="author-avatar" href="#"><img src={author.avatar} alt="" /></span>
+                                <span href="author.html">{author.name}</span><br />
                                 <span>{date_posted}</span>
                             </div>
                         </div>
@@ -35,6 +35,23 @@ const PostCard = ({ title, description, author, date_posted, thumbnail, category
                         <span className="middotDivider"></span>
                     </div>
                 </div>
+            </Link>
+        );
+    } else if (type === "featured_large") {
+        return (
+            <Link to="/post">
+                <article className="first mb-3">
+                    <figure><a href="single.html"><img src={thumbnail} alt="post-title" /></a></figure>
+                    <h1 className="entry-title mb-3"><a href="single.html">{title}</a></h1>
+                    <div className="entry-excerpt">
+                        <p>{description}</p>
+                    </div>
+                    <div className="entry-meta align-items-center">
+                        <a className="author-avatar" href="#"><img src={author.avatar} alt="" /></a>
+                        <a href="author.html">{author.name}</a><br />
+                        <span>Jun 14</span>
+                    </div>
+                </article>
             </Link>
         );
     } else if (type == "featured_main") {

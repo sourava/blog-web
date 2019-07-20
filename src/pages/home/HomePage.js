@@ -89,7 +89,7 @@ const articles = [{
         "name": "Darcy Reeder",
         "avatar": author
     }
-}]
+}];
 
 const editorPicks = [{
     "title": "Home Internet Is Becoming a Luxury for the Wealthy",
@@ -131,7 +131,7 @@ const editorPicks = [{
         "name": "Darcy Reeder",
         "avatar": author
     }
-}]
+}];
 
 const Home = () => {
     const renderEditorsPick = () => {
@@ -141,7 +141,7 @@ const Home = () => {
         return (
             <div className="col-sm-12 col-md-9 col-xl-9">
                 <h2 className="spanborder h4">
-                    <span>Editor's Picks</span>
+                    <span>Editors Picks</span>
                 </h2>
                 <div className="row">
                     <div className="col-sm-12 col-md-6">
@@ -155,7 +155,7 @@ const Home = () => {
             </div>
 
         );
-    }
+    };
 
     const renderTrending = () => {
         return (
@@ -179,7 +179,7 @@ const Home = () => {
                 <a className="link-green" href="archive.html">See all trending<svg className="svgIcon-use" width="19" height="19"><path d="M7.6 5.138L12.03 9.5 7.6 13.862l-.554-.554L10.854 9.5 7.046 5.692" fillRule="evenodd"></path></svg></a>
             </div>
         );
-    }
+    };
 
     return (
         <main id="content">
@@ -202,14 +202,14 @@ const Home = () => {
                             </h2>
                             {articles.map((article, index) => <PostCard key={index} {...article} type="detailed" />)}
                             <ul className="page-numbers heading">
-                                <li><span aria-current="page" className="page-numbers current">1</span></li>
-                                <li><a className="page-numbers" href="#">2</a></li>
-                                <li><a className="page-numbers" href="#">3</a></li>
-                                <li><a className="page-numbers" href="#">4</a></li>
-                                <li><a className="page-numbers" href="#">5</a></li>
-                                <li><a className="page-numbers" href="#">...</a></li>
-                                <li><a className="page-numbers" href="#">98</a></li>
-                                <li><a className="next page-numbers" href="#"><i className="icon-right-open-big"></i></a></li>
+                                <li key="1"><span aria-current="page" className="page-numbers current">1</span></li>
+                                <li key="2"><a className="page-numbers" href="#">2</a></li>
+                                <li key="3"><a className="page-numbers" href="#">3</a></li>
+                                <li key="4"><a className="page-numbers" href="#">4</a></li>
+                                <li key="5"><a className="page-numbers" href="#">5</a></li>
+                                <li key="6"><a className="page-numbers" href="#">...</a></li>
+                                <li key="7"><a className="page-numbers" href="#">98</a></li>
+                                <li key="8"><a className="next page-numbers" href="#"><i className="icon-right-open-big"></i></a></li>
                             </ul>
 
                         </div>

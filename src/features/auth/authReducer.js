@@ -5,6 +5,7 @@ import {
     googleLoginActionType,
     facebookSignUpActionType,
     googleSignUpActionType,
+    logOutActionType,
 
     setTokenActionType,
     resetTokenActionType
@@ -28,6 +29,13 @@ const loginReducer = (state = initialState, action) => {
         });
     case resetTokenActionType:
         return Object.assign({}, state, {
+            socialToken: null,
+        });
+    case logOutActionType:
+        return Object.assign({}, state, {
+            login: {
+                ...promiseState(false, false, false, null),
+            },
             socialToken: null,
         });
     case facebookLoginActionType.pending:

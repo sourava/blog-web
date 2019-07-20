@@ -6,6 +6,7 @@ import apiPaths from 'shared/apiPaths';
 
 const setTokenActionType = "SET_TOKEN";
 const resetTokenActionType = "RESET_TOKEN";
+const logOutActionType = "LOG_OUT";
 
 const setTokenAction = payload => ({
     type: setTokenActionType,
@@ -14,6 +15,10 @@ const setTokenAction = payload => ({
 
 const resetTokenAction = () => ({
     type: resetTokenActionType
+});
+
+const logOutAction = () => ({
+    type: logOutActionType
 });
 
 const facebookLoginActionType = asyncActionTypeCreator('FACEBOOK_LOGIN');
@@ -69,6 +74,8 @@ export {
     setTokenAction,
     resetTokenActionType,
     resetTokenAction,
+    logOutActionType,
+    logOutAction,
 
     facebookLoginActionType,
     facebookLogin,

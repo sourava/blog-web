@@ -25,19 +25,26 @@ import {
 const propTypes = {
     facebookLogin: PropTypes.func.isRequired,
     googleLogin: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
 };
 
-const LoginPage = ({ facebookLogin, googleLogin }) => {
+const LoginPage = ({ facebookLogin, googleLogin, history }) => {
+    const successHandler = () => {
+        history.push("home");
+    };
+
+    const errorHandler = () => { };
+
     const responseFacebook = (response) => {
         facebookLogin({
             "token": response["accessToken"]
-        }, () => { }, () => { });
+        }, successHandler, errorHandler);
     };
 
     const responseGoogle = (response) => {
         googleLogin({
             "token": response["accessToken"]
-        }, () => { }, () => { });
+        }, successHandler, errorHandler);
     };
 
     return (
@@ -52,13 +59,13 @@ const LoginPage = ({ facebookLogin, googleLogin }) => {
                         appId="2264107667176678"
                         callback={responseFacebook}
                         render={
-                            renderProps => <ImageButton image={facebookIcon} text="Facebook Login" onClick={renderProps.onClick} />
+                            renderProps => <ImageButton imageProps={{ src: facebookIcon, round: false, height: "30px", width: "auto" }} text="Facebook Login" onClick={renderProps.onClick} />
                         }
                     />
                     <GoogleLogin
                         clientId="1009406741570-ueinnk3jgko4tuq3bv5oohna447dp8ra.apps.googleusercontent.com"
                         render={
-                            renderProps => <ImageButton image={googleIcon} text="Google Login" onClick={renderProps.onClick} />
+                            renderProps => <ImageButton imageProps={{ src: googleIcon, round: false, height: "30px", width: "auto" }} text="Google Login" onClick={renderProps.onClick} />
                         }
                         onSuccess={responseGoogle}
                         onFailure={responseGoogle}
@@ -72,7 +79,7 @@ const LoginPage = ({ facebookLogin, googleLogin }) => {
                 <Form>
                     <Input type="text" placeholder="Email address" />
                     <Input type="password" placeholder="Password" />
-                    <Button block background="rgb(79, 119, 255)" color="#FFFFFF" margin="10px 0 0">Login with email</Button>
+                    <Button type="primary" block margin="10px 0 0" size="large">Login</Button>
                 </Form>
             </AuthContainer>
         </PageContainer>

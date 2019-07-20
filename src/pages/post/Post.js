@@ -15,7 +15,7 @@ const Post = () => {
                     <div className="mb-5">
                         <h1 className="entry-title m_b_2rem">
                             In 21st-century Korea, shamanism is not only thriving — but evolving
-                    </h1>
+                        </h1>
                         <div className="entry-meta align-items-center">
                             <a className="author-avatar" href="#"><img src={author} alt="" /></a>
                             <a href="author.html">Darcy Reeder</a> in <a href="archive.html">OneZero</a><br />
@@ -184,24 +184,24 @@ const Post = () => {
                         <div className="comments-inner clr">
                             <div id="respond" className="comment-respond">
                                 <h3 id="reply-title" className="comment-reply-title">Leave a Reply</h3>
-                                <form action="#" method="post" id="commentform" className="comment-form" novalidate="">
+                                <form action="#" method="post" id="commentform" className="comment-form" noValidate="">
                                     <p className="comment-notes">
                                         <span id="email-notes">Your email address will not be published.</span> Required fields are marked <span className="required">*</span>
                                     </p>
                                     <p className="comment-form-comment">
-                                        <label for="comment">Comment</label>
-                                        <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea>
+                                        <label htmlFor="comment">Comment</label>
+                                        <textarea id="comment" name="comment" cols="45" rows="8" maxLength="65525" required="required"></textarea>
                                     </p>
                                     <div className="row">
                                         <div className="comment-form-author col-sm-12 col-md-6">
                                             <p>
-                                                <label for="author">Name*</label>
+                                                <label htmlFor="author">Name*</label>
                                                 <input id="author" name="author" type="text" value="" size="30" aria-required="true" />
                                             </p>
                                         </div>
                                         <div className="comment-form-email col-sm-12 col-md-6">
                                             <p>
-                                                <label for="email">Email*</label>
+                                                <label htmlFor="email">Email*</label>
                                                 <input id="email" name="email" type="email" value="" size="30" aria-required="true" />
                                             </p>
                                         </div>
@@ -219,6 +219,6 @@ const Post = () => {
             </div>
         </main>
     );
-}
+};
 
 export default Post;

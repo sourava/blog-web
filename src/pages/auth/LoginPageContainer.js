@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import LoginPage from './LoginPage';
 import { facebookLogin, googleLogin } from 'features/auth/authActions';
@@ -24,4 +25,4 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginPage));

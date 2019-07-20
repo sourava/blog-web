@@ -55,13 +55,13 @@ const SignUpPage = ({ setTokenAction, history }) => {
                         appId="2264107667176678"
                         callback={responseFacebook}
                         render={
-                            renderProps => <ImageButton image={facebookIcon} text="Facebook Signup" onClick={renderProps.onClick} />
+                            renderProps => <ImageButton imageProps={{ src: facebookIcon, round: false, height: "30px", width: "auto" }} text="Facebook Signup" onClick={renderProps.onClick} />
                         }
                     />
                     <GoogleLogin
                         clientId="1009406741570-ueinnk3jgko4tuq3bv5oohna447dp8ra.apps.googleusercontent.com"
                         render={
-                            renderProps => <ImageButton image={googleIcon} text="Google Signup" onClick={renderProps.onClick} />
+                            renderProps => <ImageButton imageProps={{ src: googleIcon, round: false, height: "30px", width: "auto" }} text="Google Signup" onClick={renderProps.onClick} />
                         }
                         onSuccess={responseGoogle}
                         onFailure={responseGoogle}
@@ -77,7 +77,7 @@ const SignUpPage = ({ setTokenAction, history }) => {
                     <Input type="text" placeholder="Email address" />
                     <Input type="password" placeholder="Password" />
                     <Input type="password" placeholder="Confirm Password" />
-                    <Button block background="rgb(79, 119, 255)" color="#FFFFFF" margin="10px 0">Sign up with email</Button>
+                    <Button type="primary" block size="large" margin="10px 0">Sign Up</Button>
                     <AuthSubHeading><Link to="login">Already have an account?</Link></AuthSubHeading>
                 </Form>
             </AuthContainer>
