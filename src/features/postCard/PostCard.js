@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import routePaths from 'shared/routePaths';
 
-const PostCard = ({ id, title, description, author, date_posted, date_created, thumbnail, category, type }) => {
+const PostCard = ({ id, title, description, author, date_created, thumbnail, category, type }) => {
     if (type == "detailed") {
         return (
             <article className="row justify-content-between mb-5 mr-0">
@@ -45,7 +45,7 @@ const PostCard = ({ id, title, description, author, date_posted, date_created, t
                 </div>
                 <div className="entry-meta align-items-center">
                     <Link to={routePaths.PROFILE(author.id)}>{author.name}</Link><br />
-                    <span>{date_posted}</span>
+                    <span>{moment(date_created).format("MMM DD")}</span>
                 </div>
             </article>
         );
@@ -58,7 +58,7 @@ const PostCard = ({ id, title, description, author, date_posted, date_created, t
                         <h5 className="entry-title mb-3"><Link to={routePaths.POST(id)}>{title}</Link></h5>
                         <div className="entry-meta align-items-center">
                             <Link to={routePaths.PROFILE(author.id)}>{author.name}</Link><br />
-                            <span>{date_posted}</span>
+                            <span>{moment(date_created).format("MMM DD")}</span>
                         </div>
                     </div>
                 </div>

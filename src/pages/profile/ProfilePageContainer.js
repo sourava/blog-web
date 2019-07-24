@@ -1,5 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -37,36 +35,4 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-class ProfilePageContainer extends React.PureComponent {
-    constructor(props) {
-        super(props);
-    }
-
-    static propTypes = {
-        getPosts: PropTypes.func.isRequired,
-        getPopularPosts: PropTypes.func.isRequired,
-        getAuthor: PropTypes.func.isRequired,
-        match: PropTypes.object.isRequired,
-        posts: PropTypes.object.isRequired,
-        author: PropTypes.object.isRequired,
-        popularPosts: PropTypes.object.isRequired,
-    }
-
-    componentWillMount() {
-        this.props.getPosts({ "author": this.props.match.params.id });
-        this.props.getPopularPosts({ "author": this.props.match.params.id });
-        this.props.getAuthor(this.props.match.params.id);
-    }
-
-    render() {
-        if (this.props.posts.isFulfilled && this.props.author.isFulfilled && this.props.popularPosts.isFulfilled) {
-            return (
-                <ProfilePage {...this.props} />
-            );
-        } else {
-            return null;
-        }
-    }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfilePageContainer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfilePage));

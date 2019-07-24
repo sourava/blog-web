@@ -74,6 +74,38 @@ const getPopularPosts = (params, successCallback, errorCallback) => {
     return getPopularPostsAction.action(axiosConfig, successCallback, errorCallback);
 };
 
+const getTrendingPostsActionType = asyncActionTypeCreator('GET_TRENDING_POSTS');
+const getTrendingPostsAction = asyncActionCreator(getTrendingPostsActionType);
+
+const getTrendingPosts = (params, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.POSTS,
+        method: 'get',
+        params: {
+            ...params,
+            "type": "trending"
+        }
+    };
+
+    return getTrendingPostsAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+const getFeaturedPostsActionType = asyncActionTypeCreator('GET_FEATURED_POSTS');
+const getFeaturedPostsAction = asyncActionCreator(getFeaturedPostsActionType);
+
+const getFeaturedPosts = (params, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.POSTS,
+        method: 'get',
+        params: {
+            ...params,
+            "type": "featured"
+        }
+    };
+
+    return getFeaturedPostsAction.action(axiosConfig, successCallback, errorCallback);
+};
+
 const searchPostActionType = asyncActionTypeCreator('SEARCH_POST');
 const searchPostAction = asyncActionCreator(searchPostActionType);
 
@@ -101,6 +133,10 @@ export {
     getPosts,
     getPopularPostsActionType,
     getPopularPosts,
+    getTrendingPostsActionType,
+    getTrendingPosts,
+    getFeaturedPostsActionType,
+    getFeaturedPosts,
     searchPostActionType,
     searchPost,
 };

@@ -3,8 +3,6 @@ import styled from 'styled-components';
 const PageContainer = styled.div`
     width: 1140px;
     margin: auto;
-    display: flex;
-    flex-direction: row;
 
     @media (max-width: 1140px) {
         width: 100%;
@@ -20,9 +18,16 @@ const PageContainer = styled.div`
 
     @media (max-width: 767px) {
         width: 100%;
+    }
+`;
+
+const SectionContainer = styled.div`
+    display: flex;
+    @media (max-width: 767px) {
         flex-direction: column;
     }
 `;
+
 const PageLeftContainer = styled.div`
     width: 67%;
     padding: 0 15px;
@@ -65,11 +70,17 @@ const PostCount = styled.div`
     margin-right: 15px;
 `;
 
+const Info = styled.div`
+    padding: 0 15px;
+`;
+
 export {
     PageContainer,
+    SectionContainer,
     PageLeftContainer,
     PageRightContainer,
     List,
     ListItem,
     PostCount,
+    Info,
 };

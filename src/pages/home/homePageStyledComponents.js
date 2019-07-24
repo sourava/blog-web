@@ -1,33 +1,5 @@
 import styled from 'styled-components';
 
-const PageContainer = styled.div`
-    width: 1140px;
-    margin: auto;
-
-    @media (max-width: 1140px) {
-        width: 100%;
-    }
-
-    @media (max-width: 1199px) {
-        width: 930px;
-    }
-
-    @media (max-width: 991px) {
-        width: 690px;
-    }
-
-    @media (max-width: 767px) {
-        width: 100%;
-    }
-`;
-
-const SectionContainer = styled.div`
-    display: flex;
-    @media (max-width: 767px) {
-        flex-direction: column;
-    }
-`;
-
 const FeaturedPageLeftContainer = styled.div`
     width: 75%;
     padding: 0 15px;
@@ -80,8 +52,6 @@ const EditorsArticleRightContainer = styled.div`
 
 
 export {
-    PageContainer,
-    SectionContainer,
     FeaturedPageLeftContainer,
     FeaturedPageRightContainer,
     EditorsPickContainer,

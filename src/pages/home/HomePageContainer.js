@@ -2,17 +2,43 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import HomePage from './HomePage';
-import { getCategories } from 'features/category/categoryActions';
+import { getPosts, getPopularPosts, getTrendingPosts, getFeaturedPosts } from 'features/posts/postsActions';
 
-const mapStateToProps = () => ({
+const mapStateToProps = state => ({
+    posts: state.postsReducer.posts,
+    popularPosts: state.postsReducer.popularPosts,
+    trendingPosts: state.postsReducer.trendingPosts,
+    featuredPosts: state.postsReducer.featuredPosts,
 });
 
 const mapDispatchToProps = dispatch => ({
-    getCategories: (
+    getPosts: (
+        params,
         successCallback,
         errorCallback,
     ) => {
-        dispatch(getCategories(successCallback, errorCallback));
+        dispatch(getPosts(params, successCallback, errorCallback));
+    },
+    getPopularPosts: (
+        params,
+        successCallback,
+        errorCallback,
+    ) => {
+        dispatch(getPopularPosts(params, successCallback, errorCallback));
+    },
+    getTrendingPosts: (
+        params,
+        successCallback,
+        errorCallback,
+    ) => {
+        dispatch(getTrendingPosts(params, successCallback, errorCallback));
+    },
+    getFeaturedPosts: (
+        params,
+        successCallback,
+        errorCallback,
+    ) => {
+        dispatch(getFeaturedPosts(params, successCallback, errorCallback));
     },
 });
 

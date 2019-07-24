@@ -6,7 +6,9 @@ import {
     getPostActionType,
     getPostsActionType,
     searchPostActionType,
-    getPopularPostsActionType
+    getPopularPostsActionType,
+    getTrendingPostsActionType,
+    getFeaturedPostsActionType,
 } from './postsActions';
 
 const initialState = {
@@ -23,6 +25,12 @@ const initialState = {
         ...promiseState(false, false, false, null),
     },
     popularPosts: {
+        ...promiseState(false, false, false, null),
+    },
+    trendingPosts: {
+        ...promiseState(false, false, false, null),
+    },
+    featuredPosts: {
         ...promiseState(false, false, false, null),
     },
     search: {
@@ -119,6 +127,42 @@ const postsReducer = (state = initialState, action) => {
     case getPopularPostsActionType.rejected:
         return Object.assign({}, state, {
             popularPosts: {
+                ...promiseState(false, false, true, null),
+            },
+        });
+    case getTrendingPostsActionType.pending:
+        return Object.assign({}, state, {
+            trendingPosts: {
+                ...promiseState(true, false, false, null),
+            },
+        });
+    case getTrendingPostsActionType.fulfilled:
+        return Object.assign({}, state, {
+            trendingPosts: {
+                ...promiseState(false, true, false, action.payload),
+            },
+        });
+    case getTrendingPostsActionType.rejected:
+        return Object.assign({}, state, {
+            trendingPosts: {
+                ...promiseState(false, false, true, null),
+            },
+        });
+    case getFeaturedPostsActionType.pending:
+        return Object.assign({}, state, {
+            featuredPosts: {
+                ...promiseState(true, false, false, null),
+            },
+        });
+    case getFeaturedPostsActionType.fulfilled:
+        return Object.assign({}, state, {
+            featuredPosts: {
+                ...promiseState(false, true, false, action.payload),
+            },
+        });
+    case getFeaturedPostsActionType.rejected:
+        return Object.assign({}, state, {
+            featuredPosts: {
                 ...promiseState(false, false, true, null),
             },
         });

@@ -46,7 +46,7 @@ const propTypes = {
     addPostAction: PropTypes.func.isRequired,
 };
 
-const AddPost = ({ loginData, categories, addImageData, addImageAction, addPostAction }) => {
+const AddPost = ({ loginData, categories, addImageData, addImageAction, addPostAction, history }) => {
     const [body, setBody] = useState("");
     const [description, setDescription] = useState("");
     const [tags, setTags] = useState("");

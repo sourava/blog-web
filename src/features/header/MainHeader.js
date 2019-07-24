@@ -31,6 +31,13 @@ const ActionsContainer = styled.div`
     display: flex;
     align-items: center;
 `;
+const ActionsList = styled.ul`
+    list-style: none;
+    margin: 0;
+`;
+const ActionsListItem = styled.li`
+    padding: 5px 0;
+`;
 
 const propTypes = {
     login: PropTypes.object.isRequired,
@@ -42,10 +49,10 @@ const MainHeader = ({ login, logOut }) => {
 
     const renderUserActionList = () => {
         return (
-            <ul>
-                <li><Link to={routePaths.PROFILE(login.data.id)}>Profile</Link></li>
-                <li><a onClick={logOut}>Log Out</a></li>
-            </ul>
+            <ActionsList>
+                <ActionsListItem><Link to={routePaths.PROFILE(login.data.id)}>Profile</Link></ActionsListItem>
+                <ActionsListItem><a onClick={logOut}>Log Out</a></ActionsListItem>
+            </ActionsList>
         );
     };
 

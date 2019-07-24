@@ -21,13 +21,13 @@ const propTypes = {
 
 const renderComponent = (noHeader, noFooter, noNavHeader, component) => {
     return (
-        <React.Fragment>
+        <div id="page">
             {noHeader ? null : <Header noNavHeader={noNavHeader} />}
             <ContentContainer noHeader={noHeader}>
                 {React.createElement(component)}
             </ContentContainer>
             {noFooter ? null : <Footer />}
-        </React.Fragment>
+        </div>
     );
 };
 
