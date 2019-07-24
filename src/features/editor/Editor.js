@@ -48,6 +48,7 @@ class Editor extends React.PureComponent {
         addImageData: PropTypes.object.isRequired,
         addImage: PropTypes.func.isRequired,
         setImages: PropTypes.func.isRequired,
+        setDescription: PropTypes.func.isRequired,
         images: PropTypes.array.isRequired,
         setContent: PropTypes.func.isRequired,
         content: PropTypes.string.isRequired,
@@ -73,13 +74,18 @@ class Editor extends React.PureComponent {
         };
     }
 
+    onChange = (value) => {
+        this.props.setContent(value);
+        this.props.setDescription(this.quillRef.getEditor().getText(value));
+    }
+
     render() {
-        const { content, setContent, style } = this.props;
+        const { content, style } = this.props;
         return (
             <ReactQuill
                 ref={(quillRef) => this.quillRef = quillRef}
                 theme="snow"
-                onChange={(value) => setContent(value)}
+                onChange={this.onChange}
                 value={content}
                 modules={this.modules}
                 formats={this.formats}

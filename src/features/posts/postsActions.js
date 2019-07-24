@@ -32,9 +32,75 @@ const addPost = (data, token, successCallback, errorCallback) => {
     return addPostAction.action(axiosConfig, successCallback, errorCallback);
 };
 
+
+const getPostActionType = asyncActionTypeCreator('GET_POST');
+const getPostAction = asyncActionCreator(getPostActionType);
+
+const getPost = (id, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.GET_POST(id),
+        method: 'get',
+    };
+
+    return getPostAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+const getPostsActionType = asyncActionTypeCreator('GET_POSTS');
+const getPostsAction = asyncActionCreator(getPostsActionType);
+
+const getPosts = (params, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.POSTS,
+        method: 'get',
+        params
+    };
+
+    return getPostsAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+const getPopularPostsActionType = asyncActionTypeCreator('GET_POPULAR_POSTS');
+const getPopularPostsAction = asyncActionCreator(getPopularPostsActionType);
+
+const getPopularPosts = (params, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.POSTS,
+        method: 'get',
+        params: {
+            ...params,
+            "type": "popular"
+        }
+    };
+
+    return getPopularPostsAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+const searchPostActionType = asyncActionTypeCreator('SEARCH_POST');
+const searchPostAction = asyncActionCreator(searchPostActionType);
+
+const searchPost = (query, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.SEARCH_POST,
+        method: 'get',
+        params: {
+            "query": query
+        }
+    };
+
+    return searchPostAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+
 export {
     addImageActionType,
     addImage,
     addPostActionType,
     addPost,
+    getPostActionType,
+    getPost,
+    getPostsActionType,
+    getPosts,
+    getPopularPostsActionType,
+    getPopularPosts,
+    searchPostActionType,
+    searchPost,
 };

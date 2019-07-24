@@ -4,14 +4,15 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import AppRoute from 'features/AppRoute';
-import HomePage from 'pages/home/HomePage';
+import HomePage from 'pages/home/HomePageContainer';
 import LoginPage from 'pages/auth/LoginPageContainer';
 import SignUpPage from 'pages/auth/SignUpPageContainer';
 import SetPasswordContainer from 'pages/auth/SetPasswordContainer';
-import Post from 'pages/post/Post';
-import Posts from 'pages/posts/Posts';
+import PostContainer from 'pages/post/PostContainer';
+import ProfilePageContainer from 'pages/profile/ProfilePageContainer';
+import PostsContainer from 'pages/posts/PostsContainer';
 import AddPost from 'pages/post/AddPostContainer';
-import SearchPage from 'pages/search/SearchPage';
+import SearchPageContainer from 'pages/search/SearchPageContainer';
 
 import { store, persistor } from './store';
 
@@ -22,9 +23,10 @@ const App = () => {
                 <Router>
                     <AppRoute path="/" exact component={HomePage} />
                     <AppRoute path="/home" component={HomePage} />
-                    <AppRoute path="/post" component={Post} />
-                    <AppRoute path="/posts" component={Posts} />
-                    <AppRoute path="/search" component={SearchPage} noFooter noNavHeader />
+                    <AppRoute path="/post/:id" component={PostContainer} />
+                    <AppRoute path="/posts/:category" component={PostsContainer} />
+                    <AppRoute path="/profile/:id" component={ProfilePageContainer} />
+                    <AppRoute path="/search" component={SearchPageContainer} noFooter noNavHeader />
                     <AppRoute path="/addPost" component={AddPost} />
                     <AppRoute path="/login" noHeader noFooter component={LoginPage} />
                     <AppRoute path="/signup" noHeader noFooter component={SignUpPage} />

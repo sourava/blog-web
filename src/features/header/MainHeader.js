@@ -40,13 +40,22 @@ const propTypes = {
 const MainHeader = ({ login, logOut }) => {
     const [popoverVisible, setPopoverVisibility] = useState(false);
 
+    const renderUserActionList = () => {
+        return (
+            <ul>
+                <li><Link to={routePaths.PROFILE(login.data.id)}>Profile</Link></li>
+                <li><a onClick={logOut}>Log Out</a></li>
+            </ul>
+        )
+    }
+
     const renderUserAction = () => {
         if (login && login.data) {
             return (
                 <Popover
-                    content={<a onClick={logOut}>Log Out</a>}
+                    content={renderUserActionList()}
                     trigger="click"
-                    placement="bottom"
+                    placement={window.innerWidth < 1140 ? "bottomRight" : "bottom"}
                     visible={popoverVisible}
                     onVisibleChange={setPopoverVisibility}
                 >
@@ -73,8 +82,8 @@ const MainHeader = ({ login, logOut }) => {
                 </Link>
             </LogoContainer>
             <ActionsContainer>
-                {login && login.data ? <LinkButton to={routePaths.ADD_POST} imageProps={{ src: plusIcon, height: "22px", width: "auto" }} linkButton /> : null}
-                <LinkButton to={routePaths.SEARCH} imageProps={{ src: searchIcon, height: "22px", width: "auto" }} linkButton />
+                {login && login.data ? <LinkButton to={routePaths.ADD_POST} imageProps={{ src: plusIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" linkButton /> : null}
+                <LinkButton to={routePaths.SEARCH} imageProps={{ src: searchIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" linkButton />
                 {renderUserAction()}
             </ActionsContainer>
         </MainHeaderContainer>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -39,13 +40,15 @@ const FormContainer = styled.div`
 
 const propTypes = {
     loginData: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired,
     addImageData: PropTypes.object.isRequired,
     addImageAction: PropTypes.func.isRequired,
     addPostAction: PropTypes.func.isRequired,
 };
 
-const AddPost = ({ loginData, addImageData, addImageAction, addPostAction }) => {
+const AddPost = ({ loginData, categories, addImageData, addImageAction, addPostAction }) => {
     const [body, setBody] = useState("");
+    const [description, setDescription] = useState("");
     const [tags, setTags] = useState("");
     const [category, setCategory] = useState("");
     const [title, setTitle] = useState("");
@@ -59,7 +62,8 @@ const AddPost = ({ loginData, addImageData, addImageAction, addPostAction }) => 
     const errorCallback = () => { };
 
     const onSubmit = () => {
-        addPostAction({ title, category, tags, body, images, thumbnail }, loginData.data.token, successCallback, errorCallback);
+        const trimmedDescription = description.substring(0, 175) + "...";
+        addPostAction({ title, category, tags, body, images, description: trimmedDescription, thumbnail }, loginData.data.token, successCallback, errorCallback);
     };
 
     const addImage = (file, successCallback, errorCallback) => {
@@ -98,12 +102,7 @@ const AddPost = ({ loginData, addImageData, addImageAction, addPostAction }) => 
                     style={{ marginBottom: "20px" }}
                     size="large"
                 >
-                    <Option value="jack">Jack</Option>
-                    <Option value="lucy">Lucy</Option>
-                    <Option value="disabled" disabled>
-                        Disabled
-                    </Option>
-                    <Option value="Yiminghe">yiminghe</Option>
+                    {categories && categories.data ? _.map(categories.data, (category, index) => <Option value={category["value"]} key={index}>{category["name"]}</Option>) : null}
                 </Select>
 
                 <Select
@@ -125,6 +124,7 @@ const AddPost = ({ loginData, addImageData, addImageAction, addPostAction }) => 
                     setContent={setBody}
                     addImage={addImage}
                     addImageData={addImageData}
+                    setDescription={setDescription}
                     setImages={setImages}
                     images={images}
                     style={{ margin: "20px 0 0", minHeight: '400px' }}

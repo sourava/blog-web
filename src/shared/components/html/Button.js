@@ -69,7 +69,7 @@ const Button = styled.button`
 
 const Icon = styled.img`
     border-radius: ${props => props.round ? "100%" : "0"};
-    margin-right: 20px;
+    margin-right: ${props => props.text ? "20px" : "0"};
 `;
 
 const imageButtonPropTypes = {
@@ -80,7 +80,7 @@ const imageButtonPropTypes = {
 const ImageButton = ({ text, imageProps, ...restProps }) => {
     return (
         <Button display="flex" {...restProps}>
-            {imageProps && <Icon src={imageProps.src} round={imageProps.round} height={imageProps.height} width={imageProps.width} ></Icon>}
+            {imageProps && <Icon text={text} src={imageProps.src} round={imageProps.round} height={imageProps.height} width={imageProps.width} />}
             {text}
         </Button>
     );

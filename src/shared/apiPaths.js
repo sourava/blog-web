@@ -7,6 +7,10 @@ const apiPaths = {
     GOOGLE_SIGNUP: `${baseUrl}/google/signup`,
     POSTS_ADD_IMAGE: `${baseUrl}/posts/addImage`,
     POSTS: `${baseUrl}/posts`,
+    CATEGORIES: `${baseUrl}/categories`,
+    GET_POST: (id) => `${baseUrl}/posts/${id}`,
+    GET_AUTHOR: (id) => `${baseUrl}/author/${id}`,
+    SEARCH_POST: `${baseUrl}/posts/search`,
 };
 
 export default apiPaths;
