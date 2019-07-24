@@ -1,6 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+
+import { Icon } from 'shared/components/html';
+import PostCard from 'features/postCard/PostCard';
+import Heading from 'features/Heading';
 import {
     PageContainer,
     PageLeftContainer,
@@ -8,19 +12,20 @@ import {
     List,
     ListItem,
     PostCount,
+} from 'pages/commonStyledComponents';
+
+import {
     AuthorContainer,
     AuthorImageContainer,
     AuthorDetails,
     AuthorName,
     AuthorBio,
 } from './profilePageStyledComponents';
-import { Icon } from 'shared/components/html';
-import PostCard from 'features/postCard/PostCard';
-import Heading from 'features/Heading';
 
 const propTypes = {
     posts: PropTypes.object.isRequired,
     popularPosts: PropTypes.object.isRequired,
+    author: PropTypes.object.isRequired,
 };
 
 const ProfilePage = ({ posts, popularPosts, author }) => {

@@ -45,6 +45,7 @@ class ProfilePageContainer extends React.PureComponent {
     static propTypes = {
         getPosts: PropTypes.func.isRequired,
         getPopularPosts: PropTypes.func.isRequired,
+        getAuthor: PropTypes.func.isRequired,
         match: PropTypes.object.isRequired,
         posts: PropTypes.object.isRequired,
         author: PropTypes.object.isRequired,

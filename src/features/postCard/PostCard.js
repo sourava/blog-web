@@ -27,65 +27,42 @@ const PostCard = ({ id, title, description, author, date_posted, date_created, t
         );
     } else if (type == "less_detailed") {
         return (
-            <React.Fragment>
-                <div className="post-content">
-                    <h5 className="entry-title mb-3"><Link to={routePaths.POST(id)}>{title}</Link></h5>
-                    <div className="entry-meta align-items-center">
-                        <Link to={routePaths.PROFILE(author.id)}>{author.name}</Link><br />
-                        <span>{moment(date_created).format("MMM DD")}</span>
-                    </div>
+            <div className="post-content">
+                <h5 className="entry-title mb-3"><Link to={routePaths.POST(id)}>{title}</Link></h5>
+                <div className="entry-meta align-items-center">
+                    <Link to={routePaths.PROFILE(author.id)}>{author.name}</Link><br />
+                    <span>{moment(date_created).format("MMM DD")}</span>
                 </div>
-            </React.Fragment>
-        );
-    } else if (type === "featured_large") {
-        return (
-            <Link to="/post">
-                <article className="first mb-3">
-                    <figure><a href="single.html"><img src={thumbnail} alt="post-title" /></a></figure>
-                    <h1 className="entry-title mb-3"><a href="single.html">{title}</a></h1>
-                    <div className="entry-excerpt">
-                        <p>{description}</p>
-                    </div>
-                    <div className="entry-meta align-items-center">
-                        <a className="author-avatar" href="#"><img src={author.avatar} alt="" /></a>
-                        <a href="author.html">{author.name}</a><br />
-                        <span>Jun 14</span>
-                    </div>
-                </article>
-            </Link>
+            </div>
         );
     } else if (type == "featured_main") {
         return (
-            <Link to="/post">
-                <article className="first mb-3">
-                    <figure><a href="single.html"><img src={thumbnail} alt="post-title" /></a></figure>
-                    <h3 className="entry-title mb-3"><a href="single.html">{title}</a></h3>
-                    <div className="entry-excerpt">
-                        <p>{description}</p>
-                    </div>
-                    <div className="entry-meta align-items-center">
-                        <a href="author.html">{author.name}</a><br />
-                        <span>{date_posted}</span>
-                    </div>
-                </article>
-            </Link>
+            <article className="first mb-3">
+                <figure><Link to={routePaths.POST(id)}><img src={thumbnail} alt="post-title" /></Link></figure>
+                <h3 className="entry-title mb-3"><Link to={routePaths.POST(id)}>{title}</Link></h3>
+                <div className="entry-excerpt">
+                    <Link to={routePaths.POST(id)}><p>{description}</p></Link>
+                </div>
+                <div className="entry-meta align-items-center">
+                    <Link to={routePaths.PROFILE(author.id)}>{author.name}</Link><br />
+                    <span>{date_posted}</span>
+                </div>
+            </article>
         );
     } else if (type == "featured_sub") {
         return (
-            <Link to="/post">
-                <article className="post-has-bg" >
-                    <div className="mb-3 d-flex row">
-                        <figure className="col-4 col-md-4"><a href="single.html"><img src={thumbnail} alt="post-title" /></a></figure>
-                        <div className="entry-content col-8 col-md-8 pl-md-0">
-                            <h5 className="entry-title mb-3"><a href="single.html">{title}</a></h5>
-                            <div className="entry-meta align-items-center">
-                                <a href="author.html">{author.name}</a><br />
-                                <span>{date_posted}</span>
-                            </div>
+            <article className="post-has-bg" >
+                <div className="mb-3 d-flex row">
+                    <figure className="col-4 col-md-4"><Link to={routePaths.POST(id)}><img src={thumbnail} alt="post-title" /></Link></figure>
+                    <div className="entry-content col-8 col-md-8 pl-md-0">
+                        <h5 className="entry-title mb-3"><Link to={routePaths.POST(id)}>{title}</Link></h5>
+                        <div className="entry-meta align-items-center">
+                            <Link to={routePaths.PROFILE(author.id)}>{author.name}</Link><br />
+                            <span>{date_posted}</span>
                         </div>
                     </div>
-                </article>
-            </Link>
+                </div>
+            </article>
         );
     } else {
         return null;

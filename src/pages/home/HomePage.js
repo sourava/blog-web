@@ -1,13 +1,34 @@
 import React from 'react';
 import _ from 'lodash';
 
+import {
+    PageLeftContainer,
+    PageRightContainer,
+    List,
+    ListItem,
+    PostCount,
+} from 'pages/commonStyledComponents';
+
+import {
+    PageContainer,
+    SectionContainer,
+    FeaturedPageLeftContainer,
+    FeaturedPageRightContainer,
+    EditorsPickContainer,
+    EditorsArticleLeftContainer,
+    EditorsArticleRightContainer,
+} from './homePageStyledComponents';
+
+import PostCard from 'features/postCard/PostCard';
+import Heading from 'features/Heading';
+import Divider from 'features/Divider';
+
 import post1 from 'shared/assets/images/thumb/thumb-800x495.jpg';
 import post2 from 'shared/assets/images/thumb/thumb-512x512.jpg';
 import post3 from 'shared/assets/images/thumb/thumb-512x512-2.jpg';
 import post4 from 'shared/assets/images/thumb/thumb-512x512-3.jpg';
 
 import author from 'shared/assets/images/author-avata-1.jpg';
-import PostCard from 'features/postCard/PostCard';
 
 const articles = [{
     "title": "Home Internet Is Becoming a Luxury for the Wealthy",
@@ -134,107 +155,91 @@ const editorPicks = [{
 }];
 
 const Home = () => {
-    const renderEditorsPick = () => {
-        const featured_main = editorPicks[0];
-        const featured_sub = editorPicks.slice(1, editorPicks.length);
-
+    const renderPosts = (articles) => {
         return (
-            <div className="col-sm-12 col-md-9 col-xl-9">
-                <h2 className="spanborder h4">
-                    <span>Editors Picks</span>
-                </h2>
-                <div className="row">
-                    <div className="col-sm-12 col-md-6">
-                        <PostCard {...featured_main} type="featured_main" />
-                        <a className="btn btn-green d-inline-block mb-4 mb-md-0" href="archive.html">All Featured</a>
-                    </div>
-                    <div className="col-sm-12 col-md-6">
-                        {_.map(featured_sub, (article) => <PostCard {...article} type="featured_sub" />)}
-                    </div>
-                </div>
-            </div>
-
+            <React.Fragment>
+                <Heading text="Most Recent" />
+                {_.map(articles, (article, index) => <PostCard key={index} {...article} type="detailed" />)}
+            </React.Fragment>
         );
     };
 
-    const renderTrending = () => {
+    const renderPopularPosts = (articles) => {
+        const mapPostCount = (count) => {
+            return count < 9 ? `0${count + 1}` : count;
+        };
+
+        return _.map(articles, (article, index) => {
+            return (
+                <ListItem key={index}>
+                    <PostCount>{mapPostCount(index)}</PostCount>
+                    <PostCard {...article} type="less_detailed" />
+                </ListItem>
+            );
+        });
+    };
+
+    const renderEditorsPosts = () => {
+        const first = editorPicks[0];
+        const rest = editorPicks.slice(1, editorPicks.length);
         return (
-            <div className="col-sm-12 col-md-3 col-xl-3">
-                <div className="sidebar-widget latest-tpl-4">
-                    <h4 className="spanborder">
-                        <span>Trending</span>
-                    </h4>
-                    <ol>
-                        {
-                            _.map(editorPicks, (article, index) => {
-                                return (
-                                    <li className="d-flex" key={index}>
-                                        <PostCard {...article} type="less_detailed" />
-                                    </li>
-                                );
-                            })
-                        }
-                    </ol>
-                </div>
-                <a className="link-green" href="archive.html">See all trending<svg className="svgIcon-use" width="19" height="19"><path d="M7.6 5.138L12.03 9.5 7.6 13.862l-.554-.554L10.854 9.5 7.046 5.692" fillRule="evenodd"></path></svg></a>
-            </div>
+            <React.Fragment>
+                <Heading text="Editors Pick" />
+                <EditorsPickContainer>
+                    <EditorsArticleLeftContainer>
+                        <PostCard {...first} type="featured_main" />
+                        {/* <a className="btn btn-green d-inline-block mb-4 mb-md-0" href="archive.html">All Featured</a> */}
+                    </EditorsArticleLeftContainer>
+                    <EditorsArticleRightContainer>
+                        {_.map(rest, (article, index) => <PostCard key={index} {...article} type="featured_sub" />)}
+                    </EditorsArticleRightContainer>
+                </EditorsPickContainer>
+            </React.Fragment>
         );
+    };
+
+    const renderTrendingPosts = () => {
+        const mapPostCount = (count) => {
+            return count < 9 ? `0${count + 1}` : count;
+        };
+
+        return _.map(editorPicks, (article, index) => {
+            return (
+                <ListItem key={index}>
+                    <PostCount>{mapPostCount(index)}</PostCount>
+                    <PostCard {...article} type="less_detailed" />
+                </ListItem>
+            );
+        });
     };
 
     return (
-        <main id="content">
-            <div className="section-featured featured-style-1">
-                <div className="container">
-                    <div className="row">
-                        {renderEditorsPick()}
-                        {renderTrending()}
-                    </div>
-                    <div className="divider"></div>
-                </div>
-            </div>
-
-            <div className="content-widget">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-8">
-                            <h2 className="spanborder h4">
-                                <span>Most Recent</span>
-                            </h2>
-                            {articles.map((article, index) => <PostCard key={index} {...article} type="detailed" />)}
-                            <ul className="page-numbers heading">
-                                <li key="1"><span aria-current="page" className="page-numbers current">1</span></li>
-                                <li key="2"><a className="page-numbers" href="#">2</a></li>
-                                <li key="3"><a className="page-numbers" href="#">3</a></li>
-                                <li key="4"><a className="page-numbers" href="#">4</a></li>
-                                <li key="5"><a className="page-numbers" href="#">5</a></li>
-                                <li key="6"><a className="page-numbers" href="#">...</a></li>
-                                <li key="7"><a className="page-numbers" href="#">98</a></li>
-                                <li key="8"><a className="next page-numbers" href="#"><i className="icon-right-open-big"></i></a></li>
-                            </ul>
-
-                        </div>
-                        <div className="col-md-4 pl-md-5 sticky-sidebar">
-                            <div className="sidebar-widget latest-tpl-4">
-                                <h4 className="spanborder">
-                                    <span>Popular</span>
-                                </h4>
-                                <ol>
-                                    {
-                                        articles.map((article, index) => {
-                                            return (
-                                                <li className="d-flex" key={index}>
-                                                    <PostCard {...article} type="less_detailed" />
-                                                </li>
-                                            );
-                                        })
-                                    }
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+        <PageContainer>
+            <SectionContainer>
+                <FeaturedPageLeftContainer>
+                    {renderEditorsPosts()}
+                </FeaturedPageLeftContainer>
+                <FeaturedPageRightContainer>
+                    <Heading text={`Trending`} />
+                    <List>
+                        {renderTrendingPosts()}
+                    </List>
+                    {/* <a className="link-green" href="archive.html">See all trending<svg className="svgIcon-use" width="19" height="19"><path d="M7.6 5.138L12.03 9.5 7.6 13.862l-.554-.554L10.854 9.5 7.046 5.692" fillRule="evenodd"></path></svg></a> */}
+                </FeaturedPageRightContainer>
+            </SectionContainer>
+            <Divider />
+            <SectionContainer>
+                <PageLeftContainer>
+                    {renderPosts(articles)}
+                </PageLeftContainer>
+                <PageRightContainer>
+                    <Heading text={`Popular`} />
+                    <List>
+                        {renderPopularPosts(articles)}
+                    </List>
+                </PageRightContainer>
+            </SectionContainer>
+        </PageContainer>
     );
 };
 

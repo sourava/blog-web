@@ -46,8 +46,8 @@ const MainHeader = ({ login, logOut }) => {
                 <li><Link to={routePaths.PROFILE(login.data.id)}>Profile</Link></li>
                 <li><a onClick={logOut}>Log Out</a></li>
             </ul>
-        )
-    }
+        );
+    };
 
     const renderUserAction = () => {
         if (login && login.data) {
