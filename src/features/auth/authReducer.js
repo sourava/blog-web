@@ -6,13 +6,9 @@ import {
     facebookSignUpActionType,
     googleSignUpActionType,
     logOutActionType,
-
-    setTokenActionType,
-    resetTokenActionType
 } from './authActions';
 
 const initialState = {
-    socialToken: null,
     login: {
         ...promiseState(false, false, false, null),
     },
@@ -23,14 +19,6 @@ const initialState = {
 
 const loginReducer = (state = initialState, action) => {
     switch (action.type) {
-    case setTokenActionType:
-        return Object.assign({}, state, {
-            socialToken: action.payload,
-        });
-    case resetTokenActionType:
-        return Object.assign({}, state, {
-            socialToken: null,
-        });
     case logOutActionType:
         return Object.assign({}, state, {
             login: {
@@ -85,6 +73,9 @@ const loginReducer = (state = initialState, action) => {
             signup: {
                 ...promiseState(false, true, false, action.payload),
             },
+            login: {
+                ...promiseState(false, true, false, action.payload),
+            },
         });
     case facebookSignUpActionType.rejected:
         return Object.assign({}, state, {
@@ -101,6 +92,9 @@ const loginReducer = (state = initialState, action) => {
     case googleSignUpActionType.fulfilled:
         return Object.assign({}, state, {
             signup: {
+                ...promiseState(false, true, false, action.payload),
+            },
+            login: {
                 ...promiseState(false, true, false, action.payload),
             },
         });

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import searchIcon from 'shared/assets/icons/search.png';
 import plusIcon from 'shared/assets/icons/plus.png';
+import userIcon from 'shared/assets/icons/user.png';
 import { ImageButton, LinkButton } from 'shared/components/html';
 import routePaths from 'shared/routePaths';
 
@@ -67,8 +68,9 @@ const MainHeader = ({ login, logOut }) => {
                     onVisibleChange={setPopoverVisibility}
                 >
                     <ImageButton
-                        imageProps={{ src: login.data.avatar, round: true, height: "40px", width: "auto" }}
-                        linkButton
+                        imageProps={{ src: login.data.avatar || userIcon, round: true, height: "40px", width: "auto" }}
+                        border="none"
+                        padding="0"
                     />
                 </Popover>
             );
@@ -89,8 +91,8 @@ const MainHeader = ({ login, logOut }) => {
                 </Link>
             </LogoContainer>
             <ActionsContainer>
-                {login && login.data ? <LinkButton to={routePaths.ADD_POST} imageProps={{ src: plusIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" linkButton /> : null}
-                <LinkButton to={routePaths.SEARCH} imageProps={{ src: searchIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" linkButton />
+                {login && login.data ? <LinkButton border="none" padding="0" to={routePaths.ADD_POST} imageProps={{ src: plusIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" linkButton /> : null}
+                <LinkButton border="none" padding="0" to={routePaths.SEARCH} imageProps={{ src: searchIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" linkButton />
                 {renderUserAction()}
             </ActionsContainer>
         </MainHeaderContainer>

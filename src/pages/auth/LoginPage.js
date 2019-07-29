@@ -1,12 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin } from 'react-google-login';
-
-import { Button, ImageButton } from 'shared/components/html';
-import facebookIcon from 'shared/assets/icons/facebook.png';
-import googleIcon from 'shared/assets/icons/google.png';
 
 import {
     PageContainer,
@@ -19,7 +15,11 @@ import {
     HorizontalRow,
     HorizontalRowText,
     Form,
-    Input
+    FormInput,
+    FormButton,
+    FacebookButton,
+    GoogleButton,
+    Error,
 } from './authStyledComponents';
 
 const propTypes = {
@@ -29,11 +29,15 @@ const propTypes = {
 };
 
 const LoginPage = ({ facebookLogin, googleLogin, history }) => {
+    const [error, setError] = useState("");
+
     const successHandler = () => {
         history.push("home");
     };
 
-    const errorHandler = () => { };
+    const errorHandler = (response) => {
+        setError(response.data.message);
+    };
 
     const responseFacebook = (response) => {
         facebookLogin({
@@ -59,13 +63,13 @@ const LoginPage = ({ facebookLogin, googleLogin, history }) => {
                         appId="2264107667176678"
                         callback={responseFacebook}
                         render={
-                            renderProps => <ImageButton imageProps={{ src: facebookIcon, round: false, height: "30px", width: "auto" }} text="Facebook Login" onClick={renderProps.onClick} />
+                            renderProps => <FacebookButton text="Facebook Login" onClick={renderProps.onClick} />
                         }
                     />
                     <GoogleLogin
                         clientId="1009406741570-ueinnk3jgko4tuq3bv5oohna447dp8ra.apps.googleusercontent.com"
                         render={
-                            renderProps => <ImageButton imageProps={{ src: googleIcon, round: false, height: "30px", width: "auto" }} text="Google Login" onClick={renderProps.onClick} />
+                            renderProps => <GoogleButton text="Google Login" onClick={renderProps.onClick} />
                         }
                         onSuccess={responseGoogle}
                         onFailure={responseGoogle}
@@ -77,10 +81,11 @@ const LoginPage = ({ facebookLogin, googleLogin, history }) => {
                     <HorizontalRowText>OR</HorizontalRowText>
                 </HorizontalRowContainer>
                 <Form>
-                    <Input type="text" placeholder="Email address" />
-                    <Input type="password" placeholder="Password" />
-                    <Button type="primary" block margin="10px 0 0" size="large">Login</Button>
+                    <FormInput type="text" placeholder="Email address" />
+                    <FormInput type="password" placeholder="Password" />
+                    <FormButton>Login</FormButton>
                 </Form>
+                <Error>{error}</Error>
             </AuthContainer>
         </PageContainer>
     );

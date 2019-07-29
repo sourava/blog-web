@@ -7,7 +7,6 @@ import AppRoute from 'features/AppRoute';
 import HomePage from 'pages/home/HomePageContainer';
 import LoginPage from 'pages/auth/LoginPageContainer';
 import SignUpPage from 'pages/auth/SignUpPageContainer';
-import SetPasswordContainer from 'pages/auth/SetPasswordContainer';
 import PostContainer from 'pages/post/PostContainer';
 import ProfilePageContainer from 'pages/profile/ProfilePageContainer';
 import PostsContainer from 'pages/posts/PostsContainer';
@@ -30,7 +29,6 @@ const App = () => {
                     <AppRoute path="/addPost" component={AddPost} />
                     <AppRoute path="/login" noHeader noFooter component={LoginPage} />
                     <AppRoute path="/signup" noHeader noFooter component={SignUpPage} />
-                    <AppRoute path="/setpassword" noHeader noFooter component={SetPasswordContainer} />
                 </Router>
             </PersistGate>
         </Provider>

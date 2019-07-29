@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import map from 'lodash/map';
 import debounce from "lodash.debounce";
 
 import {
@@ -22,9 +22,9 @@ import {
     EditorsArticleRightContainer,
 } from './homePageStyledComponents';
 
+import { Spinner, Divider } from 'shared/components/html';
 import PostCard from 'features/postCard/PostCard';
 import Heading from 'features/Heading';
-import Divider from 'features/Divider';
 
 class HomePage extends React.PureComponent {
     constructor(props) {
@@ -112,11 +112,13 @@ class HomePage extends React.PureComponent {
                             {/* <a className="btn btn-green d-inline-block mb-4 mb-md-0" href="archive.html">All Featured</a> */}
                         </EditorsArticleLeftContainer>
                         <EditorsArticleRightContainer>
-                            {_.map(rest, (article, index) => <PostCard key={index} {...article} type="featured_sub" />)}
+                            {map(rest, (article, index) => <PostCard key={index} {...article} type="featured_sub" />)}
                         </EditorsArticleRightContainer>
                     </EditorsPickContainer>
                 </React.Fragment>
             );
+        } else {
+            return <Spinner />;
         }
     };
 
@@ -128,9 +130,11 @@ class HomePage extends React.PureComponent {
                 <React.Fragment>
                     <PostCard {...first} type="featured_main" />
                     <Divider />
-                    {_.map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" />)}
+                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" />)}
                 </React.Fragment>
             );
+        } else {
+            return <Spinner />;
         }
     };
 
@@ -140,7 +144,7 @@ class HomePage extends React.PureComponent {
         };
 
         if (this.props.popularPosts && this.props.popularPosts.data) {
-            return _.map(this.props.popularPosts.data, (article, index) => {
+            return map(this.props.popularPosts.data, (article, index) => {
                 return (
                     <ListItem key={index}>
                         <PostCount>{mapPostCount(index)}</PostCount>
@@ -148,6 +152,8 @@ class HomePage extends React.PureComponent {
                     </ListItem>
                 );
             });
+        } else {
+            return <Spinner />;
         }
     };
 
@@ -157,7 +163,7 @@ class HomePage extends React.PureComponent {
         };
         if (this.props.trendingPosts && this.props.trendingPosts.data) {
             const posts = this.props.trendingPosts.data.slice(0, 4);
-            return _.map(posts, (article, index) => {
+            return map(posts, (article, index) => {
                 return (
                     <ListItem key={index}>
                         <PostCount>{mapPostCount(index)}</PostCount>
@@ -165,6 +171,8 @@ class HomePage extends React.PureComponent {
                     </ListItem>
                 );
             });
+        } else {
+            return <Spinner />;
         }
     };
 
@@ -193,7 +201,7 @@ class HomePage extends React.PureComponent {
                     <PageLeftContainer>
                         <Heading text="Most Recent" />
                         {this.renderPosts()}
-                        {error && <Info style={{ color: '#900' }}>{error}</Info>}
+                        {error && <Info style={{ color: '#900' }}>{error.toString()}</Info>}
                         {isLoading && <Info>Loading...</Info>}
                         {!hasMore && <Info>You did it! You reached the end!</Info>}
                     </PageLeftContainer>

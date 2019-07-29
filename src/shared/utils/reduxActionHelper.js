@@ -27,10 +27,10 @@ export const asyncActionCreator = (actionType) => {
                 if (sucessCallBack) {
                     sucessCallBack(response);
                 }
-            }).catch((response) => {
-                dispatch(rejected());
+            }).catch((error) => {
+                dispatch(rejected(error.response));
                 if (errorCallBack) {
-                    errorCallBack(response);
+                    errorCallBack(error.response);
                 }
             });
         };

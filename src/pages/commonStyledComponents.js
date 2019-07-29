@@ -24,7 +24,7 @@ const PageContainer = styled.div`
 const SectionContainer = styled.div`
     display: flex;
     @media (max-width: 767px) {
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
 `;
 
@@ -57,6 +57,7 @@ const PageRightContainer = styled.div`
 
 const List = styled.ul`
     list-style: none;
+    padding: 0;
 `;
 const ListItem = styled.li`
     display: flex;

@@ -11,6 +11,8 @@ const apiPaths = {
     GET_POST: (id) => `${baseUrl}/posts/${id}`,
     GET_AUTHOR: (id) => `${baseUrl}/author/${id}`,
     SEARCH_POST: `${baseUrl}/posts/search`,
+    COMMENTS: `${baseUrl}/comments`,
+    ADD_CLAP: `${baseUrl}/posts/clap`,
 };
 
 export default apiPaths;

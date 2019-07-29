@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import { Input, Button, ImageButton } from 'shared/components/html';
+import facebookIcon from 'shared/assets/icons/facebook.png';
+import googleIcon from 'shared/assets/icons/google.png';
 
 const PageContainer = styled.div`
     display: flex;
@@ -30,7 +33,11 @@ const AuthSubHeading = styled.h4`
     font-weight: 400;
     color: rgb(68, 82, 95);
     text-align: center;
-    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
+const Error = styled(AuthSubHeading)`
+    color: red;
 `;
 
 const SocialLoginContainer = styled.div`
@@ -42,23 +49,51 @@ const HorizontalRowContainer = styled.div`
     display: block;
     position: relative;
 `;
-const HorizontalRow = styled.hr``;
+const HorizontalRow = styled.hr`
+    margin: 20px 0;
+`;
 const HorizontalRowText = styled.span`
     background: #FFFFFF;
     display: block;
     padding: 0 20px;
     position: absolute;
     font-size: 14px;
-    top: -8px;
+    top: -13px;
     left: 185px;
 `;
 
-const Form = styled.div``;
-const Input = styled.input`
-    outline: none;
-    padding: 20px;
-    margin-top: 10px;
+const Form = styled.div`
+    display: flex;
+    flex-direction: column;
 `;
+
+const FormInput = styled(Input).attrs({
+    margin: "0 0 10px"
+})``;
+
+const FormButton = styled(Button).attrs({
+    type: "primary",
+    block: true,
+    size: "large"
+})``;
+
+const FacebookButton = styled(ImageButton).attrs({
+    imageProps: { 
+        src: facebookIcon, 
+        round: false, 
+        height: "30px", 
+        width: "auto"
+    }
+})``;
+
+const GoogleButton = styled(ImageButton).attrs({
+    imageProps: { 
+        src: googleIcon, 
+        round: false, 
+        height: "30px", 
+        width: "auto"
+    }
+})``;
 
 export {
     PageContainer,
@@ -66,10 +101,14 @@ export {
     AuthHeadingContainer,
     AuthHeading,
     AuthSubHeading,
+    Error,
     SocialLoginContainer,
     HorizontalRowContainer,
     HorizontalRow,
     HorizontalRowText,
     Form,
-    Input,
+    FormInput,
+    FormButton,
+    FacebookButton,
+    GoogleButton,
 };

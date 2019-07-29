@@ -121,6 +121,20 @@ const searchPost = (query, successCallback, errorCallback) => {
     return searchPostAction.action(axiosConfig, successCallback, errorCallback);
 };
 
+const addClapActionType = asyncActionTypeCreator('ADD_CLAP');
+const addClapAction = asyncActionCreator(addClapActionType);
+
+const addClap = (params, token, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.ADD_CLAP,
+        method: 'post',
+        headers: { 'Authorization': `Bearer ${token}` },
+        params
+    };
+
+    return addClapAction.action(axiosConfig, successCallback, errorCallback);
+};
+
 
 export {
     addImageActionType,
@@ -139,4 +153,6 @@ export {
     getFeaturedPosts,
     searchPostActionType,
     searchPost,
+    addClapActionType,
+    addClap,
 };

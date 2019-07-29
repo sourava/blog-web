@@ -9,6 +9,7 @@ const Head = styled.h5`
     text-transform: uppercase;
     position: relative;
     line-height: 1;
+    font-size: 18px;
 `;
 const Text = styled.span`
     border-bottom: 1px solid rgba(0, 0, 0, 0.53);

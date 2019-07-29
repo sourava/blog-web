@@ -40,6 +40,23 @@ const PostContent = styled.div`
 const PostShare = styled.div`
     display: flex;
 `;
+const PostClaps = styled.div`
+    display: flex;
+    align-items: center;
+`;
+const ClapDetails = styled.span`
+    margin-left: 20px;
+`;
+
+const CommentsContainer = styled.div`
+    margin: 0 150px 40px;
+`;
+
+const PostActions = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
 
 export {
     PageContainer,
@@ -51,5 +68,9 @@ export {
     AuthorName,
     DatePosted,
     PostContent,
-    PostShare
+    PostShare,
+    PostClaps,
+    ClapDetails,
+    CommentsContainer,
+    PostActions
 };

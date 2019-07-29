@@ -1,12 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin } from 'react-google-login';
-
-import { Button, ImageButton } from 'shared/components/html';
-import facebookIcon from 'shared/assets/icons/facebook.png';
-import googleIcon from 'shared/assets/icons/google.png';
 
 import {
     PageContainer,
@@ -19,33 +15,75 @@ import {
     HorizontalRow,
     HorizontalRowText,
     Form,
-    Input
+    FormInput,
+    FormButton,
+    FacebookButton,
+    GoogleButton,
+    Error,
 } from './authStyledComponents';
 
 const propTypes = {
-    setTokenAction: PropTypes.func.isRequired,
+    facebookSignUp: PropTypes.func.isRequired,
+    googleSignUp: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };
 
-const SignUpPage = ({ setTokenAction, history }) => {
+const SignUpPage = ({ facebookSignUp, googleSignUp, history }) => {
+    const [token, setToken] = useState("");
+    const [provider, setProvider] = useState("");
+    const [error, setError] = useState("");
+    const [passwordField1, setPasswordField1] = useState("");
+    const [passwordField2, setPasswordField2] = useState("");
+
+    const successHandler = () => {
+        history.push("home");
+    };
+
+    const errorHandler = (response) => {
+        setToken("");
+        setError(response.data.message);
+    };
+
     const responseFacebook = (response) => {
-        setTokenAction({
-            "token": response["accessToken"],
-            "provider": "FACEBOOK"
-        });
-        history.push("setpassword");
+        if (response.status === "unknown") {
+            setError("Error During Signup");
+        } else {
+            setToken(response["accessToken"]);
+            setProvider("FACEBOOK");
+        }
     };
 
     const responseGoogle = (response) => {
-        setTokenAction({
-            "token": response["accessToken"],
-            "provider": "GOOGLE"
-        });
-        history.push("setpassword");
+        if (response.error) {
+            setError("Error During Signup");
+        } else {
+            setToken(response["accessToken"]);
+            setProvider("GOOGLE");
+        }
     };
 
-    return (
-        <PageContainer>
+    const socialSignup = () => {
+        if (passwordField1 === passwordField2) {
+            if (token !== "") {
+                const data = {
+                    "token": token,
+                    "password": passwordField1
+                };
+                if (provider === "FACEBOOK") {
+                    facebookSignUp(data, successHandler, errorHandler);
+                } else if (provider === "GOOGLE") {
+                    googleSignUp(data, successHandler, errorHandler);
+                }
+            } else {
+                setError("Unexpected Error");
+            }
+        } else {
+            setError("Password mismatch");
+        }
+    };
+
+    const renderSignUp = () => {
+        return (
             <AuthContainer>
                 <AuthHeadingContainer>
                     <AuthHeading>Sign up for free!</AuthHeading>
@@ -55,13 +93,13 @@ const SignUpPage = ({ setTokenAction, history }) => {
                         appId="2264107667176678"
                         callback={responseFacebook}
                         render={
-                            renderProps => <ImageButton imageProps={{ src: facebookIcon, round: false, height: "30px", width: "auto" }} text="Facebook Signup" onClick={renderProps.onClick} />
+                            renderProps => <FacebookButton text="Facebook Signup" onClick={renderProps.onClick} />
                         }
                     />
                     <GoogleLogin
                         clientId="1009406741570-ueinnk3jgko4tuq3bv5oohna447dp8ra.apps.googleusercontent.com"
                         render={
-                            renderProps => <ImageButton imageProps={{ src: googleIcon, round: false, height: "30px", width: "auto" }} text="Google Signup" onClick={renderProps.onClick} />
+                            renderProps => <GoogleButton text="Google Signup" onClick={renderProps.onClick} />
                         }
                         onSuccess={responseGoogle}
                         onFailure={responseGoogle}
@@ -73,14 +111,40 @@ const SignUpPage = ({ setTokenAction, history }) => {
                     <HorizontalRowText>OR</HorizontalRowText>
                 </HorizontalRowContainer>
                 <Form>
-                    <Input type="text" placeholder="Full Name" />
-                    <Input type="text" placeholder="Email address" />
-                    <Input type="password" placeholder="Password" />
-                    <Input type="password" placeholder="Confirm Password" />
-                    <Button type="primary" block size="large" margin="10px 0">Sign Up</Button>
+                    <FormInput type="text" placeholder="Full Name" />
+                    <FormInput type="text" placeholder="Email address" />
+                    <FormInput type="password" placeholder="Password" />
+                    <FormInput type="password" placeholder="Confirm Password" />
+                    <FormButton>Sign Up</FormButton>
                     <AuthSubHeading><Link to="login">Already have an account?</Link></AuthSubHeading>
+                    <Error>{error}</Error>
                 </Form>
             </AuthContainer>
+        );
+    };
+
+    const renderSetPassword = () => {
+        return (
+            <AuthContainer>
+                <AuthHeadingContainer>
+                    <AuthHeading>Please set password for your account!</AuthHeading>
+                </AuthHeadingContainer>
+                <HorizontalRowContainer>
+                    <HorizontalRow />
+                </HorizontalRowContainer>
+                <Form>
+                    <FormInput type="password" placeholder="Password" onChange={(e) => setPasswordField1(e.target.value)} />
+                    <FormInput type="password" placeholder="Confirm Password" onChange={(e) => setPasswordField2(e.target.value)} />
+                    <FormButton onClick={socialSignup}>Submit</FormButton>
+                </Form>
+                <Error>{error}</Error>
+            </AuthContainer>
+        );
+    };
+
+    return (
+        <PageContainer>
+            {token === "" ? renderSignUp() : renderSetPassword()}
         </PageContainer>
     );
 };

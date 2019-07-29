@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import map from 'lodash/map';
 import debounce from "lodash.debounce";
 
 import {
@@ -17,7 +17,7 @@ import appConstants from 'shared/appConstants';
 
 import PostCard from 'features/postCard/PostCard';
 import Heading from 'features/Heading';
-import Divider from 'features/Divider';
+import { Divider } from 'shared/components/html';
 
 class Posts extends React.PureComponent {
     constructor(props) {
@@ -108,7 +108,7 @@ class Posts extends React.PureComponent {
                 <React.Fragment>
                     <PostCard {...first} type="featured_main" />
                     <Divider />
-                    {_.map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" />)}
+                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" />)}
                 </React.Fragment>
             );
         }
@@ -120,7 +120,7 @@ class Posts extends React.PureComponent {
             return count < 9 ? `0${count + 1}` : count;
         };
 
-        return _.map(popularPosts.data, (article, index) => {
+        return map(popularPosts.data, (article, index) => {
             return (
                 <ListItem key={index}>
                     <PostCount>{mapPostCount(index)}</PostCount>

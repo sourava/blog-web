@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import Spin from 'antd/lib/spin';
+import map from 'lodash/map';
 
 import PostCard from 'features/postCard/PostCard';
-import { Input } from 'shared/components/html';
+import { Input, Spinner } from 'shared/components/html';
 import { PageContainer, PageHeader, PageContent } from './searchStyledComponents';
 
 const propTypes = {
@@ -16,7 +15,7 @@ const SearchPage = ({ searchPost, searchData }) => {
     const [query, setQuery] = useState("");
     const [visible, setVisible] = useState(false);
 
-    const renderPosts = () => _.map(searchData.data, (article, index) => <PostCard key={index} {...article} type="detailed" />);
+    const renderPosts = () => map(searchData.data, (article, index) => <PostCard key={index} {...article} type="detailed" />);
 
     const onKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -27,7 +26,7 @@ const SearchPage = ({ searchPost, searchData }) => {
 
     const renderPageContent = () => {
         if (searchData.isPending) {
-            return <Spin />;
+            return <Spinner />;
         } else if (searchData.isFulfilled) {
             return (
                 <PageContent>

@@ -1,22 +1,13 @@
 import React, { useState } from 'react';
-import _ from 'lodash';
+import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 import Editor from 'features/editor/Editor';
-
-import Input from 'antd/lib/input';
-import Upload from 'antd/lib/upload';
-import Select from 'antd/lib/select';
-import message from 'antd/lib/message';
-
-import { Button, ImageButton } from 'shared/components/html';
-
+import { Button, ImageButton, Input } from 'shared/components/html';
 import uploadIcon from 'shared/assets/icons/upload.png';
-
-import apiPaths from 'shared/apiPaths';
-
-const { Option } = Select;
 
 const PageContainer = styled.div`
     width: 1140px;
@@ -44,6 +35,7 @@ const propTypes = {
     addImageData: PropTypes.object.isRequired,
     addImageAction: PropTypes.func.isRequired,
     addPostAction: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
 };
 
 const AddPost = ({ loginData, categories, addImageData, addImageAction, addPostAction, history }) => {
@@ -70,20 +62,16 @@ const AddPost = ({ loginData, categories, addImageData, addImageAction, addPostA
         addImageAction(file, loginData.data.token, successCallback, errorCallback);
     };
 
-    const props = {
-        name: 'files',
-        action: apiPaths.POSTS_ADD_IMAGE,
-        headers: {
-            authorization: `Bearer ${loginData.data.token}`,
-        },
-        onChange(info) {
-            if (info.file.status === 'done') {
-                setThumbnail(info.file.response[0].path);
-                message.success(`${info.file.name} file uploaded successfully`);
-            } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
-        },
+    const imageHandler = () => {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = () => {
+            const file = input.files[0];
+            addImage(file, (response) => setThumbnail(response.data[0].path), () => { });
+        };
     };
 
     return (
@@ -91,33 +79,26 @@ const AddPost = ({ loginData, categories, addImageData, addImageAction, addPostA
             <FormContainer>
                 <Input
                     placeholder="Add Title"
-                    style={{ marginBottom: "20px" }}
-                    size="large"
+                    margin="0 0 20px"
                     onChange={(e) => setTitle(e.target.value)}
                 />
 
                 <Select
-                    onChange={(value) => setCategory(value)}
+                    onChange={(data) => setCategory(data.value)}
+                    styles={{ container: () => ({ margin: "0 0 20px" }) }}
                     placeholder="Select Category"
-                    style={{ marginBottom: "20px" }}
-                    size="large"
-                >
-                    {categories && categories.data ? _.map(categories.data, (category, index) => <Option value={category["value"]} key={index}>{category["name"]}</Option>) : null}
-                </Select>
-
-                <Select
-                    mode="tags"
-                    onChange={(value) => setTags(value)}
-                    tokenSeparators={[',']}
-                    placeholder="Add Tags"
-                    style={{ marginBottom: "20px" }}
-                    size="large"
+                    options={categories && categories.data ? map(categories.data, (category) => ({ "value": category["value"], "label": category["name"] })) : []}
                 />
 
-                <Upload {...props}>
-                    <ImageButton imageProps={{ src: uploadIcon, round: false, height: "15px", width: "auto" }} size="large" text="Add a thumbnail" />
-                </Upload>
+                <CreatableSelect
+                    isMulti
+                    styles={{ container: () => ({ margin: "0 0 20px" }) }}
+                    onChange={(list) => setTags(map(list, data => data.value))}
+                    placeholder="Add Tags"
+                    options={[]}
+                />
 
+                <ImageButton imageProps={{ src: uploadIcon, round: false, height: "15px", width: "auto" }} size="large" text="Add a thumbnail" onClick={imageHandler} />
 
                 <Editor
                     content={body}

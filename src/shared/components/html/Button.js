@@ -44,25 +44,26 @@ const getSize = (size) => {
 const Button = styled.button`
     display: ${props => props.display || "block"};
     font-size: ${props => getSize(props.size)["fontSize"]};
-    width: ${props => props.block ? "100%" : "auto"};
+    width: ${props => props.block ? "100%" : props.width || "auto"};
+    height: ${props => props.height || "auto"};
     background: ${props => getColors(props.type)["background"]};
     color: ${props => getColors(props.type)["color"]};
     margin: ${props => props.margin || 0};
     align-items: center;
-    padding: ${props => props.linkButton ? "0" : getSize(props.size)["padding"]};
-    border-radius: 4px;
-    border: ${props => props.linkButton ? "none" : getColors(props.type)["border"]};
+    padding: ${props => props.padding || getSize(props.size)["padding"]};
+    border-radius: ${props => props.round ? "100%" : "4px"};
+    border: ${props => props.border || getColors(props.type)["border"]};
     outline: none;
 
     &:hover {
         outline: none;
-        border: ${props => props.linkButton ? "none" : getColors(props.type)["hoverBorder"]};
+        border: ${props => props.border || getColors(props.type)["hoverBorder"]};
         background: ${props => getColors(props.type)["hoverBackground"]} !important;
         color: ${props => getColors(props.type)["hoverColor"]};
     }
 
     &:focus {
-        border: ${props => props.linkButton ? "none" : getColors(props.type)["hoverBorder"]};
+        border: ${props => props.border || getColors(props.type)["hoverBorder"]};
         outline: none;
     }
 `;
@@ -80,7 +81,7 @@ const imageButtonPropTypes = {
 const ImageButton = ({ text, imageProps, ...restProps }) => {
     return (
         <Button display="flex" {...restProps}>
-            {imageProps && <Icon text={text} src={imageProps.src} round={imageProps.round} height={imageProps.height} width={imageProps.width} />}
+            {imageProps && <Icon text={text} {...imageProps} />}
             {text}
         </Button>
     );
@@ -94,12 +95,20 @@ const linkButtonPropTypes = {
     text: PropTypes.string,
 };
 
-const LinkButton = ({ text, imageProps, to, ...restProps }) => {
-    return (
-        <Link to={to}>
-            <ImageButton text={text} imageProps={imageProps} {...restProps} />
-        </Link>
-    );
+const LinkButton = ({ text, imageProps, to, linkType, ...restProps }) => {
+    if (linkType === "href") {
+        return (
+            <a href={to}>
+                <ImageButton text={text} imageProps={imageProps} {...restProps} />
+            </a>
+        );
+    } else {
+        return (
+            <Link to={to}>
+                <ImageButton text={text} imageProps={imageProps} {...restProps} />
+            </Link>
+        );
+    }
 };
 
 LinkButton.propTypes = linkButtonPropTypes;

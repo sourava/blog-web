@@ -4,19 +4,7 @@ import {
 } from 'shared/utils/reduxActionHelper';
 import apiPaths from 'shared/apiPaths';
 
-const setTokenActionType = "SET_TOKEN";
-const resetTokenActionType = "RESET_TOKEN";
 const logOutActionType = "LOG_OUT";
-
-const setTokenAction = payload => ({
-    type: setTokenActionType,
-    payload
-});
-
-const resetTokenAction = () => ({
-    type: resetTokenActionType
-});
-
 const logOutAction = () => ({
     type: logOutActionType
 });
@@ -70,10 +58,6 @@ const googleSignUp = (data, successCallback, errorCallback) => {
 };
 
 export {
-    setTokenActionType,
-    setTokenAction,
-    resetTokenActionType,
-    resetTokenAction,
     logOutActionType,
     logOutAction,
 
