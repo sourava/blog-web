@@ -9,6 +9,8 @@ const apiPaths = {
     POSTS: `${baseUrl}/posts`,
     CATEGORIES: `${baseUrl}/categories`,
     GET_POST: (id) => `${baseUrl}/posts/${id}`,
+    UPDATE_POST: (id) => `${baseUrl}/posts/${id}/update`,
+    DELETE_POST: (id) => `${baseUrl}/posts/${id}/delete`,
     GET_AUTHOR: (id) => `${baseUrl}/author/${id}`,
     SEARCH_POST: `${baseUrl}/posts/search`,
     COMMENTS: `${baseUrl}/comments`,

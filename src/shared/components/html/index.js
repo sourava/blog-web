@@ -6,3 +6,4 @@ export { default as Input } from "./Input";
 export { default as TextArea } from "./TextArea";
 export { default as Divider } from "./Divider";
 export { default as Spinner } from "./Spinner";
+export { default as FlexContainer } from "./FlexContainer";

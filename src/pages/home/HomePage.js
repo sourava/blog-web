@@ -100,7 +100,10 @@ class HomePage extends React.PureComponent {
     }
 
     renderEditorsPosts = () => {
-        if (this.props.featuredPosts && this.props.featuredPosts.data) {
+        const { featuredPosts } = this.props;
+        if (featuredPosts.isPending) {
+            return <Spinner />;
+        } else if (featuredPosts.isFulfilled && featuredPosts.data && featuredPosts.data.length > 0) {
             const first = this.props.featuredPosts.data[0];
             const rest = this.props.featuredPosts.data.slice(1, this.props.featuredPosts.data.length);
             return (
@@ -118,7 +121,7 @@ class HomePage extends React.PureComponent {
                 </React.Fragment>
             );
         } else {
-            return <Spinner />;
+            return null;
         }
     };
 
@@ -133,8 +136,6 @@ class HomePage extends React.PureComponent {
                     {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" />)}
                 </React.Fragment>
             );
-        } else {
-            return <Spinner />;
         }
     };
 

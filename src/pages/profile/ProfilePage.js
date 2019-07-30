@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash/map';
+import filter from 'lodash/filter';
 import debounce from "lodash.debounce";
 
 import {
@@ -58,10 +59,13 @@ class ProfilePage extends React.PureComponent {
         getPosts: PropTypes.func.isRequired,
         getAuthor: PropTypes.func.isRequired,
         getPopularPosts: PropTypes.func.isRequired,
+        deletePost: PropTypes.func.isRequired,
         popularPosts: PropTypes.object.isRequired,
         author: PropTypes.object.isRequired,
         posts: PropTypes.object.isRequired,
         match: PropTypes.object.isRequired,
+        loginData: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
     };
 
     componentWillMount() {
@@ -97,15 +101,25 @@ class ProfilePage extends React.PureComponent {
         });
     }
 
+    deletePostSuccessCallback = (id) => {
+        this.setState({
+            posts: filter(this.state.posts, post => post.id !== id)
+        });
+    }
+
+    deletePost = (id) => {
+        this.props.deletePost(id, this.props.loginData.data.token, () => this.deletePostSuccessCallback(id), () => {});
+    }
+
     renderPosts = () => {
         if (this.state.posts.length > 0) {
             const first = this.state.posts[0];
             const rest = this.state.posts.slice(1, this.state.posts.length);
             return (
                 <React.Fragment>
-                    <PostCard {...first} type="featured_main" />
+                    <PostCard {...first} type="featured_main" userID={this.props.match.params.id} deletePost={this.deletePost} />
                     <Divider />
-                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" />)}
+                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" userID={this.props.match.params.id} deletePost={this.props.deletePost} />)}
                 </React.Fragment>
             );
         }

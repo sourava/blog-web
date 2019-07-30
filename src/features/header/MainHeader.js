@@ -91,8 +91,8 @@ const MainHeader = ({ login, logOut }) => {
                 </Link>
             </LogoContainer>
             <ActionsContainer>
-                {login && login.data ? <LinkButton border="none" padding="0" to={routePaths.ADD_POST} imageProps={{ src: plusIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" linkButton /> : null}
-                <LinkButton border="none" padding="0" to={routePaths.SEARCH} imageProps={{ src: searchIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" linkButton />
+                {login && login.data ? <LinkButton border="none" padding="0" to={routePaths.ADD_POST} imageProps={{ src: plusIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" /> : null}
+                <LinkButton border="none" padding="0" to={routePaths.SEARCH} imageProps={{ src: searchIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" />
                 {renderUserAction()}
             </ActionsContainer>
         </MainHeaderContainer>

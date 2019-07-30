@@ -10,7 +10,7 @@ import routePaths from 'shared/routePaths';
 import facebookShareIcon from 'shared/assets/icons/facebook-share.png';
 import twitterShareIcon from 'shared/assets/icons/twitter.png';
 import clapIcon from 'shared/assets/icons/clapping.png';
-import { Icon, ImageButton, LinkButton, Divider } from 'shared/components/html';
+import { Icon, ImageButton, LinkButton } from 'shared/components/html';
 
 import {
     PageContainer,
@@ -27,6 +27,7 @@ import {
     PostShare,
     CommentsContainer,
     PostActions,
+    CommentHeading,
 } from './postStyledComponents';
 
 class Post extends React.PureComponent {
@@ -57,7 +58,7 @@ class Post extends React.PureComponent {
         const renderComments = () => this.props.comments.isFulfilled ? map(this.props.comments.data, (comment, index) => <CommentBox key={index} author={comment.author} comment={comment.text} />) : null;
         return (
             <CommentsContainer>
-                <h5>Comments</h5>
+                <CommentHeading>Comments</CommentHeading>
                 <CommentBox author={this.props.loginData.data} type="new" addComment={this.addComment} />
                 {renderComments()}
             </CommentsContainer>
@@ -72,14 +73,33 @@ class Post extends React.PureComponent {
     };
 
     addClap = () => {
-        this.props.addClap({ postID: this.props.match.params.id, userID: this.props.loginData.data.id }, this.props.loginData.data.token);
-        this.updateClaps();
+        if (this.props.loginData && this.props.loginData.data) {
+            this.props.addClap({ postID: this.props.match.params.id, userID: this.props.loginData.data.id }, this.props.loginData.data.token);
+            this.updateClaps();
+        }
     }
 
     updateClaps = () => {
         this.setState({
             claps: this.state.claps + 1
         });
+    }
+
+    renderClaps = () => {
+        if (this.props.loginData && this.props.loginData.data) {
+            const text = this.props.postData.data.total_claps + this.state.claps == 1 ? 'clap' : 'claps';
+            return (
+                <ClapDetails>
+                    {`${this.props.postData.data.total_claps + this.state.claps} ${text}`}
+                </ClapDetails>
+            );
+        } else {
+            return (
+                <ClapDetails>
+                    <LinkButton to={routePaths.LOGIN} text="Please login to appretiate the work" type="primary" />
+                </ClapDetails>
+            );
+        }
     }
 
     render() {
@@ -104,20 +124,16 @@ class Post extends React.PureComponent {
                     <PostContent>
                         {renderHTML(postData.data.body)}
                     </PostContent>
-                    <Divider />
                     <PostActions>
                         <PostClaps>
                             <ImageButton onClick={this.addClap} imageProps={{ src: clapIcon, height: "30px" }} round padding="15px" />
-                            <ClapDetails>
-                                {`${postData.data.total_claps + this.state.claps} ${postData.data.total_claps + this.state.claps == 1 ? 'clap' : 'claps'}`}
-                            </ClapDetails>
+                            {this.renderClaps()}
                         </PostClaps>
                         <PostShare>
                             <LinkButton border="none" padding="0 5px" linkType="href" to={`https://www.facebook.com/sharer/sharer.php?u=http://localhost:8080/post/${match.params.id}`} imageProps={{ src: facebookShareIcon, height: "20px" }} />
                             <LinkButton border="none" padding="0 5px" linkType="href" to={`http://twitter.com/share?text=${postData.data.title}&url=http://localhost:8080/post/${match.params.id}`} imageProps={{ src: twitterShareIcon, height: "20px" }} />
                         </PostShare>
                     </PostActions>
-                    <Divider />
                     {this.renderCommentsSection()}
                 </PageContainer>
             );

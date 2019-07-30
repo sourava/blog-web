@@ -32,6 +32,32 @@ const addPost = (data, token, successCallback, errorCallback) => {
     return addPostAction.action(axiosConfig, successCallback, errorCallback);
 };
 
+const updatePostActionType = asyncActionTypeCreator('UPDATE_POST');
+const updatePostAction = asyncActionCreator(updatePostActionType);
+
+const updatePost = (id, data, token, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.UPDATE_POST(id),
+        method: 'patch',
+        headers: { 'Authorization': `Bearer ${token}` },
+        data,
+    };
+
+    return updatePostAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+const deletePostActionType = asyncActionTypeCreator('DELETE_POST');
+const deletePostAction = asyncActionCreator(deletePostActionType);
+
+const deletePost = (id, token, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.DELETE_POST(id),
+        method: 'delete',
+        headers: { 'Authorization': `Bearer ${token}` },
+    };
+
+    return deletePostAction.action(axiosConfig, successCallback, errorCallback);
+};
 
 const getPostActionType = asyncActionTypeCreator('GET_POST');
 const getPostAction = asyncActionCreator(getPostActionType);
@@ -141,6 +167,10 @@ export {
     addImage,
     addPostActionType,
     addPost,
+    updatePostActionType,
+    updatePost,
+    deletePostActionType,
+    deletePost,
     getPostActionType,
     getPost,
     getPostsActionType,

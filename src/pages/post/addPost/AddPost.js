@@ -1,33 +1,19 @@
 import React, { useState } from 'react';
 import map from 'lodash/map';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 
 import Editor from 'features/editor/Editor';
-import { Button, ImageButton, Input } from 'shared/components/html';
-import uploadIcon from 'shared/assets/icons/upload.png';
 
-const PageContainer = styled.div`
-    width: 1140px;
-    margin: auto;
-    padding: 0 15px;
-
-    @media (max-width: 1140px) {
-        width: 100%;
-        padding: 0 40px;
-    }
-
-    @media (max-width: 991px) {
-        padding: 0 15px;
-    }
-`;
-
-const FormContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
+import {
+    PageContainer,
+    FormContainer,
+    SelectContainer,
+    FormInput,
+    ThumbnailButton,
+    FormButton
+} from '../commonStyledComponents';
 
 const propTypes = {
     loginData: PropTypes.object.isRequired,
@@ -77,29 +63,26 @@ const AddPost = ({ loginData, categories, addImageData, addImageAction, addPostA
     return (
         <PageContainer>
             <FormContainer>
-                <Input
+                <FormInput
                     placeholder="Add Title"
-                    margin="0 0 20px"
                     onChange={(e) => setTitle(e.target.value)}
                 />
-
-                <Select
-                    onChange={(data) => setCategory(data.value)}
-                    styles={{ container: () => ({ margin: "0 0 20px" }) }}
-                    placeholder="Select Category"
-                    options={categories && categories.data ? map(categories.data, (category) => ({ "value": category["value"], "label": category["name"] })) : []}
-                />
-
-                <CreatableSelect
-                    isMulti
-                    styles={{ container: () => ({ margin: "0 0 20px" }) }}
-                    onChange={(list) => setTags(map(list, data => data.value))}
-                    placeholder="Add Tags"
-                    options={[]}
-                />
-
-                <ImageButton imageProps={{ src: uploadIcon, round: false, height: "15px", width: "auto" }} size="large" text="Add a thumbnail" onClick={imageHandler} />
-
+                <SelectContainer>
+                    <Select
+                        onChange={(data) => setCategory(data.value)}
+                        placeholder="Select Category"
+                        options={categories && categories.data ? map(categories.data, (category) => ({ "value": category["value"], "label": category["name"] })) : []}
+                    />
+                </SelectContainer>
+                <SelectContainer>
+                    <CreatableSelect
+                        isMulti
+                        onChange={(list) => setTags(map(list, data => data.value))}
+                        placeholder="Add Tags"
+                        options={[]}
+                    />
+                </SelectContainer>
+                <ThumbnailButton onClick={imageHandler} />
                 <Editor
                     content={body}
                     setContent={setBody}
@@ -110,15 +93,9 @@ const AddPost = ({ loginData, categories, addImageData, addImageAction, addPostA
                     images={images}
                     style={{ margin: "20px 0 0", minHeight: '400px' }}
                 />
-
-                <Button
-                    type="primary"
-                    style={{ marginTop: "20px" }}
-                    size="large"
-                    onClick={onSubmit}
-                >
+                <FormButton onClick={onSubmit}>
                     Save
-                </Button>
+                </FormButton>
             </FormContainer>
         </PageContainer>
     );

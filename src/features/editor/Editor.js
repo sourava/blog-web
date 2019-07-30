@@ -76,7 +76,9 @@ class Editor extends React.PureComponent {
 
     onChange = (value) => {
         this.props.setContent(value);
-        this.props.setDescription(this.quillRef.getEditor().getText(value));
+        if (this.quillRef) {
+            this.props.setDescription(this.quillRef.getEditor().getText(value));
+        }
     }
 
     render() {

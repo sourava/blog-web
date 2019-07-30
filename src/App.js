@@ -10,7 +10,8 @@ import SignUpPage from 'pages/auth/SignUpPageContainer';
 import PostContainer from 'pages/post/PostContainer';
 import ProfilePageContainer from 'pages/profile/ProfilePageContainer';
 import PostsContainer from 'pages/posts/PostsContainer';
-import AddPost from 'pages/post/AddPostContainer';
+import AddPostContainer from 'pages/post/addPost/AddPostContainer';
+import EditPostContainer from 'pages/post/editPost/EditPostContainer';
 import SearchPageContainer from 'pages/search/SearchPageContainer';
 
 import { store, persistor } from './store';
@@ -26,7 +27,8 @@ const App = () => {
                     <AppRoute path="/posts/:category" component={PostsContainer} />
                     <AppRoute path="/profile/:id" component={ProfilePageContainer} />
                     <AppRoute path="/search" component={SearchPageContainer} noFooter noNavHeader />
-                    <AppRoute path="/addPost" component={AddPost} />
+                    <AppRoute path="/addPost" component={AddPostContainer} />
+                    <AppRoute path="/editPost/:id" component={EditPostContainer} />
                     <AppRoute path="/login" noHeader noFooter component={LoginPage} />
                     <AppRoute path="/signup" noHeader noFooter component={SignUpPage} />
                 </Router>

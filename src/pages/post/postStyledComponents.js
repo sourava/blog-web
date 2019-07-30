@@ -35,6 +35,7 @@ const DatePosted = styled.span`
 `;
 
 const PostContent = styled.div`
+    margin: 0 150px 40px;
 `;
 
 const PostShare = styled.div`
@@ -52,10 +53,16 @@ const CommentsContainer = styled.div`
     margin: 0 150px 40px;
 `;
 
+const CommentHeading = styled.span``;
+
 const PostActions = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 30px 0;
+    margin: 0 150px 40px;
 `;
 
 export {
@@ -72,5 +79,6 @@ export {
     PostClaps,
     ClapDetails,
     CommentsContainer,
+    CommentHeading,
     PostActions
 };

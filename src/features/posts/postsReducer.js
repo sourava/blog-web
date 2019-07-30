@@ -3,6 +3,7 @@ import promiseState from 'shared/utils/reduxReducerHelper';
 import {
     addImageActionType,
     addPostActionType,
+    updatePostActionType,
     getPostActionType,
     getPostsActionType,
     searchPostActionType,
@@ -16,6 +17,9 @@ const initialState = {
         ...promiseState(false, false, false, null),
     },
     addPost: {
+        ...promiseState(false, false, false, null),
+    },
+    updatePost: {
         ...promiseState(false, false, false, null),
     },
     post: {
@@ -73,6 +77,24 @@ const postsReducer = (state = initialState, action) => {
     case addPostActionType.rejected:
         return Object.assign({}, state, {
             addPost: {
+                ...promiseState(false, false, true, null),
+            },
+        });
+    case updatePostActionType.pending:
+        return Object.assign({}, state, {
+            updatePost: {
+                ...promiseState(true, false, false, null),
+            },
+        });
+    case updatePostActionType.fulfilled:
+        return Object.assign({}, state, {
+            updatePost: {
+                ...promiseState(false, true, false, action.payload),
+            },
+        });
+    case updatePostActionType.rejected:
+        return Object.assign({}, state, {
+            updatePost: {
                 ...promiseState(false, false, true, null),
             },
         });

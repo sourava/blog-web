@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+import { LinkButton, ImageButton } from 'shared/components/html';
+
+import editIcon from 'shared/assets/icons/edit.png';
+import deleteIcon from 'shared/assets/icons/delete.png';
 
 const FlexContainer = styled.div`
     display: flex;
@@ -12,7 +16,8 @@ const FlexContainer = styled.div`
     max-width: ${props => props.maxWidth || ""};
     padding: ${props => props.padding || ""};
     align-items: ${props => props.alignItems || ""};
-    width: 100%;
+    justify-content: ${props => props.justifyContent || ""};
+    width: ${props => props.width || "100%"};
 `;
 
 const Title = styled.h5`
@@ -47,10 +52,32 @@ const DatePosted = styled.span`
     line-height: 0.8;
 `;
 
+const EditButton = styled(LinkButton).attrs({
+    imageProps: {
+        src: editIcon,
+        height: "15px",
+        width: "auto",
+    },
+    padding: "0",
+    border: "none",
+})``;
+const DeleteButton = styled(ImageButton).attrs({
+    imageProps: {
+        src: deleteIcon,
+        height: "15px",
+        width: "auto"
+    },
+    padding: "0",
+    border: "none",
+    margin: "0 0 0 10px"
+})``;
+
 export {
     FlexContainer,
     Title,
     Description,
     AuthorName,
-    DatePosted
+    DatePosted,
+    EditButton,
+    DeleteButton
 };
