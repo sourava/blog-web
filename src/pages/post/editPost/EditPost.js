@@ -7,47 +7,48 @@ import CreatableSelect from 'react-select/creatable';
 
 import Editor from 'features/editor/Editor';
 import routePaths from 'shared/routePaths';
+import { SUB_CATEGORIES } from 'shared/appConstants';
+import { Spinner } from 'shared/components/html';
 
 import {
     PageContainer,
     FormContainer,
     SelectContainer,
     FormInput,
+    ThumbnailContainer,
+    Thumbnail,
     ThumbnailButton,
     FormButton
 } from '../commonStyledComponents';
 
 const propTypes = {
-    loginData: PropTypes.object.isRequired,
     categories: PropTypes.object.isRequired,
     addImageData: PropTypes.object.isRequired,
     addImage: PropTypes.func.isRequired,
     updatePost: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
+    role: PropTypes.string.isRequired,
 };
 
-const EditPost = ({ loginData, categories, addImageData, addImage, updatePost, post, history, match }) => {
+const EditPost = ({ categories, addImageData, addImage, updatePost, post, history, role }) => {
     const [body, setBody] = useState(post.data.body);
     const [description, setDescription] = useState(post.data.description);
     const [tags, setTags] = useState(post.data.tags);
     const [category, setCategory] = useState(post.data.category);
+    const [subCategory, setSubCategory] = useState(find(SUB_CATEGORIES, sub => sub.value === post.data["sub_category"]));
     const [title, setTitle] = useState(post.data.title);
     const [images, setImages] = useState([]);
     const [thumbnail, setThumbnail] = useState(post.data.thumbnail);
 
     const categoryOptions = map(categories.data, (category) => ({ "value": category["value"], "label": category["name"] }));
 
-    const successCallback = () => {
-        history.push(routePaths.HOME);
-    };
-
-    const errorCallback = () => { };
-
     const onSubmit = () => {
         const operations = [];
         const trimmedDescription = description.substring(0, 175) + "...";
+        const successCallback = () => {
+            history.push(routePaths.HOME);
+        };
 
         if (trimmedDescription !== post.data.description) {
             operations.push({ "op": "set", "path": "description", "value": trimmedDescription });
@@ -70,11 +71,7 @@ const EditPost = ({ loginData, categories, addImageData, addImage, updatePost, p
         if (images.length > 0) {
             operations.push({ "op": "add", "path": "images", "value": images });
         }
-        updatePost(match.params.id, { "operations": operations }, loginData.data.token, successCallback, errorCallback);
-    };
-
-    const addPostImage = (file, successCallback, errorCallback) => {
-        addImage(file, loginData.data.token, successCallback, errorCallback);
+        updatePost({ "operations": operations }, successCallback);
     };
 
     const imageHandler = () => {
@@ -85,8 +82,45 @@ const EditPost = ({ loginData, categories, addImageData, addImage, updatePost, p
 
         input.onchange = () => {
             const file = input.files[0];
-            addPostImage(file, (response) => setThumbnail(response.data[0].path), () => { });
+            addImage(file, (response) => setThumbnail(response.data[0].path), () => { });
         };
+    };
+
+    const renderSubCategory = () => {
+        if (role === "admin") {
+            return (
+                <SelectContainer>
+                    <Select
+                        onChange={(data) => setSubCategory(data)}
+                        placeholder="Select Sub Category"
+                        options={SUB_CATEGORIES}
+                        value={subCategory}
+                    />
+                </SelectContainer>
+            );
+        }
+    };
+
+    const renderThumbnail = () => {
+        const renderThumbnailDetails = () => {
+            if (addImageData.isPending || addImageData.isFulfilled || addImageData.isRejected || thumbnail) {
+                return (
+                    <ThumbnailContainer>
+                        {addImageData.isPending ? <Spinner /> : null}
+                        {addImageData.isFulfilled ? <Thumbnail src={addImageData.data[0].path} width="100" height="100" /> : null}
+                        {thumbnail && !addImageData.isPending && !addImageData.isFulfilled && !addImageData.isRejected ? <Thumbnail src={thumbnail} width="100" height="100" /> : null}
+                        {addImageData.isRejected ? <span>Error</span> : null}
+                    </ThumbnailContainer>
+                );
+            }
+        };
+
+        return (
+            <React.Fragment>
+                {renderThumbnailDetails()}
+                <ThumbnailButton onClick={imageHandler} disabled={addImageData.isPending} />
+            </React.Fragment>
+        );
     };
 
     return (
@@ -105,7 +139,7 @@ const EditPost = ({ loginData, categories, addImageData, addImage, updatePost, p
                         options={categoryOptions}
                     />
                 </SelectContainer>
-
+                {renderSubCategory()}
                 <SelectContainer>
                     <CreatableSelect
                         isMulti
@@ -115,10 +149,7 @@ const EditPost = ({ loginData, categories, addImageData, addImage, updatePost, p
                         options={[]}
                     />
                 </SelectContainer>
-
-
-                <ThumbnailButton onClick={imageHandler} />
-
+                {renderThumbnail()}
                 <Editor
                     content={body}
                     setContent={setBody}

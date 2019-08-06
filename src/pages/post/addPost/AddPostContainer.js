@@ -14,21 +14,21 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    addImageAction: (
-        params,
+    addImage: (
+        data,
         token,
         successCallback,
         errorCallback,
     ) => {
-        dispatch(addImage(params, token, successCallback, errorCallback));
+        dispatch(addImage(data, token, successCallback, errorCallback));
     },
-    addPostAction: (
-        params,
+    addPost: (
+        data,
         token,
         successCallback,
         errorCallback,
     ) => {
-        dispatch(addPost(params, token, successCallback, errorCallback));
+        dispatch(addPost(data, token, successCallback, errorCallback));
     },
     getCategories: (
         successCallback,
@@ -45,15 +45,37 @@ class AddPostContainer extends React.PureComponent {
 
     static propTypes = {
         getCategories: PropTypes.func.isRequired,
+        addPost: PropTypes.func.isRequired,
+        addImage: PropTypes.func.isRequired,
+        loginData: PropTypes.object.isRequired,
+        categories: PropTypes.object.isRequired,
+        addImageData: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
     }
 
     componentWillMount() {
         this.props.getCategories();
     }
 
-    render () {
+    addPost = (data, successCallback, errorCallback) => {
+        this.props.addPost(data, this.props.loginData.data.token, successCallback, errorCallback);
+    }
+
+    addImage = (data, successCallback, errorCallback) => {
+        this.props.addImage(data, this.props.loginData.data.token, successCallback, errorCallback);
+    }
+
+    render() {
+        const { categories, addImageData, loginData, history } = this.props;
         return (
-            <AddPost {...this.props} />
+            <AddPost
+                categories={categories}
+                addImageData={addImageData}
+                addPost={this.addPost}
+                addImage={this.addImage}
+                role={loginData.data.role}
+                history={history}
+            />
         );
     }
 }

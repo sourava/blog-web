@@ -13,7 +13,7 @@ import {
     PostCount,
     Info,
 } from 'pages/commonStyledComponents';
-import appConstants from 'shared/appConstants';
+import { CATEGORIES } from 'shared/appConstants';
 
 import PostCard from 'features/postCard/PostCard';
 import Heading from 'features/Heading';
@@ -140,14 +140,14 @@ class Posts extends React.PureComponent {
             <PageContainer>
                 <SectionContainer>
                     <PageLeftContainer>
-                        <Heading text={appConstants.CATEGORIES[this.props.match.params.category]} />
+                        <Heading text={CATEGORIES[this.props.match.params.category]} />
                         {this.renderPosts()}
                         {error && <Info style={{ color: '#900' }}>{error}</Info>}
                         {isLoading && <Info>Loading...</Info>}
                         {!hasMore && <Info>You did it! You reached the end!</Info>}
                     </PageLeftContainer>
                     <PageRightContainer>
-                        <Heading text={`Popular in ${appConstants.CATEGORIES[this.props.match.params.category]}`} />
+                        <Heading text={`Popular in ${CATEGORIES[this.props.match.params.category]}`} />
                         <List>
                             {this.renderPopularPosts()}
                         </List>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FlexContainer, Input, ImageButton, Button } from 'shared/components/html';
+import { FlexContainer, Input, ImageButton, Button, Icon } from 'shared/components/html';
 import uploadIcon from 'shared/assets/icons/upload.png';
 
 const PageContainer = styled.div`
@@ -31,6 +31,21 @@ const FormInput = styled(Input).attrs({
     margin: "0 0 20px"
 })``;
 
+const ThumbnailContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100px;
+    width: 100px;
+    border: 1px solid gray;
+    margin-bottom: 20px;
+`;
+
+const Thumbnail = styled(Icon).attrs({
+    height: "100px",
+    width: "100px"   
+})``;
+
 const ThumbnailButton = styled(ImageButton).attrs({
     imageProps: { 
         src: uploadIcon, 
@@ -53,6 +68,8 @@ export {
     FormContainer,
     SelectContainer,
     FormInput,
+    ThumbnailContainer,
+    Thumbnail,
     ThumbnailButton,
     FormButton
 };

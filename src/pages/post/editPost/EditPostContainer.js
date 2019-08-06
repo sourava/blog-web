@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import EditPost from './EditPost';
 import { addImage, updatePost, getPost } from 'features/posts/postsActions';
 import { getCategories } from 'features/category/categoryActions';
+import { Spinner } from 'shared/components/html';
+
+import EditPost from './EditPost';
 
 const mapStateToProps = state => ({
     loginData: state.authReducer.login,
@@ -17,21 +19,21 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addImage: (
-        params,
+        data,
         token,
         successCallback,
         errorCallback,
     ) => {
-        dispatch(addImage(params, token, successCallback, errorCallback));
+        dispatch(addImage(data, token, successCallback, errorCallback));
     },
     updatePost: (
         id,
-        params,
+        data,
         token,
         successCallback,
         errorCallback,
     ) => {
-        dispatch(updatePost(id, params, token, successCallback, errorCallback));
+        dispatch(updatePost(id, data, token, successCallback, errorCallback));
     },
     getPost: (
         id,
@@ -55,24 +57,47 @@ class EditPostContainer extends React.PureComponent {
 
     static propTypes = {
         getCategories: PropTypes.func.isRequired,
-        categories: PropTypes.object.isRequired,
         getPost: PropTypes.func.isRequired,
+        addImage: PropTypes.func.isRequired,
+        updatePost: PropTypes.func.isRequired,
+        categories: PropTypes.object.isRequired,
         post: PropTypes.object.isRequired,
+        addImageData: PropTypes.object.isRequired,
+        loginData: PropTypes.object.isRequired,
         match: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
     }
 
     componentWillMount() {
-        this.props.getCategories();
-        this.props.getPost(this.props.match.params.id);
+        const { getCategories, getPost, match } = this.props;
+        getCategories();
+        getPost(match.params.id);
     }
 
-    render () {
-        if (this.props.categories.isFulfilled && this.props.post.isFulfilled) {
+    updatePost = (data, successCallback, errorCallback) => {
+        this.props.updatePost(this.props.match.params.id, data, this.props.loginData.data.token, successCallback, errorCallback);
+    }
+
+    addImage = (data, successCallback, errorCallback) => {
+        this.props.addImage(data, this.props.loginData.data.token, successCallback, errorCallback);
+    }
+
+    render() {
+        const { categories, post, addImageData, loginData, history } = this.props;
+        if (categories.isFulfilled && post.isFulfilled) {
             return (
-                <EditPost {...this.props} />
+                <EditPost
+                    categories={categories}
+                    addImageData={addImageData}
+                    addImage={this.addImage}
+                    updatePost={this.updatePost}
+                    post={post}
+                    role={loginData.data.role}
+                    history={history}
+                />
             );
         } else {
-            return null;
+            return <Spinner />;
         }
     }
 }
