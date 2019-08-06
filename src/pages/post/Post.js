@@ -4,11 +4,10 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import renderHTML from 'react-render-html';
+import { InlineShareButtons } from 'sharethis-reactjs';
 
 import CommentBox from 'features/comments/CommentBox';
 import routePaths from 'shared/routePaths';
-import facebookShareIcon from 'shared/assets/icons/facebook-share.png';
-import twitterShareIcon from 'shared/assets/icons/twitter.png';
 import clapIcon from 'shared/assets/icons/clapping.png';
 import { Icon, ImageButton, LinkButton } from 'shared/components/html';
 
@@ -103,7 +102,7 @@ class Post extends React.PureComponent {
     }
 
     render() {
-        const { postData, match } = this.props;
+        const { postData } = this.props;
         if (postData && postData.data) {
             return (
                 <PageContainer>
@@ -130,8 +129,29 @@ class Post extends React.PureComponent {
                             {this.renderClaps()}
                         </PostClaps>
                         <PostShare>
-                            <LinkButton border="none" padding="0 5px" linkType="href" to={`https://www.facebook.com/sharer/sharer.php?u=http://localhost:8080/post/${match.params.id}`} imageProps={{ src: facebookShareIcon, height: "20px" }} />
-                            <LinkButton border="none" padding="0 5px" linkType="href" to={`http://twitter.com/share?text=${postData.data.title}&url=http://localhost:8080/post/${match.params.id}`} imageProps={{ src: twitterShareIcon, height: "20px" }} />
+                            <InlineShareButtons
+                                config={{
+                                    alignment: 'center',
+                                    color: 'social',
+                                    enabled: true,
+                                    font_size: 16,
+                                    labels: 'cta',
+                                    language: 'en',
+                                    networks: [
+                                        'whatsapp',
+                                        'facebook',
+                                        'twitter'
+                                    ],
+                                    padding: 12,
+                                    radius: 4,
+                                    show_total: false,
+                                    size: 40,
+
+                                    image: postData.data.thumbnail,
+                                    description: postData.data.description,
+                                    title: postData.data.title,
+                                }}
+                            />
                         </PostShare>
                     </PostActions>
                     {this.renderCommentsSection()}

@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 
 const PageContainer = styled.div`
-    width: 1140px;
+    width: 850px;
     margin: auto;
-    padding: 0 15px;
+
+    @media (max-width: 900px) {
+        width: 100%;
+        padding: 0 40px;
+    }
 `;
 const PostHeader = styled.div`
-    margin: 0 150px 40px;
+    margin: 0 0 40px;
 `;
 const PostTitle = styled.h1`
     font-family: Lora, serif;
@@ -35,7 +39,15 @@ const DatePosted = styled.span`
 `;
 
 const PostContent = styled.div`
-    margin: 0 150px 40px;
+    margin: 0 0 40px;
+
+    ol {
+        margin-left: 40px;
+    }
+
+    p img {
+        max-width: 100%;
+    }
 `;
 
 const PostShare = styled.div`
@@ -50,7 +62,7 @@ const ClapDetails = styled.span`
 `;
 
 const CommentsContainer = styled.div`
-    margin: 0 150px 40px;
+    margin: 0 0 40px;
 `;
 
 const CommentHeading = styled.span``;
@@ -62,7 +74,7 @@ const PostActions = styled.div`
     border-top: 1px solid rgba(0, 0, 0, 0.15);
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     padding: 30px 0;
-    margin: 0 150px 40px;
+    margin: 0 0 40px;
 `;
 
 export {

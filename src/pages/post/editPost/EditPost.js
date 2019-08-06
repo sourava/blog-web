@@ -84,13 +84,6 @@ const EditPost = ({ categories, addImageData, addImage, updatePost, post, histor
             const file = input.files[0];
             addImage(file, (response) => setThumbnail(response.data[0].path), () => { });
         };
-
-        return (
-            <React.Fragment>
-                {renderThumbnailDetails()}
-                <ThumbnailButton onClick={imageHandler} disabled={addImageData.isPending} />
-            </React.Fragment>
-        );
     };
 
     const renderSubCategory = () => {

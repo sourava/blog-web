@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { LinkButton } from 'shared/components/html';
 
 const PageContainer = styled.div`
     width: 1140px;
@@ -55,6 +56,15 @@ const PageRightContainer = styled.div`
     }
 `;
 
+const PageNavigation = styled.div`
+    display:flex;
+    padding: 0 0 20px;
+`;
+
+const PageNavigationLink = styled(LinkButton).attrs({
+    margin: "0 20px 0 0"
+})``;
+
 const List = styled.ul`
     list-style: none;
     padding: 0;
@@ -80,6 +90,8 @@ export {
     SectionContainer,
     PageLeftContainer,
     PageRightContainer,
+    PageNavigation,
+    PageNavigationLink,
     List,
     ListItem,
     PostCount,
