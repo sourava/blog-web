@@ -60,6 +60,7 @@ class ProfilePage extends React.PureComponent {
         getAuthor: PropTypes.func.isRequired,
         getPopularPosts: PropTypes.func.isRequired,
         deletePost: PropTypes.func.isRequired,
+        updatePost: PropTypes.func.isRequired,
         popularPosts: PropTypes.object.isRequired,
         author: PropTypes.object.isRequired,
         posts: PropTypes.object.isRequired,
@@ -117,9 +118,9 @@ class ProfilePage extends React.PureComponent {
             const rest = this.state.posts.slice(1, this.state.posts.length);
             return (
                 <React.Fragment>
-                    <PostCard {...first} type="featured_main" userID={this.props.match.params.id} deletePost={this.deletePost} />
+                    <PostCard {...first} type="featured_main" loginData={this.props.loginData} deletePost={this.deletePost} updatePost={this.props.updatePost} />
                     <Divider />
-                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" userID={this.props.match.params.id} deletePost={this.props.deletePost} />)}
+                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" loginData={this.props.loginData} deletePost={this.deletePost} updatePost={this.props.updatePost} />)}
                 </React.Fragment>
             );
         }

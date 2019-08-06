@@ -9,6 +9,7 @@ import rootReducer from './rootReducer';
 const persistConfig = {
     key: 'root',
     storage,
+    whitelist: ['authReducer']
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 let storeEnhancers = applyMiddleware(thunk);

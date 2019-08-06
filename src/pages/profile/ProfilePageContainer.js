@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ProfilePage from './ProfilePage';
-import { getPosts, getPopularPosts, deletePost } from 'features/posts/postsActions';
+import { getPosts, getPopularPosts, deletePost, updatePost } from 'features/posts/postsActions';
 import { getAuthor } from 'features/author/authorActions';
 
 const mapStateToProps = state => ({
@@ -34,6 +34,15 @@ const mapDispatchToProps = dispatch => ({
         errorCallback,
     ) => {
         dispatch(deletePost(id, token, successCallback, errorCallback));
+    },
+    updatePost: (
+        id,
+        params,
+        token,
+        successCallback,
+        errorCallback,
+    ) => {
+        dispatch(updatePost(id, params, token, successCallback, errorCallback));
     },
     getAuthor: (
         id,

@@ -3,6 +3,7 @@ import { LinkButton, ImageButton } from 'shared/components/html';
 
 import editIcon from 'shared/assets/icons/edit.png';
 import deleteIcon from 'shared/assets/icons/delete.png';
+import featuredIcon from 'shared/assets/icons/star.png';
 
 const FlexContainer = styled.div`
     display: flex;
@@ -51,25 +52,34 @@ const DatePosted = styled.span`
     font-size: 12px;
     line-height: 0.8;
 `;
-
-const EditButton = styled(LinkButton).attrs({
+const FeaturedButton = styled(ImageButton).attrs({
     imageProps: {
-        src: editIcon,
-        height: "15px",
-        width: "auto",
-    },
-    padding: "0",
-    border: "none",
-})``;
-const DeleteButton = styled(ImageButton).attrs({
-    imageProps: {
-        src: deleteIcon,
-        height: "15px",
+        src: featuredIcon,
+        height: "20px",
         width: "auto"
     },
     padding: "0",
     border: "none",
-    margin: "0 0 0 10px"
+})``;
+const EditButton = styled(LinkButton).attrs({
+    imageProps: {
+        src: editIcon,
+        height: "20px",
+        width: "auto",
+    },
+    padding: "0",
+    border: "none",
+    margin: "0 0 0 15px"
+})``;
+const DeleteButton = styled(ImageButton).attrs({
+    imageProps: {
+        src: deleteIcon,
+        height: "20px",
+        width: "auto"
+    },
+    padding: "0",
+    border: "none",
+    margin: "0 0 0 15px"
 })``;
 
 export {
@@ -78,6 +88,7 @@ export {
     Description,
     AuthorName,
     DatePosted,
+    FeaturedButton,
     EditButton,
     DeleteButton
 };
