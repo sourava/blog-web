@@ -1,16 +1,19 @@
 import React from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import map from 'lodash/map';
 import debounce from "lodash.debounce";
 
-import {
-    Info,
-} from 'pages/commonStyledComponents';
-
-import PostCard from 'features/postCard/PostCard';
 import { Divider } from 'shared/components/html';
+import PostCard from 'features/postCard/PostCard';
 
-class PostsBySubCategory extends React.PureComponent {
+const Info = styled.div`
+    padding: 0 15px;
+`;
+
+class PostsByParams extends React.PureComponent {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -39,16 +42,59 @@ class PostsBySubCategory extends React.PureComponent {
 
     static propTypes = {
         getPosts: PropTypes.func.isRequired,
+        deletePost: PropTypes.func,
+        updatePost: PropTypes.func,
         posts: PropTypes.object.isRequired,
-        match: PropTypes.object.isRequired,
+        loginData: PropTypes.object.isRequired,
+        getPostsParams: PropTypes.object,
     };
 
     componentWillMount() {
+        this._isMounted = true;
         this.loadPosts();
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.match.params.category != prevProps.match.params.category || this.props.match.params.subCategory != prevProps.match.params.subCategory) {
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    successCallback = () => {
+        if (this._isMounted) {
+            this.setState({
+                hasMore: this.props.posts.data.length === 10,
+                isLoading: false,
+                posts: [
+                    ...this.state.posts,
+                    ...this.props.posts.data,
+                ],
+            });
+        }
+    }
+
+    errorCallback = (response) => {
+        if (this._isMounted) {
+            this.setState({
+                error: response,
+                isLoading: false,
+            });
+        }
+    }
+
+    loadPosts = () => {
+        if (this._isMounted) {
+            this.setState({ isLoading: true });
+            this.props.getPosts(this.props.getPostsParams, this.state.page, this.successCallback, this.errorCallback);
+        }
+    }
+
+    updatePage = () => {
+        if (this._isMounted) {
+            this.setState({ page: this.state.page + 1 });
+        }
+    }
+
+    resetState = () => {
+        if (this._isMounted) {
             this.setState({
                 page: 1,
                 error: null,
@@ -60,32 +106,8 @@ class PostsBySubCategory extends React.PureComponent {
         }
     }
 
-    loadPosts = () => {
-        const { getPosts, match } = this.props;
-        this.setState({ isLoading: true });
-        getPosts({ "category": match.params.category, "sub_category": match.params.subCategory || "article", "page": this.state.page }, this.successCallback, this.errorCallback);
-    }
-
-    updatePage = () => {
-        this.setState({ page: this.state.page + 1 });
-    }
-
-    successCallback = () => {
-        this.setState({
-            hasMore: this.props.posts.data.length === 10,
-            isLoading: false,
-            posts: [
-                ...this.state.posts,
-                ...this.props.posts.data,
-            ],
-        });
-    }
-
-    errorCallback = (response) => {
-        this.setState({
-            error: response,
-            isLoading: false,
-        });
+    deletePost = (id) => {
+        this.props.deletePost(id, () => this.resetState());
     }
 
     renderPosts = () => {
@@ -94,9 +116,9 @@ class PostsBySubCategory extends React.PureComponent {
             const rest = this.state.posts.slice(1, this.state.posts.length);
             return (
                 <React.Fragment>
-                    <PostCard {...first} type="featured_main" />
+                    <PostCard {...first} type="featured_main" loginData={this.props.loginData} deletePost={this.deletePost} updatePost={this.props.updatePost} />
                     <Divider />
-                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" />)}
+                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" loginData={this.props.loginData} deletePost={this.deletePost} updatePost={this.props.updatePost} />)}
                 </React.Fragment>
             );
         }
@@ -119,4 +141,4 @@ class PostsBySubCategory extends React.PureComponent {
     }
 }
 
-export default PostsBySubCategory;
+export default PostsByParams;

@@ -3,7 +3,7 @@ import { HashRouter as Router } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import AppRoute from 'features/AppRoute';
+import AppRoute from 'features/appRoute/AppRouteContainer';
 import HomePage from 'pages/home/HomePageContainer';
 import LoginPage from 'pages/auth/LoginPageContainer';
 import SignUpPage from 'pages/auth/SignUpPageContainer';
@@ -25,10 +25,10 @@ const App = () => {
                     <AppRoute path="/home" component={HomePage} />
                     <AppRoute path="/post/:id" component={PostContainer} />
                     <AppRoute path="/posts/:category" component={PostsContainer} />
-                    <AppRoute path="/profile/:id" component={ProfilePageContainer} />
+                    <AppRoute isPrivate={true} path="/profile/:id" component={ProfilePageContainer} />
                     <AppRoute path="/search" component={SearchPageContainer} noFooter noNavHeader />
-                    <AppRoute path="/addPost" component={AddPostContainer} />
-                    <AppRoute path="/editPost/:id" component={EditPostContainer} />
+                    <AppRoute isPrivate={true} path="/addPost" component={AddPostContainer} />
+                    <AppRoute isPrivate={true} path="/editPost/:id" component={EditPostContainer} />
                     <AppRoute path="/login" noHeader noFooter component={LoginPage} />
                     <AppRoute path="/signup" noHeader noFooter component={SignUpPage} />
                 </Router>

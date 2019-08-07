@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -9,6 +11,7 @@ const mapStateToProps = state => ({
     popularPosts: state.postsReducer.popularPosts,
     trendingPosts: state.postsReducer.trendingPosts,
     featuredPosts: state.postsReducer.featuredPosts,
+    loginData: state.authReducer.login,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -42,4 +45,42 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomePage));
+class HomePageContainer extends React.PureComponent {
+    static propTypes = {
+        getPosts: PropTypes.func.isRequired,
+        getPopularPosts: PropTypes.func.isRequired,
+        getTrendingPosts: PropTypes.func.isRequired,
+        getFeaturedPosts: PropTypes.func.isRequired,
+        posts: PropTypes.object.isRequired,
+        popularPosts: PropTypes.object.isRequired,
+        trendingPosts: PropTypes.object.isRequired,
+        featuredPosts: PropTypes.object.isRequired,
+        loginData: PropTypes.object.isRequired,
+    }
+
+    componentDidMount() {
+        this.props.getPopularPosts();
+        this.props.getTrendingPosts();
+        this.props.getFeaturedPosts();
+    }
+
+    getPosts = (params, page, successCallback, errorCallback) => {
+        this.props.getPosts({ ...params, "page": page }, successCallback, errorCallback);
+    }
+
+    render() {
+        const { posts, popularPosts, trendingPosts, featuredPosts, loginData } = this.props;
+        return (
+            <HomePage
+                getPosts={this.getPosts}
+                posts={posts}
+                popularPosts={popularPosts}
+                trendingPosts={trendingPosts}
+                featuredPosts={featuredPosts}
+                loginData={loginData}
+            />
+        );
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomePageContainer));

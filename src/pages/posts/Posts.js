@@ -1,50 +1,36 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import map from 'lodash/map';
+import Tabs from 'antd/lib/tabs';
+
+const { TabPane } = Tabs;
 
 import {
     PageContainer,
     SectionContainer,
     PageLeftContainer,
     PageRightContainer,
-    PageNavigation,
-    PageNavigationLink,
     List,
     ListItem,
     PostCount,
+    TabContainer,
 } from 'pages/commonStyledComponents';
 import { CATEGORIES } from 'shared/appConstants';
-import routePaths from 'shared/routePaths';
 
 import PostCard from 'features/postCard/PostCard';
 import Heading from 'features/Heading';
+import PostsByParams from 'features/postsByParams/PostsByParams';
 
-import PostsBySubCategoryContainer from './postsBySubCategory/PostsBySubCategoryContainer';
+const propTypes = {
+    popularPosts: PropTypes.object.isRequired,
+    posts: PropTypes.object.isRequired,
+    loginData: PropTypes.object.isRequired,
+    getPosts: PropTypes.func.isRequired,
+    match: PropTypes.object.isRequired,
+};
 
-class Posts extends React.PureComponent {
-    constructor(props) {
-        super(props);
-    }
-
-    static propTypes = {
-        getPopularPosts: PropTypes.func.isRequired,
-        popularPosts: PropTypes.object.isRequired,
-        match: PropTypes.object.isRequired,
-    };
-
-    componentWillMount() {
-        this.props.getPopularPosts({ "category": this.props.match.params.category });
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.match.params.category != prevProps.match.params.category) {
-            this.props.getPopularPosts({ "category": this.props.match.params.category });
-        }
-    }
-
-    renderPopularPosts = () => {
-        const { popularPosts } = this.props;
+const Posts = ({ getPosts, posts, popularPosts, match, loginData }) => {
+    const renderPopularPosts = () => {
         const mapPostCount = (count) => {
             return count < 9 ? `0${count + 1}` : count;
         };
@@ -59,38 +45,44 @@ class Posts extends React.PureComponent {
         });
     };
 
-    render() {
-        return (
-            <PageContainer>
-                <SectionContainer>
-                    <PageLeftContainer>
-                        <PageNavigation>
-                            <PageNavigationLink
-                                to={routePaths.POSTS_BY_SUBCATEGORY(this.props.match.params.category, "article")}
-                                text="Article"
-                            />
-                            <PageNavigationLink
-                                to={routePaths.POSTS_BY_SUBCATEGORY(this.props.match.params.category, "news")}
-                                text="News"
-                            />
-                            <PageNavigationLink
-                                to={routePaths.POSTS_BY_SUBCATEGORY(this.props.match.params.category, "notifications")}
-                                text="Notifications"
-                            />
-                        </PageNavigation>
-                        <Route path="/posts/:category" exact component={PostsBySubCategoryContainer} />
-                        <Route path="/posts/:category/:subCategory" component={PostsBySubCategoryContainer} />
-                    </PageLeftContainer>
-                    <PageRightContainer>
-                        <Heading text={`Popular in ${CATEGORIES[this.props.match.params.category]}`} />
-                        <List>
-                            {this.renderPopularPosts()}
-                        </List>
-                    </PageRightContainer>
-                </SectionContainer>
-            </PageContainer>
-        );
-    }
-}
+    return (
+        <PageContainer>
+            <SectionContainer>
+                <PageLeftContainer>
+                    <Tabs defaultActiveKey="1" onChange={() => { }}>
+                        <TabPane tab="Article" key="1">
+                            <TabContainer>
+                                <PostsByParams
+                                    getPosts={getPosts}
+                                    posts={posts}
+                                    loginData={loginData}
+                                    getPostsParams={{ "sub_category": "article" }}
+                                />
+                            </TabContainer>
+                        </TabPane>
+                        <TabPane tab="News" key="2">
+                            <TabContainer>
+                                <PostsByParams
+                                    getPosts={getPosts}
+                                    posts={posts}
+                                    loginData={loginData}
+                                    getPostsParams={{ "sub_category": "news" }}
+                                />
+                            </TabContainer>
+                        </TabPane>
+                    </Tabs>
+                </PageLeftContainer>
+                <PageRightContainer>
+                    <Heading text={`Popular in ${CATEGORIES[match.params.category]}`} />
+                    <List>
+                        {renderPopularPosts()}
+                    </List>
+                </PageRightContainer>
+            </SectionContainer>
+        </PageContainer>
+    );
+};
+
+Posts.propTypes = propTypes;
 
 export default Posts;

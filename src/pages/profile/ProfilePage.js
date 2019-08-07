@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash/map';
-import filter from 'lodash/filter';
-import debounce from "lodash.debounce";
+import Tabs from 'antd/lib/tabs';
 
+import PostCard from 'features/postCard/PostCard';
+import Heading from 'features/Heading';
+import PostsByParams from 'features/postsByParams/PostsByParams';
+import { Icon } from 'shared/components/html';
 import {
     PageContainer,
     SectionContainer,
@@ -12,7 +15,7 @@ import {
     List,
     ListItem,
     PostCount,
-    Info,
+    TabContainer,
 } from 'pages/commonStyledComponents';
 
 import {
@@ -23,111 +26,20 @@ import {
     AuthorName,
 } from './profilePageStyledComponents';
 
-import { Icon, Divider } from 'shared/components/html';
+const { TabPane } = Tabs;
+const propTypes = {
+    getPostsByStatusAndPage: PropTypes.func.isRequired,
+    deletePost: PropTypes.func.isRequired,
+    updatePost: PropTypes.func.isRequired,
 
-import PostCard from 'features/postCard/PostCard';
-import Heading from 'features/Heading';
+    popularPosts: PropTypes.object.isRequired,
+    author: PropTypes.object.isRequired,
+    posts: PropTypes.object.isRequired,
+    loginData: PropTypes.object.isRequired,
+};
 
-class ProfilePage extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            page: 1,
-            error: null,
-            hasMore: true,
-            isLoading: false,
-            posts: [],
-        };
-        window.onscroll = debounce(() => {
-            const {
-                state: {
-                    error,
-                    isLoading,
-                    hasMore,
-                },
-            } = this;
-
-            if (error || isLoading || !hasMore) return;
-            if (window.innerHeight + document.documentElement.scrollTop === document.getElementById("page").offsetHeight) {
-                this.updatePage();
-                this.loadPosts();
-            }
-        }, 100);
-    }
-
-    static propTypes = {
-        getPosts: PropTypes.func.isRequired,
-        getAuthor: PropTypes.func.isRequired,
-        getPopularPosts: PropTypes.func.isRequired,
-        deletePost: PropTypes.func.isRequired,
-        updatePost: PropTypes.func.isRequired,
-        popularPosts: PropTypes.object.isRequired,
-        author: PropTypes.object.isRequired,
-        posts: PropTypes.object.isRequired,
-        match: PropTypes.object.isRequired,
-        loginData: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
-    };
-
-    componentWillMount() {
-        this.loadPosts();
-        this.props.getPopularPosts({ "author": this.props.match.params.id });
-        this.props.getAuthor(this.props.match.params.id);
-    }
-
-    loadPosts = () => {
-        this.setState({ isLoading: true });
-        this.props.getPosts({ "author": this.props.match.params.id, "page": this.state.page }, this.successCallback, this.errorCallback);
-    }
-
-    updatePage = () => {
-        this.setState({ page: this.state.page + 1 });
-    }
-
-    successCallback = () => {
-        this.setState({
-            hasMore: this.props.posts.data.length === 10,
-            isLoading: false,
-            posts: [
-                ...this.state.posts,
-                ...this.props.posts.data,
-            ],
-        });
-    }
-
-    errorCallback = (response) => {
-        this.setState({
-            error: response,
-            isLoading: false,
-        });
-    }
-
-    deletePostSuccessCallback = (id) => {
-        this.setState({
-            posts: filter(this.state.posts, post => post.id !== id)
-        });
-    }
-
-    deletePost = (id) => {
-        this.props.deletePost(id, this.props.loginData.data.token, () => this.deletePostSuccessCallback(id), () => {});
-    }
-
-    renderPosts = () => {
-        if (this.state.posts.length > 0) {
-            const first = this.state.posts[0];
-            const rest = this.state.posts.slice(1, this.state.posts.length);
-            return (
-                <React.Fragment>
-                    <PostCard {...first} type="featured_main" loginData={this.props.loginData} deletePost={this.deletePost} updatePost={this.props.updatePost} />
-                    <Divider />
-                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" loginData={this.props.loginData} deletePost={this.deletePost} updatePost={this.props.updatePost} />)}
-                </React.Fragment>
-            );
-        }
-    };
-
-    renderPopularPosts = () => {
-        const { popularPosts } = this.props;
+const ProfilePage = ({ author, popularPosts, updatePost, posts, loginData, getPostsByStatusAndPage, deletePost }) => {
+    const renderPopularPosts = () => {
         const mapPostCount = (count) => {
             return count < 9 ? `0${count + 1}` : count;
         };
@@ -142,45 +54,57 @@ class ProfilePage extends React.PureComponent {
         });
     };
 
-    render() {
-        const { author, popularPosts } = this.props;
-        const {
-            error,
-            hasMore,
-            isLoading,
-        } = this.state;
-        if (popularPosts.isFulfilled && author.isFulfilled) {
-            return (
-                <PageContainer>
-                    <SectionContainer>
-                        <PageLeftContainer>
-                            <AuthorContainer>
-                                <AuthorImageContainer>
-                                    <Icon round src={author.data.avatar} />
-                                </AuthorImageContainer>
-                                <AuthorDetails>
-                                    <AuthorName>{author.data.name}</AuthorName>
-                                    <AuthorBio>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet ut ligula et semper. Aenean consectetur, est id gravida venenatis.</AuthorBio>
-                                </AuthorDetails>
-                            </AuthorContainer>
-                            <Heading text="Latest Posts" />
-                            {this.renderPosts()}
-                            {error && <Info style={{ color: '#900' }}>{error}</Info>}
-                            {isLoading && <Info>Loading...</Info>}
-                            {!hasMore && <Info>You did it! You reached the end!</Info>}
-                        </PageLeftContainer>
-                        <PageRightContainer>
-                            <Heading text="Highlight posts" />
-                            <List>
-                                {this.renderPopularPosts()}
-                            </List>
-                        </PageRightContainer>
-                    </SectionContainer>
-                </PageContainer>
-            );
-        }
-        return null;
-    }
-}
+    return (
+        <PageContainer>
+            <SectionContainer>
+                <PageLeftContainer>
+                    <AuthorContainer>
+                        <AuthorImageContainer>
+                            <Icon round src={author.data.avatar} />
+                        </AuthorImageContainer>
+                        <AuthorDetails>
+                            <AuthorName>{author.data.name}</AuthorName>
+                            <AuthorBio>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet ut ligula et semper. Aenean consectetur, est id gravida venenatis.</AuthorBio>
+                        </AuthorDetails>
+                    </AuthorContainer>
+                    <Tabs defaultActiveKey="1" onChange={() => { }}>
+                        <TabPane tab="Drafts" key="1">
+                            <TabContainer>
+                                <PostsByParams
+                                    getPosts={getPostsByStatusAndPage}
+                                    deletePost={deletePost}
+                                    updatePost={updatePost}
+                                    posts={posts}
+                                    loginData={loginData}
+                                    getPostsParams={{ "status": "draft" }}
+                                />
+                            </TabContainer>
+                        </TabPane>
+                        <TabPane tab="Published" key="2">
+                            <TabContainer>
+                                <PostsByParams
+                                    getPosts={getPostsByStatusAndPage}
+                                    deletePost={deletePost}
+                                    updatePost={updatePost}
+                                    posts={posts}
+                                    loginData={loginData}
+                                    getPostsParams={{ "status": "published" }}
+                                />
+                            </TabContainer>
+                        </TabPane>
+                    </Tabs>
+                </PageLeftContainer>
+                <PageRightContainer>
+                    <Heading text="Highlight posts" />
+                    <List>
+                        {renderPopularPosts()}
+                    </List>
+                </PageRightContainer>
+            </SectionContainer>
+        </PageContainer>
+    );
+};
+
+ProfilePage.propTypes = propTypes;
 
 export default ProfilePage;
