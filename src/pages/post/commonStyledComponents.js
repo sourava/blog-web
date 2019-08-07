@@ -57,9 +57,19 @@ const ThumbnailButton = styled(ImageButton).attrs({
     text: "Add a thumbnail"
 })``;
 
-const FormButton = styled(Button).attrs({
+
+const PostActionsContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+`;
+
+const DraftButton = styled(Button).attrs({
+    size: "large",
+})``;
+
+const PublishButton = styled(Button).attrs({
     type: "primary",
-    margin: "20px 0 0",
     size: "large",
 })``;
 
@@ -71,5 +81,7 @@ export {
     ThumbnailContainer,
     Thumbnail,
     ThumbnailButton,
-    FormButton
+    PostActionsContainer,
+    DraftButton,
+    PublishButton,
 };

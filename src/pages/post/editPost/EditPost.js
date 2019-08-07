@@ -18,7 +18,9 @@ import {
     ThumbnailContainer,
     Thumbnail,
     ThumbnailButton,
-    FormButton
+    PostActionsContainer,
+    DraftButton,
+    PublishButton,
 } from '../commonStyledComponents';
 
 const propTypes = {
@@ -43,7 +45,7 @@ const EditPost = ({ categories, addImageData, addImage, updatePost, post, histor
 
     const categoryOptions = map(categories.data, (category) => ({ "value": category["value"], "label": category["name"] }));
 
-    const onSubmit = () => {
+    const onSubmit = (status) => {
         const operations = [];
         const trimmedDescription = description.substring(0, 175) + "...";
         const successCallback = () => {
@@ -70,6 +72,9 @@ const EditPost = ({ categories, addImageData, addImage, updatePost, post, histor
         }
         if (images.length > 0) {
             operations.push({ "op": "add", "path": "images", "value": images });
+        }
+        if (post.data.status !== status) {
+            operations.push({ "op": "set", "path": "status", "value": status });
         }
         updatePost({ "operations": operations }, successCallback);
     };
@@ -160,10 +165,10 @@ const EditPost = ({ categories, addImageData, addImage, updatePost, post, histor
                     images={images}
                     style={{ margin: "20px 0 0", minHeight: '400px' }}
                 />
-
-                <FormButton onClick={onSubmit}>
-                    Update
-                </FormButton>
+                <PostActionsContainer>
+                    <DraftButton onClick={() => onSubmit("draft")}>Save As Draft</DraftButton>
+                    <PublishButton onClick={() => onSubmit("published")}>Publish</PublishButton>
+                </PostActionsContainer>
             </FormContainer>
         </PageContainer>
     );

@@ -16,7 +16,9 @@ import {
     ThumbnailContainer,
     Thumbnail,
     ThumbnailButton,
-    FormButton
+    PostActionsContainer,
+    DraftButton,
+    PublishButton,
 } from '../commonStyledComponents';
 
 const propTypes = {
@@ -38,7 +40,7 @@ const AddPost = ({ categories, addImageData, addImage, addPost, history, role })
     const [images, setImages] = useState([]);
     const [thumbnail, setThumbnail] = useState("");
 
-    const onSubmit = () => {
+    const onSubmit = (status) => {
         const successCallback = () => {
             history.push("home");
         };
@@ -50,7 +52,8 @@ const AddPost = ({ categories, addImageData, addImage, addPost, history, role })
             "body": body,
             "images": images,
             "description": description ? description.substring(0, 175) + "..." : "...",
-            "thumbnail": thumbnail
+            "thumbnail": thumbnail,
+            "status": status,
         };
         addPost(data, successCallback);
     };
@@ -140,9 +143,10 @@ const AddPost = ({ categories, addImageData, addImage, addPost, history, role })
                     images={images}
                     style={{ margin: "20px 0 0", minHeight: '400px' }}
                 />
-                <FormButton onClick={onSubmit}>
-                    Save
-                </FormButton>
+                <PostActionsContainer>
+                    <DraftButton onClick={() => onSubmit("draft")}>Save As Draft</DraftButton>
+                    <PublishButton onClick={() => onSubmit("published")}>Publish</PublishButton>
+                </PostActionsContainer>
             </FormContainer>
         </PageContainer>
     );
