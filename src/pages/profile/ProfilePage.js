@@ -28,23 +28,100 @@ import {
 
 const { TabPane } = Tabs;
 const propTypes = {
-    getPostsByStatusAndPage: PropTypes.func.isRequired,
+    getAuthorPosts: PropTypes.func.isRequired,
+    getUserPosts: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
-    updatePost: PropTypes.func.isRequired,
 
-    popularPosts: PropTypes.object.isRequired,
     author: PropTypes.object.isRequired,
-    posts: PropTypes.object.isRequired,
+    authorPosts: PropTypes.object.isRequired,
+    authorTrendingPosts: PropTypes.object.isRequired,
+    userPosts: PropTypes.object.isRequired,
     loginData: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
 };
 
-const ProfilePage = ({ author, popularPosts, updatePost, posts, loginData, getPostsByStatusAndPage, deletePost }) => {
+const renderAuthorProfile = (getPosts, posts, loginData) => {
+    return (
+        <React.Fragment>
+            <Heading text="Latest Posts" />
+            <PostsByParams
+                getPosts={getPosts}
+                posts={posts}
+                loginData={loginData}
+            />
+        </React.Fragment>
+    );
+};
+
+const renderUserProfile = (getPosts, deletePost, posts, loginData) => {
+    return (
+        <Tabs defaultActiveKey="1" onChange={() => { }}>
+            <TabPane tab="Drafts" key="1">
+                <TabContainer>
+                    <PostsByParams
+                        getPosts={getPosts}
+                        deletePost={deletePost}
+                        posts={posts}
+                        loginData={loginData}
+                        getPostsParams={{ "status": "draft" }}
+                    />
+                </TabContainer>
+            </TabPane>
+            <TabPane tab="Pending Approval" key="2">
+                <TabContainer>
+                    <PostsByParams
+                        getPosts={getPosts}
+                        deletePost={deletePost}
+                        posts={posts}
+                        loginData={loginData}
+                        getPostsParams={{ "status": "published" }}
+                    />
+                </TabContainer>
+            </TabPane>
+            <TabPane tab="Approved" key="3">
+                <TabContainer>
+                    <PostsByParams
+                        getPosts={getPosts}
+                        deletePost={deletePost}
+                        posts={posts}
+                        loginData={loginData}
+                        getPostsParams={{ "status": "approved" }}
+                    />
+                </TabContainer>
+            </TabPane>
+            <TabPane tab="Rejected" key="4">
+                <TabContainer>
+                    <PostsByParams
+                        getPosts={getPosts}
+                        deletePost={deletePost}
+                        posts={posts}
+                        loginData={loginData}
+                        getPostsParams={{ "status": "rejected" }}
+                    />
+                </TabContainer>
+            </TabPane>
+        </Tabs>
+    );
+};
+
+const ProfilePage = (props) => {
+    const { 
+        author,
+        authorPosts,
+        loginData,
+        deletePost,
+        getAuthorPosts,
+        getUserPosts,
+        authorTrendingPosts,
+        userPosts,
+        match,
+    } = props;
     const renderPopularPosts = () => {
         const mapPostCount = (count) => {
-            return count < 9 ? `0${count + 1}` : count;
+            return count < 9 ? `0${count + 1}` : count+1;
         };
 
-        return map(popularPosts.data, (article, index) => {
+        return map(authorTrendingPosts.data, (article, index) => {
             return (
                 <ListItem key={index}>
                     <PostCount>{mapPostCount(index)}</PostCount>
@@ -67,32 +144,7 @@ const ProfilePage = ({ author, popularPosts, updatePost, posts, loginData, getPo
                             <AuthorBio>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet ut ligula et semper. Aenean consectetur, est id gravida venenatis.</AuthorBio>
                         </AuthorDetails>
                     </AuthorContainer>
-                    <Tabs defaultActiveKey="1" onChange={() => { }}>
-                        <TabPane tab="Drafts" key="1">
-                            <TabContainer>
-                                <PostsByParams
-                                    getPosts={getPostsByStatusAndPage}
-                                    deletePost={deletePost}
-                                    updatePost={updatePost}
-                                    posts={posts}
-                                    loginData={loginData}
-                                    getPostsParams={{ "status": "draft" }}
-                                />
-                            </TabContainer>
-                        </TabPane>
-                        <TabPane tab="Published" key="2">
-                            <TabContainer>
-                                <PostsByParams
-                                    getPosts={getPostsByStatusAndPage}
-                                    deletePost={deletePost}
-                                    updatePost={updatePost}
-                                    posts={posts}
-                                    loginData={loginData}
-                                    getPostsParams={{ "status": "published" }}
-                                />
-                            </TabContainer>
-                        </TabPane>
-                    </Tabs>
+                    {loginData.data.id === match.params.id ? renderUserProfile(getUserPosts, deletePost, userPosts, loginData) : renderAuthorProfile(getAuthorPosts, authorPosts, loginData)}
                 </PageLeftContainer>
                 <PageRightContainer>
                     <Heading text="Highlight posts" />

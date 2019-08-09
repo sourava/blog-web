@@ -6,7 +6,7 @@ import CreatableSelect from 'react-select/creatable';
 
 import Editor from 'features/editor/Editor';
 import { Spinner } from 'shared/components/html';
-import { SUB_CATEGORIES } from 'shared/appConstants';
+import { getSubCategories } from 'shared/appConstants';
 
 import {
     PageContainer,
@@ -77,7 +77,7 @@ const AddPost = ({ categories, addImageData, addImage, addPost, history, role })
                     <Select
                         onChange={(data) => setSubCategory(data)}
                         placeholder="Select Sub Category"
-                        options={SUB_CATEGORIES}
+                        options={getSubCategories()}
                         value={subCategory}
                     />
                 </SelectContainer>

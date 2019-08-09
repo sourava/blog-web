@@ -8,25 +8,18 @@ import {
     Description,
     AuthorName,
     DatePosted,
-    FeaturedButton,
     EditButton,
     DeleteButton
 } from './postCardStyledComponents';
 import { Icon } from 'shared/components/html';
 
-
 import routePaths from 'shared/routePaths';
 
-const PostCard = ({ id, title, description, author, date_created, thumbnail, type, loginData, history, deletePost, updatePost }) => {
-    const featuredUpdate = () => {
-        updatePost(id, { "operations": [{ "op": "set", "path": "featured", "value": "true" }] }, loginData.data.token);
-    };
-
+const PostCard = ({ id, title, description, author, date_created, thumbnail, type, loginData, history, deletePost }) => {
     const renderPostActions = () => {
         if (loginData && loginData.data && loginData.data.id === author.id) {
             return (
                 <FlexContainer width="auto">
-                    {loginData.data.role === "admin" ? <FeaturedButton onClick={featuredUpdate} /> : null}
                     <EditButton to={routePaths.EDIT_POST(id)} />
                     <DeleteButton onClick={() => deletePost(id)} />
                 </FlexContainer>

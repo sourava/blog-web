@@ -40,7 +40,7 @@ const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts,
             return <Spinner />;
         } else if (featuredPosts.isFulfilled && featuredPosts.data && featuredPosts.data.length > 0) {
             const first = featuredPosts.data[0];
-            const rest = featuredPosts.data.slice(1, featuredPosts.data.length);
+            const rest = featuredPosts.data.slice(1, featuredPosts.data.length > 4 ? 4 : featuredPosts.data.length);
             return (
                 <React.Fragment>
                     <Heading text="Editors Pick" />
@@ -115,6 +115,7 @@ const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts,
             <Divider />
             <SectionContainer>
                 <PageLeftContainer>
+                    <Heading text={`Most Recent`} />
                     <PostsByParams
                         getPosts={getPosts}
                         posts={posts}

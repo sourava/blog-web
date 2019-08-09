@@ -13,6 +13,7 @@ import PostsContainer from 'pages/posts/PostsContainer';
 import AddPostContainer from 'pages/post/addPost/AddPostContainer';
 import EditPostContainer from 'pages/post/editPost/EditPostContainer';
 import SearchPageContainer from 'pages/search/SearchPageContainer';
+import ApprovalPageContainer from 'pages/approval/ApprovalPageContainer';
 
 import { store, persistor } from './store';
 
@@ -29,6 +30,7 @@ const App = () => {
                     <AppRoute path="/search" component={SearchPageContainer} noFooter noNavHeader />
                     <AppRoute isPrivate={true} path="/addPost" component={AddPostContainer} />
                     <AppRoute isPrivate={true} path="/editPost/:id" component={EditPostContainer} />
+                    <AppRoute isPrivate={true} path="/approval" component={ApprovalPageContainer} />
                     <AppRoute path="/login" noHeader noFooter component={LoginPage} />
                     <AppRoute path="/signup" noHeader noFooter component={SignUpPage} />
                 </Router>

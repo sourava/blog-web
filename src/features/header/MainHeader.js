@@ -51,6 +51,7 @@ const MainHeader = ({ login, logOut }) => {
     const renderUserActionList = () => {
         return (
             <ActionsList>
+                {login.data.role === "admin" ? <ActionsListItem><Link to={routePaths.APPROVAL}>Approval</Link></ActionsListItem> : null}
                 <ActionsListItem><Link to={routePaths.PROFILE(login.data.id)}>Profile</Link></ActionsListItem>
                 <ActionsListItem><a onClick={logOut}>Log Out</a></ActionsListItem>
             </ActionsList>

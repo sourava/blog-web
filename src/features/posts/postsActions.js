@@ -161,6 +161,88 @@ const addClap = (params, token, successCallback, errorCallback) => {
     return addClapAction.action(axiosConfig, successCallback, errorCallback);
 };
 
+const getPostsByStatusActionType = asyncActionTypeCreator('GET_POSTS_BY_STATUS');
+const getPostsByStatusAction = asyncActionCreator(getPostsByStatusActionType);
+
+const getPostsByStatus = (params, token, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.GET_POSTS_BY_STATUS,
+        method: 'get',
+        headers: { 'Authorization': `Bearer ${token}` },
+        params
+    };
+
+    return getPostsByStatusAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+const getAuthorPostsActionType = asyncActionTypeCreator('GET_AUTHOR_POSTS');
+const getAuthorPostsAction = asyncActionCreator(getAuthorPostsActionType);
+
+const getAuthorPosts = (authorID, params, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.GET_AUTHOR_POSTS(authorID),
+        method: 'get',
+        params
+    };
+
+    return getAuthorPostsAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+const getAuthorTrendingPostsActionType = asyncActionTypeCreator('GET_AUTHOR_TRENDING_POSTS');
+const getAuthorTrendingPostsAction = asyncActionCreator(getAuthorTrendingPostsActionType);
+
+const getAuthorTrendingPosts = (authorID, params, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.GET_AUTHOR_POSTS(authorID),
+        method: 'get',
+        params
+    };
+
+    return getAuthorTrendingPostsAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+const getUserPostsActionType = asyncActionTypeCreator('GET_USER_POSTS');
+const getUserPostsAction = asyncActionCreator(getUserPostsActionType);
+
+const getUserPosts = (params, token, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.GET_USER_POSTS,
+        method: 'get',
+        headers: { 'Authorization': `Bearer ${token}` },
+        params
+    };
+
+    return getUserPostsAction.action(axiosConfig, successCallback, errorCallback);
+}; 
+
+const bulkUpdatePostStatusActionType = asyncActionTypeCreator('BULK_UPDATE_POST_STATUS');
+const bulkUpdatePostStatusAction = asyncActionCreator(bulkUpdatePostStatusActionType);
+
+const bulkUpdatePostStatus = (data, token, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.POST_BULK_UPDATE_STATUS,
+        method: 'post',
+        headers: { 'Authorization': `Bearer ${token}` },
+        data
+    };
+
+    return bulkUpdatePostStatusAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+const bulkUpdatePostFeaturedActionType = asyncActionTypeCreator('BULK_UPDATE_POST_FEATURED');
+const bulkUpdatePostFeaturedAction = asyncActionCreator(bulkUpdatePostFeaturedActionType);
+
+const bulkUpdatePostFeatured = (data, token, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.POST_BULK_UPDATE_FEATURED,
+        method: 'post',
+        headers: { 'Authorization': `Bearer ${token}` },
+        data
+    };
+
+    return bulkUpdatePostFeaturedAction.action(axiosConfig, successCallback, errorCallback);
+};
+
 
 export {
     addImageActionType,
@@ -185,4 +267,14 @@ export {
     searchPost,
     addClapActionType,
     addClap,
+    getPostsByStatusActionType,
+    getPostsByStatus,
+    getAuthorPostsActionType,
+    getAuthorPosts,
+    getAuthorTrendingPostsActionType,
+    getAuthorTrendingPosts,
+    getUserPostsActionType,
+    getUserPosts,
+    bulkUpdatePostStatus,
+    bulkUpdatePostFeatured
 };

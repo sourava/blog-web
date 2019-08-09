@@ -43,7 +43,6 @@ class PostsByParams extends React.PureComponent {
     static propTypes = {
         getPosts: PropTypes.func.isRequired,
         deletePost: PropTypes.func,
-        updatePost: PropTypes.func,
         posts: PropTypes.object.isRequired,
         loginData: PropTypes.object.isRequired,
         getPostsParams: PropTypes.object,
@@ -116,9 +115,9 @@ class PostsByParams extends React.PureComponent {
             const rest = this.state.posts.slice(1, this.state.posts.length);
             return (
                 <React.Fragment>
-                    <PostCard {...first} type="featured_main" loginData={this.props.loginData} deletePost={this.deletePost} updatePost={this.props.updatePost} />
+                    <PostCard {...first} type="featured_main" loginData={this.props.loginData} deletePost={this.deletePost} />
                     <Divider />
-                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" loginData={this.props.loginData} deletePost={this.deletePost} updatePost={this.props.updatePost} />)}
+                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" loginData={this.props.loginData} deletePost={this.deletePost} />)}
                 </React.Fragment>
             );
         }

@@ -4,31 +4,42 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ProfilePage from './ProfilePage';
-import { getPosts, getPopularPosts, deletePost, updatePost } from 'features/posts/postsActions';
+import { getAuthorPosts, getAuthorTrendingPosts, getUserPosts, deletePost } from 'features/posts/postsActions';
 import { getAuthor } from 'features/author/authorActions';
 import { Spinner } from 'shared/components/html';
 
 const mapStateToProps = state => ({
-    posts: state.postsReducer.posts,
+    authorPosts: state.postsReducer.authorPosts,
+    authorTrendingPosts: state.postsReducer.authorTrendingPosts,
+    userPosts: state.postsReducer.userPosts,
     author: state.authorReducer.author,
-    popularPosts: state.postsReducer.popularPosts,
     loginData: state.authReducer.login,
 });
 
 const mapDispatchToProps = dispatch => ({
-    getPosts: (
+    getAuthorPosts: (
+        authorID,
         params,
         successCallback,
         errorCallback,
     ) => {
-        dispatch(getPosts(params, successCallback, errorCallback));
+        dispatch(getAuthorPosts(authorID, params, successCallback, errorCallback));
     },
-    getPopularPosts: (
+    getAuthorTrendingPosts: (
+        authorID,
         params,
         successCallback,
         errorCallback,
     ) => {
-        dispatch(getPopularPosts(params, successCallback, errorCallback));
+        dispatch(getAuthorTrendingPosts(authorID, params, successCallback, errorCallback));
+    },
+    getUserPosts: (
+        params,
+        token,
+        successCallback,
+        errorCallback,
+    ) => {
+        dispatch(getUserPosts(params, token, successCallback, errorCallback));
     },
     deletePost: (
         id,
@@ -37,15 +48,6 @@ const mapDispatchToProps = dispatch => ({
         errorCallback,
     ) => {
         dispatch(deletePost(id, token, successCallback, errorCallback));
-    },
-    updatePost: (
-        id,
-        params,
-        token,
-        successCallback,
-        errorCallback,
-    ) => {
-        dispatch(updatePost(id, params, token, successCallback, errorCallback));
     },
     getAuthor: (
         id,
@@ -58,27 +60,40 @@ const mapDispatchToProps = dispatch => ({
 
 class ProfilePageContainer extends React.PureComponent {
     static propTypes = {
-        getPosts: PropTypes.func.isRequired,
-        getPopularPosts: PropTypes.func.isRequired,
+        getAuthorPosts: PropTypes.func.isRequired,
+        getAuthorTrendingPosts: PropTypes.func.isRequired,
+        getUserPosts: PropTypes.func.isRequired,
         getAuthor: PropTypes.func.isRequired,
         deletePost: PropTypes.func.isRequired,
-        updatePost: PropTypes.func.isRequired,
     
-        popularPosts: PropTypes.object.isRequired,
         author: PropTypes.object.isRequired,
-        posts: PropTypes.object.isRequired,
+        authorPosts: PropTypes.object.isRequired,
+        authorTrendingPosts: PropTypes.object.isRequired,
+        userPosts: PropTypes.object.isRequired,
         loginData: PropTypes.object.isRequired,
         match: PropTypes.object.isRequired,
     };
 
-    componentWillMount() {
-        const { getPopularPosts, getAuthor, match } = this.props;
-        getPopularPosts({ "author": match.params.id });
+    componentDidMount() {
+        const { getAuthorTrendingPosts, getAuthor, match } = this.props;
+        getAuthorTrendingPosts(match.params.id, { "type": "trending", "page": 1 });
         getAuthor(match.params.id);
     }
 
-    getPostsByStatusAndPage = (params, page, successCallback, errorCallback) => {
-        this.props.getPosts({ ...params, "author": this.props.match.params.id, "page": page }, successCallback, errorCallback);
+    componentDidUpdate(prevProps) {
+        if (prevProps.match.params.id !== this.props.match.params.id) {
+            const { getAuthorTrendingPosts, getAuthor, match } = this.props;
+            getAuthorTrendingPosts(match.params.id, { "type": "trending", "page": 1 });
+            getAuthor(match.params.id);
+        }
+    }
+
+    getAuthorPosts = (params, page, successCallback, errorCallback) => {
+        this.props.getAuthorPosts(this.props.match.params.id, { ...params, "page": page }, successCallback, errorCallback);
+    }
+
+    getUserPosts = (params, page, successCallback, errorCallback) => {
+        this.props.getUserPosts({ ...params, "page": page }, this.props.loginData.data.token, successCallback, errorCallback);
     }
 
     deletePost = (id, successCallback, errorCallback) => {
@@ -86,17 +101,19 @@ class ProfilePageContainer extends React.PureComponent {
     }
 
     render() {
-        const { popularPosts, author, loginData, updatePost, posts } = this.props;
-        if (popularPosts.isFulfilled && author.isFulfilled) {
+        const { author, loginData, authorPosts, authorTrendingPosts, userPosts, match } = this.props;
+        if (authorTrendingPosts.data && author.data) {
             return (
                 <ProfilePage
-                    getPostsByStatusAndPage={this.getPostsByStatusAndPage}
+                    getAuthorPosts={this.getAuthorPosts}
+                    getUserPosts={this.getUserPosts}
                     deletePost={this.deletePost}
+                    authorPosts={authorPosts}
+                    authorTrendingPosts={authorTrendingPosts}
+                    userPosts={userPosts}
                     loginData={loginData}
                     author={author}
-                    popularPosts={popularPosts}
-                    updatePost={updatePost}
-                    posts={posts}
+                    match={match}
                 />
             );
         }

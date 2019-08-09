@@ -7,7 +7,7 @@ import CreatableSelect from 'react-select/creatable';
 
 import Editor from 'features/editor/Editor';
 import routePaths from 'shared/routePaths';
-import { SUB_CATEGORIES } from 'shared/appConstants';
+import { getSubCategories } from 'shared/appConstants';
 import { Spinner } from 'shared/components/html';
 
 import {
@@ -38,7 +38,7 @@ const EditPost = ({ categories, addImageData, addImage, updatePost, post, histor
     const [description, setDescription] = useState(post.data.description);
     const [tags, setTags] = useState(post.data.tags);
     const [category, setCategory] = useState(post.data.category);
-    const [subCategory, setSubCategory] = useState(find(SUB_CATEGORIES, sub => sub.value === post.data["sub_category"]));
+    const [subCategory, setSubCategory] = useState(find(getSubCategories(), sub => sub.value === post.data["sub_category"]));
     const [title, setTitle] = useState(post.data.title);
     const [images, setImages] = useState([]);
     const [thumbnail, setThumbnail] = useState(post.data.thumbnail);
@@ -98,7 +98,7 @@ const EditPost = ({ categories, addImageData, addImage, updatePost, post, histor
                     <Select
                         onChange={(data) => setSubCategory(data)}
                         placeholder="Select Sub Category"
-                        options={SUB_CATEGORIES}
+                        options={getSubCategories()}
                         value={subCategory}
                     />
                 </SelectContainer>

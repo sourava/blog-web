@@ -10,6 +10,7 @@ const routePaths = {
     PROFILE: (id) => `/profile/${id}`,
     EDIT_POST: (id) => `/editPost/${id}`,
     ADD_POST: '/addPost',
+    APPROVAL: '/approval',
 };
 
 export default routePaths;
