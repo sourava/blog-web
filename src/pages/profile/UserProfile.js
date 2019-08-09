@@ -26,11 +26,10 @@ const propTypes = {
     updateUser: PropTypes.func.isRequired,
 
     author: PropTypes.object.isRequired,
-    loginData: PropTypes.object.isRequired,
     posts: PropTypes.object.isRequired,
 };
 
-const UserProfile = ({ author, getPosts, deletePost, loginData, posts, updateUser }) => {
+const UserProfile = ({ author, getPosts, deletePost, posts, updateUser }) => {
     return (
         <React.Fragment>
             <AuthorContainer>
@@ -52,7 +51,7 @@ const UserProfile = ({ author, getPosts, deletePost, loginData, posts, updateUse
                             getPosts={getPosts}
                             deletePost={deletePost}
                             posts={posts}
-                            loginData={loginData}
+                            showActions={true}
                             getPostsParams={{ "status": "draft" }}
                         />
                     </TabContainer>
@@ -63,7 +62,7 @@ const UserProfile = ({ author, getPosts, deletePost, loginData, posts, updateUse
                             getPosts={getPosts}
                             deletePost={deletePost}
                             posts={posts}
-                            loginData={loginData}
+                            showActions={true}
                             getPostsParams={{ "status": "published" }}
                         />
                     </TabContainer>
@@ -74,7 +73,7 @@ const UserProfile = ({ author, getPosts, deletePost, loginData, posts, updateUse
                             getPosts={getPosts}
                             deletePost={deletePost}
                             posts={posts}
-                            loginData={loginData}
+                            showActions={true}
                             getPostsParams={{ "status": "approved" }}
                         />
                     </TabContainer>
@@ -85,7 +84,7 @@ const UserProfile = ({ author, getPosts, deletePost, loginData, posts, updateUse
                             getPosts={getPosts}
                             deletePost={deletePost}
                             posts={posts}
-                            loginData={loginData}
+                            showActions={true}
                             getPostsParams={{ "status": "rejected" }}
                         />
                     </TabContainer>

@@ -10,7 +10,6 @@ import { Spinner } from 'shared/components/html';
 const mapStateToProps = state => ({
     popularPosts: state.postsReducer.popularPosts,
     posts: state.postsReducer.posts,
-    loginData: state.authReducer.login,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -37,7 +36,6 @@ class PostsContainer extends React.PureComponent {
 
         popularPosts: PropTypes.object.isRequired,
         posts: PropTypes.object.isRequired,
-        loginData: PropTypes.object.isRequired,
         match: PropTypes.object.isRequired,
     }
 
@@ -56,7 +54,7 @@ class PostsContainer extends React.PureComponent {
     }
 
     render() {
-        const { popularPosts, posts, match, loginData } = this.props;
+        const { popularPosts, posts, match } = this.props;
         if (popularPosts.isFulfilled) {
             return (
                 <Posts
@@ -64,7 +62,6 @@ class PostsContainer extends React.PureComponent {
                     popularPosts={popularPosts}
                     posts={posts}
                     match={match}
-                    loginData={loginData}
                 />
             );
         }

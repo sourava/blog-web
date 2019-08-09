@@ -11,7 +11,6 @@ const mapStateToProps = state => ({
     popularPosts: state.postsReducer.popularPosts,
     trendingPosts: state.postsReducer.trendingPosts,
     featuredPosts: state.postsReducer.featuredPosts,
-    loginData: state.authReducer.login,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -55,7 +54,6 @@ class HomePageContainer extends React.PureComponent {
         popularPosts: PropTypes.object.isRequired,
         trendingPosts: PropTypes.object.isRequired,
         featuredPosts: PropTypes.object.isRequired,
-        loginData: PropTypes.object.isRequired,
     }
 
     componentDidMount() {
@@ -69,7 +67,7 @@ class HomePageContainer extends React.PureComponent {
     }
 
     render() {
-        const { posts, popularPosts, trendingPosts, featuredPosts, loginData } = this.props;
+        const { posts, popularPosts, trendingPosts, featuredPosts } = this.props;
         return (
             <HomePage
                 getPosts={this.getPosts}
@@ -77,7 +75,6 @@ class HomePageContainer extends React.PureComponent {
                 popularPosts={popularPosts}
                 trendingPosts={trendingPosts}
                 featuredPosts={featuredPosts}
-                loginData={loginData}
             />
         );
     }

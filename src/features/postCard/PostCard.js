@@ -15,9 +15,24 @@ import { Icon } from 'shared/components/html';
 
 import routePaths from 'shared/routePaths';
 
-const PostCard = ({ id, title, description, author, date_created, thumbnail, type, loginData, history, deletePost }) => {
+const PostCard = (props) => {
+    const {
+        article,
+        type,
+        showActions,
+        history,
+        deletePost,
+    } = props;
+    const { 
+        id,
+        title,
+        description,
+        author,
+        date_created,
+        thumbnail
+    } = article;
     const renderPostActions = () => {
-        if (loginData && loginData.data && loginData.data.id === author.id) {
+        if (showActions) {
             return (
                 <FlexContainer width="auto">
                     <EditButton to={routePaths.EDIT_POST(id)} />

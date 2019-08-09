@@ -18,10 +18,9 @@ const propTypes = {
     getPosts: PropTypes.func.isRequired,
     author: PropTypes.object.isRequired,
     posts: PropTypes.object.isRequired,
-    loginData: PropTypes.object.isRequired,
 };
 
-const AuthorProfile = ({ author, getPosts, posts, loginData }) => {
+const AuthorProfile = ({ author, getPosts, posts }) => {
     return (
         <React.Fragment>
             <AuthorContainer>
@@ -39,7 +38,6 @@ const AuthorProfile = ({ author, getPosts, posts, loginData }) => {
             <PostsByParams
                 getPosts={getPosts}
                 posts={posts}
-                loginData={loginData}
             />
         </React.Fragment>
     );

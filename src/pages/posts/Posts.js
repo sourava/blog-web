@@ -24,12 +24,11 @@ import PostsByParams from 'features/postsByParams/PostsByParams';
 const propTypes = {
     popularPosts: PropTypes.object.isRequired,
     posts: PropTypes.object.isRequired,
-    loginData: PropTypes.object.isRequired,
     getPosts: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
 };
 
-const Posts = ({ getPosts, posts, popularPosts, match, loginData }) => {
+const Posts = ({ getPosts, posts, popularPosts, match }) => {
     const renderPopularPosts = () => {
         const mapPostCount = (count) => {
             return count < 9 ? `0${count + 1}` : count;
@@ -39,7 +38,7 @@ const Posts = ({ getPosts, posts, popularPosts, match, loginData }) => {
             return (
                 <ListItem key={index}>
                     <PostCount>{mapPostCount(index)}</PostCount>
-                    <PostCard {...article} type="less_detailed" />
+                    <PostCard article={article} type="less_detailed" />
                 </ListItem>
             );
         });
@@ -55,7 +54,6 @@ const Posts = ({ getPosts, posts, popularPosts, match, loginData }) => {
                                 <PostsByParams
                                     getPosts={getPosts}
                                     posts={posts}
-                                    loginData={loginData}
                                     getPostsParams={{ "sub_category": "article" }}
                                 />
                             </TabContainer>
@@ -65,7 +63,6 @@ const Posts = ({ getPosts, posts, popularPosts, match, loginData }) => {
                                 <PostsByParams
                                     getPosts={getPosts}
                                     posts={posts}
-                                    loginData={loginData}
                                     getPostsParams={{ "sub_category": "news" }}
                                 />
                             </TabContainer>

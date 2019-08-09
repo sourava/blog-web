@@ -44,8 +44,8 @@ class PostsByParams extends React.PureComponent {
         getPosts: PropTypes.func.isRequired,
         deletePost: PropTypes.func,
         posts: PropTypes.object.isRequired,
-        loginData: PropTypes.object.isRequired,
         getPostsParams: PropTypes.object,
+        showActions: PropTypes.bool,
     };
 
     componentWillMount() {
@@ -115,9 +115,9 @@ class PostsByParams extends React.PureComponent {
             const rest = this.state.posts.slice(1, this.state.posts.length);
             return (
                 <React.Fragment>
-                    <PostCard {...first} type="featured_main" loginData={this.props.loginData} deletePost={this.deletePost} />
+                    <PostCard article={first} type="featured_main" showActions={this.props.showActions} deletePost={this.deletePost} />
                     <Divider />
-                    {map(rest, (article, index) => <PostCard key={index} {...article} type="detailed" loginData={this.props.loginData} deletePost={this.deletePost} />)}
+                    {map(rest, (article, index) => <PostCard key={index} article={article} type="detailed" showActions={this.props.showActions} deletePost={this.deletePost} />)}
                 </React.Fragment>
             );
         }

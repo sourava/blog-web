@@ -53,7 +53,7 @@ const ProfilePage = (props) => {
             return (
                 <ListItem key={index}>
                     <PostCount>{mapPostCount(index)}</PostCount>
-                    <PostCard {...article} type="less_detailed" />
+                    <PostCard article={article} type="less_detailed" />
                 </ListItem>
             );
         });
@@ -63,7 +63,7 @@ const ProfilePage = (props) => {
         <PageContainer>
             <SectionContainer>
                 <PageLeftContainer>
-                    {loginData.data.id === match.params.id ? <UserProfile author={author} getPosts={getUserPosts} deletePost={deletePost} updateUser={updateUser} posts={userPosts} loginData={loginData} /> : <AuthorProfile author={author} getPosts={getAuthorPosts} posts={authorPosts} loginData={loginData} />}
+                    {loginData.data.id === match.params.id ? <UserProfile author={author} getPosts={getUserPosts} deletePost={deletePost} updateUser={updateUser} posts={userPosts} /> : <AuthorProfile author={author} getPosts={getAuthorPosts} posts={authorPosts} />}
                 </PageLeftContainer>
                 <PageRightContainer>
                     <Heading text="Highlight posts" />

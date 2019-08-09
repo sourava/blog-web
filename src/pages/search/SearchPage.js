@@ -15,7 +15,7 @@ const SearchPage = ({ searchPost, searchData }) => {
     const [query, setQuery] = useState("");
     const [visible, setVisible] = useState(false);
 
-    const renderPosts = () => map(searchData.data, (article, index) => <PostCard key={index} {...article} type="detailed" />);
+    const renderPosts = () => map(searchData.data, (article, index) => <PostCard key={index} article={article} type="detailed" />);
 
     const onKeyDown = (e) => {
         if (e.key === 'Enter') {

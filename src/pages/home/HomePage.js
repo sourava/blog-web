@@ -31,10 +31,9 @@ const propTypes = {
     featuredPosts: PropTypes.object.isRequired,
     popularPosts: PropTypes.object.isRequired,
     posts: PropTypes.object.isRequired,
-    loginData: PropTypes.object.isRequired,
 };
 
-const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts, loginData }) => {
+const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts }) => {
     const renderEditorsPosts = () => {
         if (featuredPosts.isPending) {
             return <Spinner />;
@@ -46,11 +45,11 @@ const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts,
                     <Heading text="Editors Pick" />
                     <EditorsPickContainer>
                         <EditorsArticleLeftContainer>
-                            <PostCard {...first} type="featured_main" />
+                            <PostCard article={first} type="featured_main" />
                             {/* <a className="btn btn-green d-inline-block mb-4 mb-md-0" href="archive.html">All Featured</a> */}
                         </EditorsArticleLeftContainer>
                         <EditorsArticleRightContainer>
-                            {map(rest, (article, index) => <PostCard key={index} {...article} type="featured_sub" />)}
+                            {map(rest, (article, index) => <PostCard key={index} article={article} type="featured_sub" />)}
                         </EditorsArticleRightContainer>
                     </EditorsPickContainer>
                 </React.Fragment>
@@ -70,7 +69,7 @@ const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts,
                 return (
                     <ListItem key={index}>
                         <PostCount>{mapPostCount(index)}</PostCount>
-                        <PostCard {...article} type="less_detailed" />
+                        <PostCard article={article} type="less_detailed" />
                     </ListItem>
                 );
             });
@@ -89,7 +88,7 @@ const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts,
                 return (
                     <ListItem key={index}>
                         <PostCount>{mapPostCount(index)}</PostCount>
-                        <PostCard {...article} type="less_detailed" />
+                        <PostCard article={article} type="less_detailed" />
                     </ListItem>
                 );
             });
@@ -119,7 +118,6 @@ const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts,
                     <PostsByParams
                         getPosts={getPosts}
                         posts={posts}
-                        loginData={loginData}
                     />
                 </PageLeftContainer>
                 <PageRightContainer>
