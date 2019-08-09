@@ -6,12 +6,14 @@ import { withRouter } from 'react-router-dom';
 import ProfilePage from './ProfilePage';
 import { getAuthorPosts, getAuthorTrendingPosts, getUserPosts, deletePost } from 'features/posts/postsActions';
 import { getAuthor } from 'features/author/authorActions';
+import { updateUser } from 'features/user/userActions';
 import { Spinner } from 'shared/components/html';
 
 const mapStateToProps = state => ({
     authorPosts: state.postsReducer.authorPosts,
     authorTrendingPosts: state.postsReducer.authorTrendingPosts,
     userPosts: state.postsReducer.userPosts,
+    updateUserData: state.userReducer.updateUser,
     author: state.authorReducer.author,
     loginData: state.authReducer.login,
 });
@@ -56,6 +58,14 @@ const mapDispatchToProps = dispatch => ({
     ) => {
         dispatch(getAuthor(id, successCallback, errorCallback));
     },
+    updateUser: (
+        data,
+        token,
+        successCallback,
+        errorCallback,
+    ) => {
+        dispatch(updateUser(data, token, successCallback, errorCallback));
+    },
 });
 
 class ProfilePageContainer extends React.PureComponent {
@@ -64,6 +74,7 @@ class ProfilePageContainer extends React.PureComponent {
         getAuthorTrendingPosts: PropTypes.func.isRequired,
         getUserPosts: PropTypes.func.isRequired,
         getAuthor: PropTypes.func.isRequired,
+        updateUser: PropTypes.func.isRequired,
         deletePost: PropTypes.func.isRequired,
     
         author: PropTypes.object.isRequired,
@@ -100,6 +111,10 @@ class ProfilePageContainer extends React.PureComponent {
         this.props.deletePost(id, this.props.loginData.data.token, successCallback, errorCallback);
     }
 
+    updateUser = (data, successCallback, errorCallback) => {
+        this.props.updateUser(data, this.props.loginData.data.token, successCallback, errorCallback);
+    }
+
     render() {
         const { author, loginData, authorPosts, authorTrendingPosts, userPosts, match } = this.props;
         if (authorTrendingPosts.data && author.data) {
@@ -108,6 +123,7 @@ class ProfilePageContainer extends React.PureComponent {
                     getAuthorPosts={this.getAuthorPosts}
                     getUserPosts={this.getUserPosts}
                     deletePost={this.deletePost}
+                    updateUser={this.updateUser}
                     authorPosts={authorPosts}
                     authorTrendingPosts={authorTrendingPosts}
                     userPosts={userPosts}

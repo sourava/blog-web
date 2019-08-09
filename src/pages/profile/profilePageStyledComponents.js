@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button, Input } from 'shared/components/html';
 
 const AuthorContainer = styled.div`
     display: flex;
@@ -25,12 +26,26 @@ const AuthorImageContainer = styled.div`
 const AuthorName = styled.h5`
     font-size: 1.1rem;
     font-weight: 600;
-    padding: 0px 0 10px;
-    display: block;
     margin: 0;
 `;
 const AuthorBio = styled.p``;
 const AuthorDetails = styled.div``;
+
+const AuthorActions = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+`;
+const EditProfileButton = styled(Button).attrs({
+    margin: "0 0 0 50px"
+})``;
+const Label = styled.span``;
+const Error = styled.span`
+    color: red;
+`;
+const InputField = styled(Input).attrs({
+    margin: "0 0 20px"
+})``;
 
 export {
     AuthorContainer,
@@ -38,4 +53,9 @@ export {
     AuthorDetails,
     AuthorName,
     AuthorBio,
+    AuthorActions,
+    EditProfileButton,
+    Label,
+    Error,
+    InputField,
 };

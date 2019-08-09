@@ -5,6 +5,8 @@ const apiPaths = {
     GOOGLE_LOGIN: `${baseUrl}/google/login`,
     FACEBOOK_SIGNUP: `${baseUrl}/facebook/signup`,
     GOOGLE_SIGNUP: `${baseUrl}/google/signup`,
+    UPDATE_USER: `${baseUrl}/users/update`,
+
     POSTS_ADD_IMAGE: `${baseUrl}/posts/addImage`,
     POSTS: `${baseUrl}/posts`,
     CATEGORIES: `${baseUrl}/categories`,
