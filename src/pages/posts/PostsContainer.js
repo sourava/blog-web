@@ -61,6 +61,7 @@ class PostsContainer extends React.PureComponent {
                     getPosts={this.getPosts}
                     popularPosts={popularPosts}
                     posts={posts}
+                    category={match.params.category}
                     match={match}
                 />
             );

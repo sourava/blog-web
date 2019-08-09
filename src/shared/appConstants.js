@@ -1,31 +1,69 @@
-import forEach from 'lodash/forEach';
+import map from 'lodash/map';
+import find from 'lodash/find';
 
-const CATEGORIES = {
-    income_tax: "INCOME TAX",
-    audit: "AUDIT",
-    gst: "GST",
-    vat: "VAR",
-    service_tax: "SERVICE TAX",
-    corporate_law: "CORPORATE LAW",
-    accounts: "ACCOUNTS",
-};
+const ALL_CATEGORIES = [
+    {
+        "name": "Income Tax",
+        "value": "income_tax",
+        "sub_categories": {
+            "article": "Article",
+            "news": "News",
+            "notifications": "Notifications"
+        }
+    }, {
+        "name": "Audit",
+        "value": "audit",
+        "sub_categories": {
+            "article": "Article",
+            "news": "News"
+        }
+    }, {
+        "name": "GST",
+        "value": "gst",
+        "sub_categories": {
+            "article": "Article",
+            "news": "News"
+        }
+    }, {
+        "name": "VAT",
+        "value": "vat",
+        "sub_categories": {
+            "article": "Article",
+            "news": "News"
+        }
+    }, {
+        "name": "Service Tax",
+        "value": "service_tax",
+        "sub_categories": {
+            "article": "Article",
+            "news": "News"
+        }
+    }, {
+        "name": "Corporate Law",
+        "value": "corporate_law",
+        "sub_categories": {
+            "article": "Article",
+            "news": "News"
+        }
+    }, {
+        "name": "Accounts",
+        "value": "accounts",
+        "sub_categories": {
+            "article": "Article",
+            "news": "News"
+        }
+    }
+];
 
-const SUB_CATEGORIES = {
-    article: "Article",
-    news: "News",
-    notifications: "Notifications"
-};
-
-const getSubCategories = () => {
-    const subCategories = [];
-    forEach(SUB_CATEGORIES, (value, key) => {
-        subCategories.push({ "value": key, "label": value });
-    });
-    return subCategories;
+const getSubCategories = (category) => {
+    const category_details = find(ALL_CATEGORIES, cat => cat.value === category);
+    if (category_details && category_details["sub_categories"]) {
+        return map(Object.keys(category_details["sub_categories"]), key => ({ "value": key, "label": category_details["sub_categories"][key] }));
+    }
+    return [];
 };
 
 export {
-    CATEGORIES,
-    SUB_CATEGORIES,
+    ALL_CATEGORIES,
     getSubCategories,
 };

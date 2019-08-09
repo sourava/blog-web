@@ -6,7 +6,7 @@ import CreatableSelect from 'react-select/creatable';
 
 import Editor from 'features/editor/Editor';
 import { Spinner } from 'shared/components/html';
-import { getSubCategories } from 'shared/appConstants';
+import { getSubCategories, ALL_CATEGORIES } from 'shared/appConstants';
 
 import {
     PageContainer,
@@ -23,19 +23,19 @@ import {
 
 const propTypes = {
     role: PropTypes.string.isRequired,
-    categories: PropTypes.object.isRequired,
     addImageData: PropTypes.object.isRequired,
     addImage: PropTypes.func.isRequired,
     addPost: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };
 
-const AddPost = ({ categories, addImageData, addImage, addPost, history, role }) => {
+const AddPost = ({ addImageData, addImage, addPost, history, role }) => {
+    const categoryOptions = map(ALL_CATEGORIES, (category) => ({ "value": category["value"], "label": category["name"] }));
     const [body, setBody] = useState("");
     const [description, setDescription] = useState("");
     const [tags, setTags] = useState("");
     const [category, setCategory] = useState("");
-    const [subCategory, setSubCategory] = useState({ "value": "article", "label": "Article" });
+    const [subCategory, setSubCategory] = useState("");
     const [title, setTitle] = useState("");
     const [images, setImages] = useState([]);
     const [thumbnail, setThumbnail] = useState("");
@@ -71,13 +71,14 @@ const AddPost = ({ categories, addImageData, addImage, addPost, history, role })
     };
 
     const renderSubCategory = () => {
-        if (role === "admin") {
+        if (role === "admin" && category != "") {
+            const subCategories = getSubCategories(category["value"]);
             return (
                 <SelectContainer>
                     <Select
                         onChange={(data) => setSubCategory(data)}
                         placeholder="Select Sub Category"
-                        options={getSubCategories()}
+                        options={subCategories}
                         value={subCategory}
                     />
                 </SelectContainer>
@@ -118,7 +119,7 @@ const AddPost = ({ categories, addImageData, addImage, addPost, history, role })
                     <Select
                         onChange={(data) => setCategory(data)}
                         placeholder="Select Category"
-                        options={categories && categories.data ? map(categories.data, (category) => ({ "value": category["value"], "label": category["name"] })) : []}
+                        options={categoryOptions}
                         value={category}
                     />
                 </SelectContainer>

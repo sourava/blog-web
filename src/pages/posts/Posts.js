@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash/map';
+import find from 'lodash/find';
 import Tabs from 'antd/lib/tabs';
-
-const { TabPane } = Tabs;
 
 import {
     PageContainer,
@@ -15,20 +14,22 @@ import {
     PostCount,
     TabContainer,
 } from 'pages/commonStyledComponents';
-import { CATEGORIES } from 'shared/appConstants';
+import { ALL_CATEGORIES } from 'shared/appConstants';
 
 import PostCard from 'features/postCard/PostCard';
 import Heading from 'features/Heading';
 import PostsByParams from 'features/postsByParams/PostsByParams';
 
+const { TabPane } = Tabs;
 const propTypes = {
     popularPosts: PropTypes.object.isRequired,
     posts: PropTypes.object.isRequired,
     getPosts: PropTypes.func.isRequired,
+    category: PropTypes.string.isRequired,
     match: PropTypes.object.isRequired,
 };
 
-const Posts = ({ getPosts, posts, popularPosts, match }) => {
+const Posts = ({ getPosts, posts, category, popularPosts, match }) => {
     const renderPopularPosts = () => {
         const mapPostCount = (count) => {
             return count < 9 ? `0${count + 1}` : count;
@@ -44,33 +45,46 @@ const Posts = ({ getPosts, posts, popularPosts, match }) => {
         });
     };
 
+    const renderPosts = (category, getPosts, posts) => {
+        const renderTab = (value, name, index) => {
+            return (
+                <TabPane tab={name} key={index + 1}>
+                    <TabContainer>
+                        <PostsByParams
+                            getPosts={getPosts}
+                            posts={posts}
+                            getPostsParams={{ "sub_category": value }}
+                        />
+                    </TabContainer>
+                </TabPane>
+            );
+        };
+        const categoryDetails = find(ALL_CATEGORIES, cat => cat.value === category);
+        
+        if (categoryDetails && categoryDetails["sub_categories"] && Object.keys(categoryDetails["sub_categories"]).length > 1) {
+            return (
+                <Tabs defaultActiveKey="1" onChange={() => { }}>
+                    {map(Object.keys(categoryDetails["sub_categories"]), (key, index) => renderTab(key, categoryDetails["sub_categories"][key], index))}
+                </Tabs>
+            );
+        } else {
+            return (
+                <PostsByParams
+                    getPosts={getPosts}
+                    posts={posts}
+                />
+            );
+        }
+    };
+
     return (
         <PageContainer>
             <SectionContainer>
                 <PageLeftContainer>
-                    <Tabs defaultActiveKey="1" onChange={() => { }}>
-                        <TabPane tab="Article" key="1">
-                            <TabContainer>
-                                <PostsByParams
-                                    getPosts={getPosts}
-                                    posts={posts}
-                                    getPostsParams={{ "sub_category": "article" }}
-                                />
-                            </TabContainer>
-                        </TabPane>
-                        <TabPane tab="News" key="2">
-                            <TabContainer>
-                                <PostsByParams
-                                    getPosts={getPosts}
-                                    posts={posts}
-                                    getPostsParams={{ "sub_category": "news" }}
-                                />
-                            </TabContainer>
-                        </TabPane>
-                    </Tabs>
+                    {renderPosts(category, getPosts, posts)}
                 </PageLeftContainer>
                 <PageRightContainer>
-                    <Heading text={`Popular in ${CATEGORIES[match.params.category]}`} />
+                    <Heading text={`Popular in ${find(ALL_CATEGORIES, cat => cat.value === match.params.category)["name"]}`} />
                     <List>
                         {renderPopularPosts()}
                     </List>

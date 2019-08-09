@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import map from 'lodash/map';
 import Table from 'antd/lib/table';
 
-import { CATEGORIES, SUB_CATEGORIES } from 'shared/appConstants';
 import routePaths from 'shared/routePaths';
 import starIcon from 'shared/assets/icons/star.png';
 
@@ -133,8 +132,8 @@ class PostsByStatusTable extends React.PureComponent {
             "key": index,
             "id": post.id,
             "title": post.title,
-            "category": CATEGORIES[post.category],
-            "sub_category": SUB_CATEGORIES[post.sub_category],
+            "category": post.category,
+            "sub_category": post.sub_category,
             "thumbnail": post.thumbnail,
             "featured": post.featured,
             "author": post.author

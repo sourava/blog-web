@@ -5,12 +5,10 @@ import { connect } from 'react-redux';
 
 import AddPost from './AddPost';
 import { addImage, addPost } from 'features/posts/postsActions';
-import { getCategories } from 'features/category/categoryActions';
 
 const mapStateToProps = state => ({
     loginData: state.authReducer.login,
     addImageData: state.postsReducer.addImage,
-    categories: state.categoryReducer.categories,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -30,31 +28,15 @@ const mapDispatchToProps = dispatch => ({
     ) => {
         dispatch(addPost(data, token, successCallback, errorCallback));
     },
-    getCategories: (
-        successCallback,
-        errorCallback,
-    ) => {
-        dispatch(getCategories(successCallback, errorCallback));
-    },
 });
 
 class AddPostContainer extends React.PureComponent {
-    constructor(props) {
-        super(props);
-    }
-
     static propTypes = {
-        getCategories: PropTypes.func.isRequired,
         addPost: PropTypes.func.isRequired,
         addImage: PropTypes.func.isRequired,
         loginData: PropTypes.object.isRequired,
-        categories: PropTypes.object.isRequired,
         addImageData: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
-    }
-
-    componentWillMount() {
-        this.props.getCategories();
     }
 
     addPost = (data, successCallback, errorCallback) => {
@@ -66,10 +48,9 @@ class AddPostContainer extends React.PureComponent {
     }
 
     render() {
-        const { categories, addImageData, loginData, history } = this.props;
+        const { addImageData, loginData, history } = this.props;
         return (
             <AddPost
-                categories={categories}
                 addImageData={addImageData}
                 addPost={this.addPost}
                 addImage={this.addImage}

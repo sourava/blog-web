@@ -112,7 +112,7 @@ const PostCard = (props) => {
     } else if (type == "featured_sub") {
         return (
             <FlexContainer background="#fafafa" margin="0 0 20px">
-                <Icon src={thumbnail} maxWidth="33%" onClick={linkToPost} />
+                <Icon src={thumbnail} maxWidth="33%" maxHeight="170px" onClick={linkToPost} />
                 <FlexContainer column padding="15px 20px">
                     <Link to={routePaths.POST(id)}>
                         <Title>{title}</Title>

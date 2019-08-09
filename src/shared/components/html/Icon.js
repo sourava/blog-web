@@ -4,6 +4,7 @@ const Icon = styled.img`
     margin: ${props => props.margin || "0"};
     border-radius: ${props => props.round ? '100%' : '0'};
     max-width: ${props => props.maxWidth || ""};
+    max-height: ${props => props.maxHeight || ""};
     padding: ${props => props.padding || ""};
     object-fit: ${props => props.objectFit || ""};
     padding: ${props => props.padding || ""};

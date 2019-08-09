@@ -7,7 +7,7 @@ import CreatableSelect from 'react-select/creatable';
 
 import Editor from 'features/editor/Editor';
 import routePaths from 'shared/routePaths';
-import { getSubCategories } from 'shared/appConstants';
+import { getSubCategories, ALL_CATEGORIES } from 'shared/appConstants';
 import { Spinner } from 'shared/components/html';
 
 import {
@@ -24,7 +24,6 @@ import {
 } from '../commonStyledComponents';
 
 const propTypes = {
-    categories: PropTypes.object.isRequired,
     addImageData: PropTypes.object.isRequired,
     addImage: PropTypes.func.isRequired,
     updatePost: PropTypes.func.isRequired,
@@ -33,17 +32,19 @@ const propTypes = {
     role: PropTypes.string.isRequired,
 };
 
-const EditPost = ({ categories, addImageData, addImage, updatePost, post, history, role }) => {
+const EditPost = ({ addImageData, addImage, updatePost, post, history, role }) => {
+    const categoryOptions = map(ALL_CATEGORIES, (category) => ({ "value": category["value"], "label": category["name"] }));
+    const subCategories = getSubCategories(post.data.category);
     const [body, setBody] = useState(post.data.body);
     const [description, setDescription] = useState(post.data.description);
     const [tags, setTags] = useState(post.data.tags);
-    const [category, setCategory] = useState(post.data.category);
-    const [subCategory, setSubCategory] = useState(find(getSubCategories(), sub => sub.value === post.data["sub_category"]));
+    const [category, setCategory] = useState(find(categoryOptions, cat => cat.value === post.data.category));
+    const [subCategory, setSubCategory] = useState(find(subCategories, sub => sub.value === post.data["sub_category"]));
     const [title, setTitle] = useState(post.data.title);
     const [images, setImages] = useState([]);
     const [thumbnail, setThumbnail] = useState(post.data.thumbnail);
 
-    const categoryOptions = map(categories.data, (category) => ({ "value": category["value"], "label": category["name"] }));
+    
 
     const onSubmit = (status) => {
         const operations = [];
@@ -53,28 +54,31 @@ const EditPost = ({ categories, addImageData, addImage, updatePost, post, histor
         };
 
         if (trimmedDescription !== post.data.description) {
-            operations.push({ "op": "set", "path": "description", "value": trimmedDescription });
+            operations.push({ "op": "set", "path": "/post/description", "value": trimmedDescription });
         }
         if (title !== post.data.title) {
-            operations.push({ "op": "set", "path": "title", "value": title });
+            operations.push({ "op": "set", "path": "/post/title", "value": title });
         }
         if (tags !== post.data.tags) {
-            operations.push({ "op": "set", "path": "tags", "value": tags });
+            operations.push({ "op": "set", "path": "/post/tags", "value": tags });
         }
         if (category !== post.data.category) {
-            operations.push({ "op": "set", "path": "category", "value": category });
+            operations.push({ "op": "set", "path": "/post/category", "value": category.value });
+        }
+        if (subCategory !== post.data["sub_category"]) {
+            operations.push({ "op": "set", "path": "/post/subCategory", "value": subCategory.value });
         }
         if (body !== post.data.body) {
-            operations.push({ "op": "set", "path": "body", "value": body });
+            operations.push({ "op": "set", "path": "/post/body", "value": body });
         }
         if (thumbnail !== post.data.thumbnail) {
-            operations.push({ "op": "set", "path": "thumbnail", "value": thumbnail });
+            operations.push({ "op": "set", "path": "/post/thumbnail", "value": thumbnail });
         }
         if (images.length > 0) {
-            operations.push({ "op": "add", "path": "images", "value": images });
+            operations.push({ "op": "add", "path": "/post/images", "value": images });
         }
-        if (post.data.status !== status) {
-            operations.push({ "op": "set", "path": "status", "value": status });
+        if (post.data.status !== status && (post.data.status === "draft" || post.data.status === "published")) {
+            operations.push({ "op": "set", "path": "/post/status", "value": status });
         }
         updatePost({ "operations": operations }, successCallback);
     };
@@ -92,13 +96,14 @@ const EditPost = ({ categories, addImageData, addImage, updatePost, post, histor
     };
 
     const renderSubCategory = () => {
-        if (role === "admin") {
+        if (role === "admin" && category != "") {
+            const subCategories = getSubCategories(category["value"]);
             return (
                 <SelectContainer>
                     <Select
                         onChange={(data) => setSubCategory(data)}
                         placeholder="Select Sub Category"
-                        options={getSubCategories()}
+                        options={subCategories}
                         value={subCategory}
                     />
                 </SelectContainer>
@@ -138,8 +143,8 @@ const EditPost = ({ categories, addImageData, addImage, updatePost, post, histor
                 />
                 <SelectContainer>
                     <Select
-                        onChange={data => setCategory(data.value)}
-                        value={find(categoryOptions, option => option.value === category)}
+                        onChange={data => setCategory(data)}
+                        value={category}
                         placeholder="Select Category"
                         options={categoryOptions}
                     />
@@ -166,7 +171,7 @@ const EditPost = ({ categories, addImageData, addImage, updatePost, post, histor
                     style={{ margin: "20px 0 0", minHeight: '400px' }}
                 />
                 <PostActionsContainer>
-                    <DraftButton onClick={() => onSubmit("draft")}>Save As Draft</DraftButton>
+                    {post.data.status === "draft" || post.data.status === "published" ? <DraftButton onClick={() => onSubmit("draft")}>Save As Draft</DraftButton> : null}
                     <PublishButton onClick={() => onSubmit("published")}>Publish</PublishButton>
                 </PostActionsContainer>
             </FormContainer>
