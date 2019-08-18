@@ -56,12 +56,13 @@ const LoginPage = ({ facebookLogin, googleLogin, history }) => {
             <AuthContainer>
                 <AuthHeadingContainer>
                     <AuthHeading>Login to your account</AuthHeading>
-                    <AuthSubHeading>Don’t have an account? <Link to="signup">Sign Up Free!</Link></AuthSubHeading>
+                    <AuthSubHeading>Don&apos;t have an account? <Link to="signup">Sign Up Free!</Link></AuthSubHeading>
                 </AuthHeadingContainer>
                 <SocialLoginContainer>
                     <FacebookLogin
                         appId="2264107667176678"
                         callback={responseFacebook}
+                        disableMobileRedirect={true}
                         render={
                             renderProps => <FacebookButton text="Facebook Login" onClick={renderProps.onClick} />
                         }

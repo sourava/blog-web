@@ -1,0 +1,19 @@
+import promiseState from 'shared/utils/reduxReducerHelper';
+
+import {
+  /* PLOP_INJECT_ASYNC_ACTION_TYPE */
+} from './{{camelCase name}}Actions';
+
+const initialState = {
+  /* PLOP_INJECT_ASYNC_REDUCER_INITIAL_STATE */
+};
+
+const {{camelCase name}}Reducer = (state = initialState, action) => {
+    switch (action.type) {
+    /* PLOP_INJECT_ASYNC_REDUCER_STATE */
+    default:
+        return state;
+    }
+};
+
+export default {{camelCase name}}Reducer;

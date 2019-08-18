@@ -46,7 +46,7 @@ const ProfilePage = (props) => {
     } = props;
     const renderPopularPosts = () => {
         const mapPostCount = (count) => {
-            return count < 9 ? `0${count + 1}` : count+1;
+            return count < 9 ? `0${count + 1}` : count + 1;
         };
 
         return map(authorTrendingPosts.data, (article, index) => {

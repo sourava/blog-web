@@ -1,4 +1,4 @@
-const baseUrl = "https://localhost"; // eslint-disable-line
+const baseUrl = "https://api.allabouttaxes.in"; // eslint-disable-line
 
 const apiPaths = {
     FACEBOOK_LOGIN: `${baseUrl}/facebook/login`,

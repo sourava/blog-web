@@ -1,25 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 
 import routePaths from 'shared/routePaths';
 
-const NavHeaderContainer = styled.nav`
-    width: 1140px;
-    margin: auto;
-    padding: 0 15px 20px 15px; 
-`;
-const NavList = styled.ul`
-    display: flex;
-    width: 100%;
-    list-style: none;
-    margin: 0;
-`;
-const NavListItem = styled.li`
-    font-size: 14px;
-    font-weight: 400;
-    margin-right: 20px;
-`;
+import {
+    NavHeaderContainer,
+    NavList,
+    NavListItem,
+} from './headerStyledComponents';
 
 const NavHeader = () => {
     return (

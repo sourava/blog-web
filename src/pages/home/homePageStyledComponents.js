@@ -5,10 +5,11 @@ const FeaturedPageLeftContainer = styled.div`
     padding: 0 15px;
     @media (max-width: 767px) {
         width: 510px;
-        margin: auto;
+        margin: 30px auto 0;
         padding: 0;
     }
     @media (max-width: 575px) {
+        margin-top: 30px;
         width: 100%;
         padding: 0 15px;
     }

@@ -41,18 +41,15 @@ const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts 
             const first = featuredPosts.data[0];
             const rest = featuredPosts.data.slice(1, featuredPosts.data.length > 4 ? 4 : featuredPosts.data.length);
             return (
-                <React.Fragment>
-                    <Heading text="Editors Pick" />
-                    <EditorsPickContainer>
-                        <EditorsArticleLeftContainer>
-                            <PostCard article={first} type="featured_main" />
-                            {/* <a className="btn btn-green d-inline-block mb-4 mb-md-0" href="archive.html">All Featured</a> */}
-                        </EditorsArticleLeftContainer>
-                        <EditorsArticleRightContainer>
-                            {map(rest, (article, index) => <PostCard key={index} article={article} type="featured_sub" />)}
-                        </EditorsArticleRightContainer>
-                    </EditorsPickContainer>
-                </React.Fragment>
+                <EditorsPickContainer>
+                    <EditorsArticleLeftContainer>
+                        <PostCard article={first} type="featured_main" />
+                        {/* <a className="btn btn-green d-inline-block mb-4 mb-md-0" href="archive.html">All Featured</a> */}
+                    </EditorsArticleLeftContainer>
+                    <EditorsArticleRightContainer>
+                        {map(rest, (article, index) => <PostCard key={index} article={article} type="featured_sub" />)}
+                    </EditorsArticleRightContainer>
+                </EditorsPickContainer>
             );
         } else {
             return null;
@@ -61,7 +58,7 @@ const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts 
 
     const renderPopularPosts = () => {
         const mapPostCount = (count) => {
-            return count < 9 ? `0${count + 1}` : count;
+            return count < 9 ? `0${count + 1}` : count + 1;
         };
 
         if (popularPosts.isFulfilled) {
@@ -80,7 +77,7 @@ const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts 
 
     const renderTrendingPosts = () => {
         const mapPostCount = (count) => {
-            return count < 9 ? `0${count + 1}` : count;
+            return count < 9 ? `0${count + 1}` : count + 1;
         };
         if (trendingPosts && trendingPosts.data) {
             const posts = trendingPosts.data.slice(0, 4);
@@ -101,6 +98,7 @@ const HomePage = ({ posts, featuredPosts, popularPosts, trendingPosts, getPosts 
         <PageContainer>
             <SectionContainer>
                 <FeaturedPageLeftContainer>
+                    <Heading text="Editors Pick" />
                     {renderEditorsPosts()}
                 </FeaturedPageLeftContainer>
                 <FeaturedPageRightContainer>

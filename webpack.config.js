@@ -76,7 +76,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             inject: true,
             hash: true,
-            template: './dist/index.html',
+            template: './src/index.html',
             chunks: ['main', 'HomePage','PostPage','PostsPage','ProfilePage','AddPostPage','EditPostPage','SearchPage','ApprovalPage','LoginPage','SignupPage', 'vendor'],
             filename: 'index.html'
         }),

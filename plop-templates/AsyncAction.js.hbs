@@ -1,0 +1,11 @@
+const {{camelCase name}}ActionType = asyncActionTypeCreator('{{snakeCase name}}');
+const {{camelCase name}}Action = asyncActionCreator({{camelCase name}}ActionType);
+
+const {{camelCase name}} = (data, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.{{upperCase name}},
+        method: 'post',
+        data,
+    };
+    return {{camelCase name}}Action.action(axiosConfig, successCallback, errorCallback);
+};

@@ -92,6 +92,7 @@ const SignUpPage = ({ facebookSignUp, googleSignUp, history }) => {
                     <FacebookLogin
                         appId="2264107667176678"
                         callback={responseFacebook}
+                        disableMobileRedirect={true}
                         render={
                             renderProps => <FacebookButton text="Facebook Signup" onClick={renderProps.onClick} />
                         }

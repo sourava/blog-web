@@ -1,44 +1,25 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Popover from 'antd/lib/popover';
 
 import searchIcon from 'shared/assets/icons/search.png';
 import plusIcon from 'shared/assets/icons/plus.png';
 import userIcon from 'shared/assets/icons/user.png';
+import menuIcon from 'shared/assets/icons/menu.png';
 import { ImageButton, LinkButton } from 'shared/components/html';
 import routePaths from 'shared/routePaths';
 
-import Popover from 'antd/lib/popover';
+import {
+    MainHeaderContainer,
+    LogoContainer,
+    Logo,
+    ActionsContainer,
+    ActionsList,
+    ActionsListItem,
+    MobileMenu,
+} from './headerStyledComponents';
 
-const MainHeaderContainer = styled.div`
-    width: 1140px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 15px;
-
-    @media (max-width: 1140px) {
-        width: 100%;
-    }
-`;
-const LogoContainer = styled.div``;
-const Logo = styled.h1`
-    font-family: Georgia, Times, "Times New Roman", serif;
-    font-size: 30px;
-    font-weight: 700;
-`;
-const ActionsContainer = styled.div`
-    display: flex;
-    align-items: center;
-`;
-const ActionsList = styled.ul`
-    list-style: none;
-    margin: 0;
-`;
-const ActionsListItem = styled.li`
-    padding: 5px 0;
-`;
 
 const propTypes = {
     login: PropTypes.object.isRequired,
@@ -47,6 +28,7 @@ const propTypes = {
 
 const MainHeader = ({ login, logOut }) => {
     const [popoverVisible, setPopoverVisibility] = useState(false);
+    const [mobileMenuVisible, setMobileMenuVisibility] = useState(false);
 
     const renderUserActionList = () => {
         return (
@@ -84,6 +66,59 @@ const MainHeader = ({ login, logOut }) => {
             );
         }
     };
+
+    const renderMenuList = () => {
+        return (
+            <ActionsList>
+                <ActionsListItem>
+                    <Link to={routePaths.HOME}>HOME</Link>
+                </ActionsListItem>
+                <ActionsListItem>
+                    <Link to={`${routePaths.POSTS}/income_tax`}>INCOME TAX</Link>
+                </ActionsListItem>
+                <ActionsListItem>
+                    <Link to={`${routePaths.POSTS}/audit`}>AUDIT</Link>
+                </ActionsListItem>
+                <ActionsListItem>
+                    <Link to={`${routePaths.POSTS}/gst`}>GST</Link>
+                </ActionsListItem>
+                <ActionsListItem>
+                    <Link to={`${routePaths.POSTS}/vat`}>VAT</Link>
+                </ActionsListItem>
+                <ActionsListItem>
+                    <Link to={`${routePaths.POSTS}/service_tax`}>SERVICE TAX</Link>
+                </ActionsListItem>
+                <ActionsListItem>
+                    <Link to={`${routePaths.POSTS}/corporate_law`}>CORPORATE LAW</Link>
+                </ActionsListItem>
+                <ActionsListItem>
+                    <Link to={`${routePaths.POSTS}/accounts`}>ACCOUNTS</Link>
+                </ActionsListItem>
+            </ActionsList>
+        );
+    };
+
+    const renderMobileMenu = () => {
+        return (
+            <MobileMenu>
+                <Popover
+                    content={renderMenuList()}
+                    trigger="click"
+                    placement={window.innerWidth < 1140 ? "bottomRight" : "bottom"}
+                    visible={mobileMenuVisible}
+                    onVisibleChange={setMobileMenuVisibility}
+                >
+                    <ImageButton
+                        imageProps={{ src: menuIcon, height: "22px", width: "auto" }}
+                        border="none"
+                        padding="0"
+                        margin="0 0 0 20px"
+                    />
+                </Popover>
+            </MobileMenu>
+        );
+    };
+
     return (
         <MainHeaderContainer>
             <LogoContainer>
@@ -95,6 +130,7 @@ const MainHeader = ({ login, logOut }) => {
                 {login && login.data ? <LinkButton border="none" padding="0" to={routePaths.ADD_POST} imageProps={{ src: plusIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" /> : null}
                 <LinkButton border="none" padding="0" to={routePaths.SEARCH} imageProps={{ src: searchIcon, height: "22px", width: "auto" }} margin="0 20px 0 0" />
                 {renderUserAction()}
+                {renderMobileMenu()}
             </ActionsContainer>
         </MainHeaderContainer>
     );

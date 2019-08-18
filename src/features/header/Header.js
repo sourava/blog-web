@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
 import MainHeader from './MainHeaderContainer';
 import NavHeader from './NavHeader';
-
-const HeaderContainer = styled.div`
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px -2px;
-`;
+import {
+    HeaderContainer
+} from './headerStyledComponents';
 
 const propTypes = {
     noNavHeader: PropTypes.bool

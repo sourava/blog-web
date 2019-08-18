@@ -1,0 +1,18 @@
+case {{camelCase name}}ActionType.pending:
+    return Object.assign({}, state, {
+        {{camelCase name}}: {
+            ...promiseState(true, false, false, null),
+        },
+    });
+case {{camelCase name}}ActionType.fulfilled:
+    return Object.assign({}, state, {
+        {{camelCase name}}: {
+            ...promiseState(false, true, false, action.payload),
+        },
+    });
+case {{camelCase name}}ActionType.rejected:
+    return Object.assign({}, state, {
+        {{camelCase name}}: {
+            ...promiseState(false, false, true, null),
+        },
+    });

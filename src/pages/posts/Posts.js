@@ -32,7 +32,7 @@ const propTypes = {
 const Posts = ({ getPosts, posts, category, popularPosts, match }) => {
     const renderPopularPosts = () => {
         const mapPostCount = (count) => {
-            return count < 9 ? `0${count + 1}` : count;
+            return count < 9 ? `0${count + 1}` : count + 1;
         };
 
         return map(popularPosts.data, (article, index) => {
