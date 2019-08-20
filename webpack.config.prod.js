@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -8,20 +7,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
     entry: {
         main: path.resolve(__dirname, 'src/index.js'),
-        HomePage: path.resolve(__dirname, 'src/pages/home/HomePageContainer.js'),
-        PostPage: path.resolve(__dirname, 'src/pages/post/PostContainer.js'),
-        PostsPage: path.resolve(__dirname, 'src/pages/posts/PostsContainer.js'),
-        ProfilePage: path.resolve(__dirname, 'src/pages/profile/ProfilePageContainer.js'),
-        AddPostPage: path.resolve(__dirname, 'src/pages/post/addPost/AddPostContainer.js'),
-        EditPostPage: path.resolve(__dirname, 'src/pages/post/editPost/EditPostContainer.js'),
-        SearchPage: path.resolve(__dirname, 'src/pages/search/SearchPageContainer.js'),
-        ApprovalPage: path.resolve(__dirname, 'src/pages/approval/ApprovalPageContainer.js'),
-        LoginPage: path.resolve(__dirname, 'src/pages/auth/LoginPageContainer.js'),
-        SignupPage: path.resolve(__dirname, 'src/pages/auth/SignUpPageContainer.js'),
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].[hash:8].js',
+        filename: '[name].[contenthash:8].js',
     },
     resolve: {
         extensions: ['*', '.js', '.jsx'],
@@ -69,19 +58,18 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new webpack.HashedModuleIdsPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new BundleAnalyzerPlugin(),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new CompressionPlugin(),
         new HtmlWebpackPlugin({
             inject: true,
             hash: true,
             template: './src/index.html',
-            chunks: ['main', 'HomePage','PostPage','PostsPage','ProfilePage','AddPostPage','EditPostPage','SearchPage','ApprovalPage','LoginPage','SignupPage', 'vendor'],
+            chunks: ['main', 'vendor'],
             filename: 'index.html'
         }),
     ],
     optimization: {
+        moduleIds: 'hashed',
         runtimeChunk: 'single',
         splitChunks: {
             chunks: 'all',
@@ -108,8 +96,4 @@ module.exports = {
         maxEntrypointSize: 512000,
         maxAssetSize: 512000
     },
-    devServer: {
-        contentBase: './dist',
-        hot: true
-    }
 };

@@ -68,10 +68,26 @@ const Button = styled.button`
     }
 `;
 
-const Icon = styled.img`
+const Image = styled.img`
     border-radius: ${props => props.round ? "100%" : "0"};
     margin-right: ${props => props.text ? "20px" : "0"};
 `;
+
+const iconPropTypes = {
+    altImage: PropTypes.string
+};
+
+const Icon = ({ altImage, ...restProps }) => {
+    const onImageLoadError = (e) => {
+        if (altImage) {
+            e.target.src = altImage;
+        }
+    };
+    return <Image {...restProps} onError={onImageLoadError} />;
+};
+
+Icon.propTypes = iconPropTypes;
+
 
 const imageButtonPropTypes = {
     imageProps: PropTypes.object,

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Heading from 'features/Heading';
 import PostsByParams from 'features/postsByParams/PostsByParams';
 import { Icon } from 'shared/components/html';
+import userIcon from 'shared/assets/icons/user.png';
 
 import {
     AuthorContainer,
@@ -25,7 +26,7 @@ const AuthorProfile = ({ author, getPosts, posts }) => {
         <React.Fragment>
             <AuthorContainer>
                 <AuthorImageContainer>
-                    <Icon round src={author.data.avatar} />
+                    <Icon round src={author.data.avatar} altImage={userIcon} />
                 </AuthorImageContainer>
                 <AuthorDetails>
                     <AuthorActions>

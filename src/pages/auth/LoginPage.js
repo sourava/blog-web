@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin } from 'react-google-login';
 
+import routePaths from 'shared/routePaths';
+
 import {
     PageContainer,
     AuthContainer,
@@ -56,7 +58,7 @@ const LoginPage = ({ facebookLogin, googleLogin, history }) => {
             <AuthContainer>
                 <AuthHeadingContainer>
                     <AuthHeading>Login to your account</AuthHeading>
-                    <AuthSubHeading>Don&apos;t have an account? <Link to="signup">Sign Up Free!</Link></AuthSubHeading>
+                    <AuthSubHeading>Don&apos;t have an account? <Link to={routePaths.SIGNUP}>Sign Up Free!</Link></AuthSubHeading>
                 </AuthHeadingContainer>
                 <SocialLoginContainer>
                     <FacebookLogin

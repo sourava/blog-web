@@ -8,6 +8,7 @@ import { getAuthorPosts, getAuthorTrendingPosts, getUserPosts, deletePost } from
 import { getAuthor } from 'features/author/authorActions';
 import { updateUser } from 'features/user/userActions';
 import { Spinner } from 'shared/components/html';
+import { paramsSeperator } from 'shared/utils/helper';
 
 const mapStateToProps = state => ({
     authorPosts: state.postsReducer.authorPosts,
@@ -69,6 +70,11 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class ProfilePageContainer extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.profileID = paramsSeperator(this.props.location.search)["id"];
+    }
+
     static propTypes = {
         getAuthorPosts: PropTypes.func.isRequired,
         getAuthorTrendingPosts: PropTypes.func.isRequired,
@@ -82,25 +88,27 @@ class ProfilePageContainer extends React.PureComponent {
         authorTrendingPosts: PropTypes.object.isRequired,
         userPosts: PropTypes.object.isRequired,
         loginData: PropTypes.object.isRequired,
-        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
     };
 
     componentDidMount() {
-        const { getAuthorTrendingPosts, getAuthor, match } = this.props;
-        getAuthorTrendingPosts(match.params.id, { "type": "trending", "page": 1 });
-        getAuthor(match.params.id);
+        const { getAuthorTrendingPosts, getAuthor } = this.props;
+        getAuthorTrendingPosts(this.profileID, { "type": "trending", "page": 1 });
+        getAuthor(this.profileID);
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.match.params.id !== this.props.match.params.id) {
-            const { getAuthorTrendingPosts, getAuthor, match } = this.props;
-            getAuthorTrendingPosts(match.params.id, { "type": "trending", "page": 1 });
-            getAuthor(match.params.id);
+        if (this.props.location.search != prevProps.location.search) {
+            const { getAuthorTrendingPosts, getAuthor } = this.props;
+            this.profileID = paramsSeperator(this.props.location.search)["id"];
+
+            getAuthorTrendingPosts(this.profileID, { "type": "trending", "page": 1 });
+            getAuthor(this.profileID);
         }
     }
 
     getAuthorPosts = (params, page, successCallback, errorCallback) => {
-        this.props.getAuthorPosts(this.props.match.params.id, { ...params, "page": page }, successCallback, errorCallback);
+        this.props.getAuthorPosts(this.profileID, { ...params, "page": page }, successCallback, errorCallback);
     }
 
     getUserPosts = (params, page, successCallback, errorCallback) => {
@@ -116,7 +124,7 @@ class ProfilePageContainer extends React.PureComponent {
     }
 
     render() {
-        const { author, loginData, authorPosts, authorTrendingPosts, userPosts, match } = this.props;
+        const { author, loginData, authorPosts, authorTrendingPosts, userPosts } = this.props;
         if (authorTrendingPosts.data && author.data) {
             return (
                 <ProfilePage
@@ -129,7 +137,7 @@ class ProfilePageContainer extends React.PureComponent {
                     userPosts={userPosts}
                     loginData={loginData}
                     author={author}
-                    match={match}
+                    profileID={this.profileID}
                 />
             );
         }

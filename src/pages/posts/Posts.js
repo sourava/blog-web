@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash/map';
-import find from 'lodash/find';
 import Tabs from 'antd/lib/tabs';
 
 import {
@@ -14,7 +13,6 @@ import {
     PostCount,
     TabContainer,
 } from 'pages/commonStyledComponents';
-import { ALL_CATEGORIES } from 'shared/appConstants';
 
 import PostCard from 'features/postCard/PostCard';
 import Heading from 'features/Heading';
@@ -25,11 +23,10 @@ const propTypes = {
     popularPosts: PropTypes.object.isRequired,
     posts: PropTypes.object.isRequired,
     getPosts: PropTypes.func.isRequired,
-    category: PropTypes.string.isRequired,
-    match: PropTypes.object.isRequired,
+    categoryDetails: PropTypes.object.isRequired,
 };
 
-const Posts = ({ getPosts, posts, category, popularPosts, match }) => {
+const Posts = ({ getPosts, posts, popularPosts, categoryDetails }) => {
     const renderPopularPosts = () => {
         const mapPostCount = (count) => {
             return count < 9 ? `0${count + 1}` : count + 1;
@@ -45,7 +42,7 @@ const Posts = ({ getPosts, posts, category, popularPosts, match }) => {
         });
     };
 
-    const renderPosts = (category, getPosts, posts) => {
+    const renderPosts = (getPosts, posts) => {
         const renderTab = (value, name, index) => {
             return (
                 <TabPane tab={name} key={index + 1}>
@@ -59,9 +56,7 @@ const Posts = ({ getPosts, posts, category, popularPosts, match }) => {
                 </TabPane>
             );
         };
-        const categoryDetails = find(ALL_CATEGORIES, cat => cat.value === category);
-        
-        if (categoryDetails && categoryDetails["sub_categories"] && Object.keys(categoryDetails["sub_categories"]).length > 1) {
+        if (categoryDetails["sub_categories"] && Object.keys(categoryDetails["sub_categories"]).length > 1) {
             return (
                 <Tabs defaultActiveKey="1" onChange={() => { }}>
                     {map(Object.keys(categoryDetails["sub_categories"]), (key, index) => renderTab(key, categoryDetails["sub_categories"][key], index))}
@@ -81,10 +76,10 @@ const Posts = ({ getPosts, posts, category, popularPosts, match }) => {
         <PageContainer>
             <SectionContainer>
                 <PageLeftContainer>
-                    {renderPosts(category, getPosts, posts)}
+                    {renderPosts(getPosts, posts)}
                 </PageLeftContainer>
                 <PageRightContainer>
-                    <Heading text={`Popular in ${find(ALL_CATEGORIES, cat => cat.value === match.params.category)["name"]}`} />
+                    <Heading text={`Popular in ${categoryDetails["name"]}`} />
                     <List>
                         {renderPopularPosts()}
                     </List>

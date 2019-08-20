@@ -7,6 +7,7 @@ import { Icon } from 'shared/components/html';
 import {
     TabContainer,
 } from 'pages/commonStyledComponents';
+import userIcon from 'shared/assets/icons/user.png';
 
 import {
     AuthorContainer,
@@ -34,7 +35,7 @@ const UserProfile = ({ author, getPosts, deletePost, posts, updateUser }) => {
         <React.Fragment>
             <AuthorContainer>
                 <AuthorImageContainer>
-                    <Icon round src={author.data.avatar} />
+                    <Icon round src={author.data.avatar} altImage={userIcon} />
                 </AuthorImageContainer>
                 <AuthorDetails>
                     <AuthorActions>

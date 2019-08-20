@@ -28,7 +28,7 @@ const propTypes = {
     authorTrendingPosts: PropTypes.object.isRequired,
     userPosts: PropTypes.object.isRequired,
     loginData: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
+    profileID: PropTypes.string.isRequired,
 };
 
 const ProfilePage = (props) => {
@@ -42,7 +42,7 @@ const ProfilePage = (props) => {
         updateUser,
         authorTrendingPosts,
         userPosts,
-        match,
+        profileID,
     } = props;
     const renderPopularPosts = () => {
         const mapPostCount = (count) => {
@@ -63,7 +63,7 @@ const ProfilePage = (props) => {
         <PageContainer>
             <SectionContainer>
                 <PageLeftContainer>
-                    {loginData.data.id === match.params.id ? <UserProfile author={author} getPosts={getUserPosts} deletePost={deletePost} updateUser={updateUser} posts={userPosts} /> : <AuthorProfile author={author} getPosts={getAuthorPosts} posts={authorPosts} />}
+                    {loginData.data.id === profileID ? <UserProfile author={author} getPosts={getUserPosts} deletePost={deletePost} updateUser={updateUser} posts={userPosts} /> : <AuthorProfile author={author} getPosts={getAuthorPosts} posts={authorPosts} />}
                 </PageLeftContainer>
                 <PageRightContainer>
                     <Heading text="Highlight posts" />

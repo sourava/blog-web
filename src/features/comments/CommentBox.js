@@ -19,6 +19,7 @@ import {
 } from 'shared/components/html';
 
 import routePaths from 'shared/routePaths';
+import userIcon from 'shared/assets/icons/user.png';
 
 const propTypes = {
     author: PropTypes.object,
@@ -41,7 +42,7 @@ const Comment = ({ author, type, comment, addComment }) => {
             return (
                 <CommentContainer>
                     <AuthorContainer>
-                        <Icon src={author.avatar} round height="40px" width="auto" margin="0 15px 0 0" />
+                        <Icon src={author.avatar} round height="40px" width="auto" margin="0 15px 0 0" altImage={userIcon} />
                         <PostMetaDataContainer>
                             <AuthorName>{author.name}</AuthorName>
                             <DatePosted>{moment().format("MMM DD")}</DatePosted>
@@ -68,7 +69,7 @@ const Comment = ({ author, type, comment, addComment }) => {
         return (
             <CommentContainer>
                 <AuthorContainer>
-                    <Icon src={author.avatar} round height="40px" width="auto" margin="0 15px 0 0" />
+                    <Icon src={author.avatar} round height="40px" width="auto" margin="0 15px 0 0" altImage={userIcon} />
                     <PostMetaDataContainer>
                         <AuthorName>{author.name}</AuthorName>
                         <DatePosted>{moment().format("MMM DD")}</DatePosted>

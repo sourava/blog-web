@@ -51,7 +51,7 @@ const MainHeader = ({ login, logOut }) => {
                     onVisibleChange={setPopoverVisibility}
                 >
                     <ImageButton
-                        imageProps={{ src: login.data.avatar || userIcon, round: true, height: "40px", width: "auto" }}
+                        imageProps={{ src: login.data.avatar || userIcon, altImage: userIcon, round: true, height: "40px", width: "auto" }}
                         border="none"
                         padding="0"
                     />
@@ -74,25 +74,25 @@ const MainHeader = ({ login, logOut }) => {
                     <Link to={routePaths.HOME}>HOME</Link>
                 </ActionsListItem>
                 <ActionsListItem>
-                    <Link to={`${routePaths.POSTS}/income_tax`}>INCOME TAX</Link>
+                    <Link to={routePaths.POSTS_BY_CATEGORY("income_tax")}>INCOME TAX</Link>
                 </ActionsListItem>
                 <ActionsListItem>
-                    <Link to={`${routePaths.POSTS}/audit`}>AUDIT</Link>
+                    <Link to={routePaths.POSTS_BY_CATEGORY("audit")}>AUDIT</Link>
                 </ActionsListItem>
                 <ActionsListItem>
-                    <Link to={`${routePaths.POSTS}/gst`}>GST</Link>
+                    <Link to={routePaths.POSTS_BY_CATEGORY("gst")}>GST</Link>
                 </ActionsListItem>
                 <ActionsListItem>
-                    <Link to={`${routePaths.POSTS}/vat`}>VAT</Link>
+                    <Link to={routePaths.POSTS_BY_CATEGORY("vat")}>VAT</Link>
                 </ActionsListItem>
                 <ActionsListItem>
-                    <Link to={`${routePaths.POSTS}/service_tax`}>SERVICE TAX</Link>
+                    <Link to={routePaths.POSTS_BY_CATEGORY("service_tax")}>SERVICE TAX</Link>
                 </ActionsListItem>
                 <ActionsListItem>
-                    <Link to={`${routePaths.POSTS}/corporate_law`}>CORPORATE LAW</Link>
+                    <Link to={routePaths.POSTS_BY_CATEGORY("corporate_law")}>CORPORATE LAW</Link>
                 </ActionsListItem>
                 <ActionsListItem>
-                    <Link to={`${routePaths.POSTS}/accounts`}>ACCOUNTS</Link>
+                    <Link to={routePaths.POSTS_BY_CATEGORY("accounts")}>ACCOUNTS</Link>
                 </ActionsListItem>
             </ActionsList>
         );

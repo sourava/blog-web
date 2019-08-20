@@ -21,6 +21,7 @@ import {
     GoogleButton,
     Error,
 } from './authStyledComponents';
+import routePaths from 'shared/routePaths';
 
 const propTypes = {
     facebookSignUp: PropTypes.func.isRequired,
@@ -117,7 +118,7 @@ const SignUpPage = ({ facebookSignUp, googleSignUp, history }) => {
                     <FormInput type="password" placeholder="Password" />
                     <FormInput type="password" placeholder="Confirm Password" />
                     <FormButton>Sign Up</FormButton>
-                    <AuthSubHeading><Link to="login">Already have an account?</Link></AuthSubHeading>
+                    <AuthSubHeading><Link to={routePaths.LOGIN}>Already have an account?</Link></AuthSubHeading>
                     <Error>{error}</Error>
                 </Form>
             </AuthContainer>

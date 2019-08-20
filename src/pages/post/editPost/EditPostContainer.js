@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { addImage, updatePost, getPost } from 'features/posts/postsActions';
 import { Spinner } from 'shared/components/html';
+import { paramsSeperator } from 'shared/utils/helper';
 
 import EditPost from './EditPost';
 
@@ -45,6 +46,7 @@ const mapDispatchToProps = dispatch => ({
 class EditPostContainer extends React.PureComponent {
     constructor(props) {
         super(props);
+        this.postID = paramsSeperator(this.props.location.search)["id"];
     }
 
     static propTypes = {
@@ -54,17 +56,16 @@ class EditPostContainer extends React.PureComponent {
         post: PropTypes.object.isRequired,
         addImageData: PropTypes.object.isRequired,
         loginData: PropTypes.object.isRequired,
-        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
     }
 
     componentWillMount() {
-        const { getPost, match } = this.props;
-        getPost(match.params.id);
+        this.props.getPost(this.postID);
     }
 
     updatePost = (data, successCallback, errorCallback) => {
-        this.props.updatePost(this.props.match.params.id, data, this.props.loginData.data.token, successCallback, errorCallback);
+        this.props.updatePost(this.postID, data, this.props.loginData.data.token, successCallback, errorCallback);
     }
 
     addImage = (data, successCallback, errorCallback) => {
