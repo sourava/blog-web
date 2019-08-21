@@ -5,33 +5,22 @@ import ReactQuill from 'react-quill';
 class Editor extends React.PureComponent {
     constructor(props) {
         super(props);
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            ['clean']
+        ];
         this.modules = {
-            toolbar: {
-                container: [
-                    [
-                        { 'header': '1' }, { 'header': '2' }, { 'font': [] }
-                    ],
-                    [
-                        {
-                            size: []
-                        }
-                    ],
-                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                    [
-                        { 'list': 'ordered' },
-                        { 'list': 'bullet' },
-                        { 'indent': '-1' },
-                        { 'indent': '+1' }
-                    ],
-                    ['link', 'image', 'video'],
-                    ['clean'],
-                ],
-                handlers: {
-                    'image': this.imageHandler
-                }
-            },
+            toolbar: toolbarOptions,
             clipboard: {
-                // toggle to add extra line breaks when pasting HTML:
                 matchVisual: false,
             }
         };
@@ -40,7 +29,7 @@ class Editor extends React.PureComponent {
             'header', 'font', 'size',
             'bold', 'italic', 'underline', 'strike', 'blockquote',
             'list', 'bullet', 'indent',
-            'link', 'image', 'video'
+            'link', 'image', 'video', 'align', 'code-block', 'script', 'color', 'background', 'clean'
         ];
     }
 
