@@ -4,6 +4,7 @@ import Select from 'react-select';
 import map from 'lodash/map';
 import find from 'lodash/find';
 import CreatableSelect from 'react-select/creatable';
+import message from 'antd/lib/message';
 
 import Editor from 'features/editor/Editor';
 import routePaths from 'shared/routePaths';
@@ -25,6 +26,7 @@ import {
 
 const propTypes = {
     addImageData: PropTypes.object.isRequired,
+    updatePostData: PropTypes.object.isRequired,
     addImage: PropTypes.func.isRequired,
     updatePost: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
@@ -32,7 +34,7 @@ const propTypes = {
     role: PropTypes.string.isRequired,
 };
 
-const EditPost = ({ addImageData, addImage, updatePost, post, history, role }) => {
+const EditPost = ({ addImageData, updatePostData, addImage, updatePost, post, history, role }) => {
     const categoryOptions = map(ALL_CATEGORIES, (category) => ({ "value": category["value"], "label": category["name"] }));
     const subCategories = getSubCategories(post.data.category);
     const [body, setBody] = useState(post.data.body);
@@ -47,40 +49,52 @@ const EditPost = ({ addImageData, addImage, updatePost, post, history, role }) =
     
 
     const onSubmit = (status) => {
-        const operations = [];
-        const trimmedDescription = description.substring(0, 175) + "...";
-        const successCallback = () => {
-            history.push(routePaths.HOME);
-        };
-
-        if (trimmedDescription !== post.data.description) {
-            operations.push({ "op": "set", "path": "/post/description", "value": trimmedDescription });
+        if (title == "") {
+            message.error('You cannot have an empty title for an article');
+        } else if (body == "") {
+            message.error('You cannot have an empty body for an article');
+        } else if (category == "") {
+            message.error('Please select a category for your article');
+        } else if (addImageData.isPending) {
+            message.error('Please wait while your image is getting uploaded');
+        } else if (thumbnail == "") {
+            message.error('Please add a thumbnail to your article');
+        } else {
+            const operations = [];
+            const trimmedDescription = description.substring(0, 175) + "...";
+            const successCallback = () => {
+                history.push(routePaths.HOME);
+            };
+    
+            if (trimmedDescription !== post.data.description) {
+                operations.push({ "op": "set", "path": "/post/description", "value": trimmedDescription });
+            }
+            if (title !== post.data.title) {
+                operations.push({ "op": "set", "path": "/post/title", "value": title });
+            }
+            if (tags !== post.data.tags) {
+                operations.push({ "op": "set", "path": "/post/tags", "value": tags });
+            }
+            if (category.value !== post.data.category) {
+                operations.push({ "op": "set", "path": "/post/category", "value": category.value });
+            }
+            if (subCategory.value !== post.data["sub_category"]) {
+                operations.push({ "op": "set", "path": "/post/subCategory", "value": subCategory.value });
+            }
+            if (body !== post.data.body) {
+                operations.push({ "op": "set", "path": "/post/body", "value": body });
+            }
+            if (thumbnail !== post.data.thumbnail) {
+                operations.push({ "op": "set", "path": "/post/thumbnail", "value": thumbnail });
+            }
+            if (images.length > 0) {
+                operations.push({ "op": "add", "path": "/post/images", "value": images });
+            }
+            if (post.data.status !== status && (post.data.status === "draft" || post.data.status === "published")) {
+                operations.push({ "op": "set", "path": "/post/status", "value": status });
+            }
+            updatePost({ "operations": operations }, successCallback);
         }
-        if (title !== post.data.title) {
-            operations.push({ "op": "set", "path": "/post/title", "value": title });
-        }
-        if (tags !== post.data.tags) {
-            operations.push({ "op": "set", "path": "/post/tags", "value": tags });
-        }
-        if (category !== post.data.category) {
-            operations.push({ "op": "set", "path": "/post/category", "value": category.value });
-        }
-        if (subCategory !== post.data["sub_category"]) {
-            operations.push({ "op": "set", "path": "/post/subCategory", "value": subCategory.value });
-        }
-        if (body !== post.data.body) {
-            operations.push({ "op": "set", "path": "/post/body", "value": body });
-        }
-        if (thumbnail !== post.data.thumbnail) {
-            operations.push({ "op": "set", "path": "/post/thumbnail", "value": thumbnail });
-        }
-        if (images.length > 0) {
-            operations.push({ "op": "add", "path": "/post/images", "value": images });
-        }
-        if (post.data.status !== status && (post.data.status === "draft" || post.data.status === "published")) {
-            operations.push({ "op": "set", "path": "/post/status", "value": status });
-        }
-        updatePost({ "operations": operations }, successCallback);
     };
 
     const imageHandler = () => {
@@ -132,6 +146,10 @@ const EditPost = ({ addImageData, addImage, updatePost, post, history, role }) =
             </React.Fragment>
         );
     };
+
+    if (updatePostData.isPending) {
+        return <Spinner />;
+    }
 
     return (
         <PageContainer>

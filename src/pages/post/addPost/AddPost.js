@@ -3,6 +3,7 @@ import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
+import message from 'antd/lib/message';
 
 import Editor from 'features/editor/Editor';
 import { Spinner } from 'shared/components/html';
@@ -24,12 +25,13 @@ import {
 const propTypes = {
     role: PropTypes.string.isRequired,
     addImageData: PropTypes.object.isRequired,
+    addPostData: PropTypes.object.isRequired,
     addImage: PropTypes.func.isRequired,
     addPost: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };
 
-const AddPost = ({ addImageData, addImage, addPost, history, role }) => {
+const AddPost = ({ addImageData, addImage, addPostData, addPost, history, role }) => {
     const categoryOptions = map(ALL_CATEGORIES, (category) => ({ "value": category["value"], "label": category["name"] }));
     const [body, setBody] = useState("");
     const [description, setDescription] = useState("");
@@ -41,21 +43,33 @@ const AddPost = ({ addImageData, addImage, addPost, history, role }) => {
     const [thumbnail, setThumbnail] = useState("");
 
     const onSubmit = (status) => {
-        const successCallback = () => {
-            history.push("home");
-        };
-        const data = {
-            "title": title,
-            "category": category.value,
-            "sub_category": subCategory.value,
-            "tags": map(tags, data => data.value),
-            "body": body,
-            "images": images,
-            "description": description ? description.substring(0, 175) + "..." : "...",
-            "thumbnail": thumbnail,
-            "status": status,
-        };
-        addPost(data, successCallback);
+        if (title == "") {
+            message.error('You cannot have an empty title for an article');
+        } else if (body == "") {
+            message.error('You cannot have an empty body for an article');
+        } else if (category == "") {
+            message.error('Please select a category for your article');
+        } else if (addImageData.isPending) {
+            message.error('Please wait while your image is getting uploaded');
+        } else if (thumbnail == "") {
+            message.error('Please add a thumbnail to your article');
+        } else {
+            const successCallback = () => {
+                history.push("home");
+            };
+            const data = {
+                "title": title,
+                "category": category.value,
+                "sub_category": subCategory.value,
+                "tags": map(tags, data => data.value),
+                "body": body,
+                "images": images,
+                "description": description ? description.substring(0, 175) + "..." : "...",
+                "thumbnail": thumbnail,
+                "status": status,
+            };
+            addPost(data, successCallback);
+        }
     };
 
     const imageHandler = () => {
@@ -106,6 +120,10 @@ const AddPost = ({ addImageData, addImage, addPost, history, role }) => {
             </React.Fragment>
         );
     };
+
+    if (addPostData.isPending) {
+        return <Spinner />;
+    }
 
     return (
         <PageContainer>

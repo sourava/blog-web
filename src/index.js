@@ -9,6 +9,7 @@ import 'antd/es/popover/style/css';
 import 'antd/es/tabs/style/css';
 import 'antd/es/table/style/css';
 import 'antd/es/modal/style/css';
+import 'antd/es/message/style/css';
 
 ReactDOM.render(
     <App />,

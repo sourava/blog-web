@@ -9,6 +9,18 @@ const logOutAction = () => ({
     type: logOutActionType
 });
 
+const customLoginActionType = asyncActionTypeCreator('CUSTOM_LOGIN');
+const customLoginAction = asyncActionCreator(customLoginActionType);
+
+const customLogin = (data, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.LOGIN,
+        method: 'post',
+        data,
+    };
+    return customLoginAction.action(axiosConfig, successCallback, errorCallback);
+};
+
 const facebookLoginActionType = asyncActionTypeCreator('FACEBOOK_LOGIN');
 const facebookLoginAction = asyncActionCreator(facebookLoginActionType);
 
@@ -31,6 +43,18 @@ const googleLogin = (data, successCallback, errorCallback) => {
         data,
     };
     return googleLoginAction.action(axiosConfig, successCallback, errorCallback);
+};
+
+const customSignUpActionType = asyncActionTypeCreator('CUSTOM_SIGNUP');
+const customSignUpAction = asyncActionCreator(customSignUpActionType);
+
+const customSignUp = (data, successCallback, errorCallback) => {
+    const axiosConfig = {
+        url: apiPaths.SIGNUP,
+        method: 'post',
+        data,
+    };
+    return customSignUpAction.action(axiosConfig, successCallback, errorCallback);
 };
 
 const facebookSignUpActionType = asyncActionTypeCreator('FACEBOOK_SIGNUP');
@@ -65,6 +89,11 @@ export {
     facebookLogin,
     googleLoginActionType,
     googleLogin,
+    customLoginActionType,
+    customLogin,
+
+    customSignUpActionType,
+    customSignUp,
     facebookSignUpActionType,
     facebookSignUp,
     googleSignUpActionType,

@@ -9,6 +9,7 @@ import { addImage, addPost } from 'features/posts/postsActions';
 const mapStateToProps = state => ({
     loginData: state.authReducer.login,
     addImageData: state.postsReducer.addImage,
+    addPostData: state.postsReducer.addPost,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -36,6 +37,7 @@ class AddPostContainer extends React.PureComponent {
         addImage: PropTypes.func.isRequired,
         loginData: PropTypes.object.isRequired,
         addImageData: PropTypes.object.isRequired,
+        addPostData: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
     }
 
@@ -48,10 +50,11 @@ class AddPostContainer extends React.PureComponent {
     }
 
     render() {
-        const { addImageData, loginData, history } = this.props;
+        const { addImageData, addPostData, loginData, history } = this.props;
         return (
             <AddPost
                 addImageData={addImageData}
+                addPostData={addPostData}
                 addPost={this.addPost}
                 addImage={this.addImage}
                 role={loginData.data.role}

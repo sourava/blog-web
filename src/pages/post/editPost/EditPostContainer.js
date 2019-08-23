@@ -55,6 +55,7 @@ class EditPostContainer extends React.PureComponent {
         updatePost: PropTypes.func.isRequired,
         post: PropTypes.object.isRequired,
         addImageData: PropTypes.object.isRequired,
+        updatePostData: PropTypes.object.isRequired,
         loginData: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
@@ -73,11 +74,12 @@ class EditPostContainer extends React.PureComponent {
     }
 
     render() {
-        const { post, addImageData, loginData, history } = this.props;
+        const { post, addImageData, updatePostData, loginData, history } = this.props;
         if (post.isFulfilled) {
             return (
                 <EditPost
                     addImageData={addImageData}
+                    updatePostData={updatePostData}
                     addImage={this.addImage}
                     updatePost={this.updatePost}
                     post={post}

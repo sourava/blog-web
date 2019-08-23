@@ -1,10 +1,13 @@
-const baseUrl = "https://api.allabouttaxes.in"; // eslint-disable-line
+const baseUrl = "https://blog.allabouttaxes.in"; // eslint-disable-line
+// const baseUrl = "http://localhost:80"; // eslint-disable-line
 
 const apiPaths = {
     FACEBOOK_LOGIN: `${baseUrl}/facebook/login`,
     GOOGLE_LOGIN: `${baseUrl}/google/login`,
+    LOGIN: `${baseUrl}/login`,
     FACEBOOK_SIGNUP: `${baseUrl}/facebook/signup`,
     GOOGLE_SIGNUP: `${baseUrl}/google/signup`,
+    SIGNUP: `${baseUrl}/signup`,
     UPDATE_USER: `${baseUrl}/users/update`,
 
     POSTS_ADD_IMAGE: `${baseUrl}/posts/addImage`,

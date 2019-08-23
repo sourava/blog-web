@@ -43,6 +43,10 @@ const Error = styled(AuthSubHeading)`
 const SocialLoginContainer = styled.div`
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 575px) {
+        flex-direction: column;
+    }
 `;
 
 const HorizontalRowContainer = styled.div`
@@ -50,7 +54,7 @@ const HorizontalRowContainer = styled.div`
     position: relative;
 `;
 const HorizontalRow = styled.hr`
-    margin: 20px 0;
+    margin: 40px 0;
 `;
 const HorizontalRowText = styled.span`
     background: #FFFFFF;
@@ -60,6 +64,10 @@ const HorizontalRowText = styled.span`
     font-size: 14px;
     top: -13px;
     left: 185px;
+
+    @media (max-width: 575px) {
+        left: 135px;
+    }
 `;
 
 const Form = styled.div`
@@ -93,7 +101,11 @@ const GoogleButton = styled(ImageButton).attrs({
         height: "30px", 
         width: "auto"
     }
-})``;
+})`
+    @media (max-width: 575px) {
+        margin-top: 20px;
+    }
+`;
 
 export {
     PageContainer,

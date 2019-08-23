@@ -24,15 +24,21 @@ import {
 import routePaths from 'shared/routePaths';
 
 const propTypes = {
+    customSignUp: PropTypes.func.isRequired,
     facebookSignUp: PropTypes.func.isRequired,
     googleSignUp: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };
 
-const SignUpPage = ({ facebookSignUp, googleSignUp, history }) => {
+const SignUpPage = ({ facebookSignUp, googleSignUp, customSignUp, history }) => {
     const [token, setToken] = useState("");
     const [provider, setProvider] = useState("");
     const [error, setError] = useState("");
+    const [socialPasswordField1, setSocialPasswordField1] = useState("");
+    const [socialPasswordField2, setSocialPasswordField2] = useState("");
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [passwordField1, setPasswordField1] = useState("");
     const [passwordField2, setPasswordField2] = useState("");
 
@@ -64,11 +70,11 @@ const SignUpPage = ({ facebookSignUp, googleSignUp, history }) => {
     };
 
     const socialSignup = () => {
-        if (passwordField1 === passwordField2) {
+        if (socialPasswordField1 === socialPasswordField2) {
             if (token !== "") {
                 const data = {
                     "token": token,
-                    "password": passwordField1
+                    "password": socialPasswordField1
                 };
                 if (provider === "FACEBOOK") {
                     facebookSignUp(data, successHandler, errorHandler);
@@ -80,6 +86,29 @@ const SignUpPage = ({ facebookSignUp, googleSignUp, history }) => {
             }
         } else {
             setError("Password mismatch");
+        }
+    };
+
+    const validateEmail = (email) => {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const onClickSignUp = () => {
+        if (!validateEmail(email)) {
+            setError("Please enter a valid email address");
+        } else if (name == "") {
+            setError("Please enter your full name");
+        } else if (passwordField1 !== passwordField2) {
+            setError("Password mismatch");
+        } else if (passwordField1.length < 8) {
+            setError("Password should be atleast 8 characters long");
+        } else {
+            customSignUp({
+                name,
+                email,
+                "password": passwordField1
+            }, successHandler, errorHandler);
         }
     };
 
@@ -113,11 +142,11 @@ const SignUpPage = ({ facebookSignUp, googleSignUp, history }) => {
                     <HorizontalRowText>OR</HorizontalRowText>
                 </HorizontalRowContainer>
                 <Form>
-                    <FormInput type="text" placeholder="Full Name" />
-                    <FormInput type="text" placeholder="Email address" />
-                    <FormInput type="password" placeholder="Password" />
-                    <FormInput type="password" placeholder="Confirm Password" />
-                    <FormButton>Sign Up</FormButton>
+                    <FormInput type="text" placeholder="Full Name" onChange={(e) => setName(e.target.value)} />
+                    <FormInput type="text" placeholder="Email address" onChange={(e) => setEmail(e.target.value)} />
+                    <FormInput type="password" placeholder="Password" onChange={(e) => setPasswordField1(e.target.value)} />
+                    <FormInput type="password" placeholder="Confirm Password" onChange={(e) => setPasswordField2(e.target.value)} />
+                    <FormButton onClick={onClickSignUp}>Sign Up</FormButton>
                     <AuthSubHeading><Link to={routePaths.LOGIN}>Already have an account?</Link></AuthSubHeading>
                     <Error>{error}</Error>
                 </Form>
@@ -135,8 +164,8 @@ const SignUpPage = ({ facebookSignUp, googleSignUp, history }) => {
                     <HorizontalRow />
                 </HorizontalRowContainer>
                 <Form>
-                    <FormInput type="password" placeholder="Password" onChange={(e) => setPasswordField1(e.target.value)} />
-                    <FormInput type="password" placeholder="Confirm Password" onChange={(e) => setPasswordField2(e.target.value)} />
+                    <FormInput type="password" placeholder="Password" onChange={(e) => setSocialPasswordField1(e.target.value)} />
+                    <FormInput type="password" placeholder="Confirm Password" onChange={(e) => setSocialPasswordField2(e.target.value)} />
                     <FormButton onClick={socialSignup}>Submit</FormButton>
                 </Form>
                 <Error>{error}</Error>

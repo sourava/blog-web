@@ -7,7 +7,7 @@ const routePaths = {
     POSTS_BY_CATEGORY: (category) => `/posts?category=${category}`,
     POST: (id) => `/post?id=${id}`,
     PROFILE: (id) => `/profile?id=${id}`,
-    EDIT_POST: (id) => `/editPost/${id}`,
+    EDIT_POST: (id) => `/editPost?id=${id}`,
     ADD_POST: '/addPost',
     APPROVAL: '/approval',
 };
