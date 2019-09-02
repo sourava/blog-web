@@ -28,31 +28,67 @@ const loginReducer = (state = initialState, action) => {
             },
             socialToken: null,
         });
-    case customLoginActionType.pending || facebookLoginActionType.pending || googleLoginActionType.pending:
+    case customLoginActionType.pending:
         return Object.assign({}, state, {
             login: {
                 ...promiseState(true, false, false, null),
             },
         });
-    case customLoginActionType.fulfilled || facebookLoginActionType.fulfilled || googleLoginActionType.fulfilled:
+    case customLoginActionType.fulfilled:
         return Object.assign({}, state, {
             login: {
                 ...promiseState(false, true, false, action.payload),
             },
         });
-    case customLoginActionType.rejected || facebookLoginActionType.rejected || googleLoginActionType.rejected:
+    case customLoginActionType.rejected:
         return Object.assign({}, state, {
             login: {
                 ...promiseState(false, false, true, null),
             },
         });
-    case customSignUpActionType.pending || facebookSignUpActionType.pending || googleSignUpActionType.pending:
+    case facebookLoginActionType.pending:
+        return Object.assign({}, state, {
+            login: {
+                ...promiseState(true, false, false, null),
+            },
+        });
+    case facebookLoginActionType.fulfilled:
+        return Object.assign({}, state, {
+            login: {
+                ...promiseState(false, true, false, action.payload),
+            },
+        });
+    case facebookLoginActionType.rejected:
+        return Object.assign({}, state, {
+            login: {
+                ...promiseState(false, false, true, null),
+            },
+        });
+    case googleLoginActionType.pending:
+        return Object.assign({}, state, {
+            login: {
+                ...promiseState(true, false, false, null),
+            },
+        });
+    case googleLoginActionType.fulfilled:
+        return Object.assign({}, state, {
+            login: {
+                ...promiseState(false, true, false, action.payload),
+            },
+        });
+    case googleLoginActionType.rejected:
+        return Object.assign({}, state, {
+            login: {
+                ...promiseState(false, false, true, null),
+            },
+        });
+    case customSignUpActionType.pending:
         return Object.assign({}, state, {
             signup: {
                 ...promiseState(true, false, false, null),
             },
         });
-    case customSignUpActionType.fulfilled || facebookSignUpActionType.fulfilled || googleSignUpActionType.fulfilled:
+    case customSignUpActionType.fulfilled:
         return Object.assign({}, state, {
             signup: {
                 ...promiseState(false, true, false, action.payload),
@@ -61,7 +97,49 @@ const loginReducer = (state = initialState, action) => {
                 ...promiseState(false, true, false, action.payload),
             },
         });
-    case customSignUpActionType.rejected || facebookSignUpActionType.rejected || customSignUpActionType.rejected:
+    case customSignUpActionType.rejected:
+        return Object.assign({}, state, {
+            signup: {
+                ...promiseState(false, false, true, null),
+            },
+        });
+    case facebookSignUpActionType.pending:
+        return Object.assign({}, state, {
+            signup: {
+                ...promiseState(true, false, false, null),
+            },
+        });
+    case facebookSignUpActionType.fulfilled:
+        return Object.assign({}, state, {
+            signup: {
+                ...promiseState(false, true, false, action.payload),
+            },
+            login: {
+                ...promiseState(false, true, false, action.payload),
+            },
+        });
+    case facebookSignUpActionType.rejected:
+        return Object.assign({}, state, {
+            signup: {
+                ...promiseState(false, false, true, null),
+            },
+        });
+    case googleSignUpActionType.pending:
+        return Object.assign({}, state, {
+            signup: {
+                ...promiseState(true, false, false, null),
+            },
+        });
+    case googleSignUpActionType.fulfilled:
+        return Object.assign({}, state, {
+            signup: {
+                ...promiseState(false, true, false, action.payload),
+            },
+            login: {
+                ...promiseState(false, true, false, action.payload),
+            },
+        });
+    case googleSignUpActionType.rejected:
         return Object.assign({}, state, {
             signup: {
                 ...promiseState(false, false, true, null),
